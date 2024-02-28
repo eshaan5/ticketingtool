@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/client/login/login.css" />
+
+<div class="container">
+  <div class="content">
+    <div class="welcome-section">
+      <h2>Welcome!</h2>
+    </div>
+
+    <form name="loginForm" class="form-section" ng-controller="LoginController" ng-submit="login()">
+      <div class="form-field">
+        <label for="email">Email or Username</label>
+        <input type="text" ng-model="formData.user" name="user" id="email" placeholder="Email" />
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input type="password" ng-model="formData.password" name="password" id="password" placeholder="Password" />
+      </div>
+
+      <p class="error-message" ng-show="loginFailed">Invalid user or password.</p>
+
+      <button type="submit" class="login-button">Log In</button>
+    </form>
+  </div>
+</div>
