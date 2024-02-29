@@ -32,17 +32,6 @@ function signin(req, res) {
   });
 }
 
-function signup(req, res) {
-  var newUser = new User(req.body);
-
-  User.findOne({ $or: [{ username: newUser.username }, { email: newUser.email }] }).then(function (existingUser) {
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists!" });
-    }
-  });
-}
-
 module.exports = {
   signin: signin,
-  signup: signup,
 };

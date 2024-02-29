@@ -8,6 +8,10 @@ app.config([
         templateUrl: "./login/login.html",
         controller: "LoginController",
       })
+      .when("/superAdmin", {
+        templateUrl: "./superAdmin/superAdmin.html",
+        controller: "SuperAdminController",
+      })
       .otherwise({
         redirectTo: "/",
       });
