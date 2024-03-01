@@ -1,6 +1,6 @@
 app.controller("LoginController", function ($scope, $location, LoginService) {
-  if (localStorage.getItem("token")) {
-    $location.path("/users");
+  if (localStorage.getItem("token") && localStorage.getItem("time") && new Date().getTime() - localStorage.getItem("time") < 3600000) {
+    $location.path("/superAdmin");
   }
 
   // Controller logic for login page
@@ -10,10 +10,16 @@ app.controller("LoginController", function ($scope, $location, LoginService) {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.result));
       localStorage.setItem("time", new Date().getTime());
-      if (response.data.result.role == "user") {
-        alert("You are logged in as a user");
+      if (response.data.result.role != "superAdmin" && !response.data.result.name) {
+        $location.path("/detailsForm");
         return;
       }
+
+      if (response.data.result.role != "superAdmin" && response.data.result.name) {
+        alert("You have already submitted the details form!");
+        return;
+      }
+
       $location.path("/superAdmin");
     });
 

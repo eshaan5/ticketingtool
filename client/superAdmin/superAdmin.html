@@ -13,14 +13,14 @@
           <label for="name">Name</label>
           <div class="input-container">
             <input type="text" id="name" placeholder="Name" ng-model="formData.name" name="name" ng-pattern="/^[a-zA-Z\s]+$/" required />
-            <p class="error-message" ng-show="signupForm.name.$error.pattern && signupForm.name.$dirty">Name should only contain letters.</p>
+            <p class="error-message" ng-show="addBrandForm.name.$error.pattern && addBrandForm.name.$dirty">Name should only contain letters.</p>
           </div>
         </div>
         <div class="form-field">
           <label for="email">Admin Email</label>
           <div class="input-container">
             <input type="email" id="email" placeholder="Email" ng-model="formData.email" name="email" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" required />
-            <p class="error-message" ng-show="signupForm.email.$error.pattern && signupForm.email.$dirty">Invalid email address.</p>
+            <p class="error-message" ng-show="addBrandForm.email.$error.pattern && addBrandForm.email.$dirty">Invalid email address.</p>
           </div>
         </div>
         <button class="continue-button" type="submit">Create Brand</button>
@@ -37,7 +37,7 @@
       <tbody>
         <tr ng-repeat="brand in brands">
           <td>{{ brand.name }}</td>
-          <td>{{ brand.logo }}</td>
+          <td><img ng-src="{{ brand.logo }}" /></td>
         </tr>
       </tbody>
     </table>

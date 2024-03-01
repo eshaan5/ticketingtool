@@ -12,10 +12,25 @@ function createBrand(req, res) {
     var password = generatePassword();
     sendConfirmationEmail(email, password);
     bcrypt.hash(password, 12).then(function (hashedPassword) {
-      User.create({ email: email, password: hashedPassword, brand: brand._id, role: "admin" }).then(function (user) {
+      User.create({ email: email, password: hashedPassword, brandId: brand._id, role: "admin" }).then(function (user) {
         res.status(201).json(brand);
       });
     });
+  });
+}
+
+function updateBrand(req, res) {
+  var id = req.query.id;
+  Brand.findOne({ _id: id }).then(function (existingBrand) {
+    existingBrand.logo = req.body.logo;
+    existingBrand
+      .save()
+      .then(function (brand) {
+        res.status(200).json(brand);
+      })
+      .catch(function (err) {
+        console.log(err, "error in updateBrand function in brand.controller.js");
+      });
   });
 }
 
@@ -28,4 +43,5 @@ function getAllBrands(req, res) {
 module.exports = {
   createBrand: createBrand,
   getAllBrands: getAllBrands,
+  updateBrand: updateBrand,
 };

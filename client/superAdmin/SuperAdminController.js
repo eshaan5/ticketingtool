@@ -13,7 +13,7 @@ app.controller("SuperAdminController", function ($scope, $location, $timeout, Su
     localStorage.removeItem('time');
 
     alert('Session expired. Please login again.');
-    $location.path('/login');
+    $location.path('/');
   }
 
   if (JSON.parse(localStorage.getItem("user")).role === "user") {
@@ -32,7 +32,9 @@ app.controller("SuperAdminController", function ($scope, $location, $timeout, Su
 
   function showToast () {
     $scope.show = true;
-    console.log($scope.show);
+    $timeout(function () {
+      $scope.show = false;
+    }, 3000);
   };
 
   $scope.confirm = function () {
@@ -53,6 +55,7 @@ app.controller("SuperAdminController", function ($scope, $location, $timeout, Su
     SuperAdminService.addBrand($scope.formData).then(function (response) {
       $scope.brands.push(response.data.result);
       $route.reload();
+      showToast();
     });
   };
 });

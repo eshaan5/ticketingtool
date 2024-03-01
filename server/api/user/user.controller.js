@@ -32,6 +32,26 @@ function signin(req, res) {
   });
 }
 
+function updateUser(req, res) {
+  var name = req.body.name;
+  var username = req.body.username;
+  var id = req.query.id;
+  User.findOne({ _id: id }).then(function (user) {
+    user.name = name;
+    user.username = username;
+
+    user
+      .save()
+      .then(function (user) {
+        res.status(200).json({ result: user });
+      })
+      .catch(function (err) {
+        console.log(err, "error in updateUser function in user.controller.js");
+      });
+  });
+}
+
 module.exports = {
   signin: signin,
+  updateUser: updateUser,
 };
