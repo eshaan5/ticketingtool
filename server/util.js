@@ -1,5 +1,7 @@
 var crypto = require("crypto");
 var nodemailer = require("nodemailer");
+var bcrypt = require("bcrypt");
+var User = require("./api/user/user.modal");
 
 function generatePassword() {
   var length = 8;
@@ -57,6 +59,6 @@ function sendConfirmationEmail(email, password) {
 }
 
 module.exports = {
-    generatePassword: generatePassword,
-    sendConfirmationEmail: sendConfirmationEmail,
-}
+  generatePassword: generatePassword,
+  sendConfirmationEmail: sendConfirmationEmail,
+};

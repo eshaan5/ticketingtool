@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/client/admin/admin.css" />
+<link rel="stylesheet" href="/client/superAdmin/superAdmin.css" />
+<div class="container" ng-controller="AdminController">
+  <nav>
+    <button ng-click="logout()">Logout</button>
+  </nav>
+  <div class="content">
+    <div class="heading-section">
+      <h2>Add Agent!</h2>
+    </div>
+    <form name="addAgentForm" class="form-section" ng-submit="submitForm()">
+      <div class="form-content">
+        <div class="form-field">
+          <label for="email">Agent Email</label>
+          <div class="input-container">
+            <input type="email" id="email" placeholder="Email" ng-model="formData.email" name="email" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" required />
+            <p class="error-message" ng-show="addAgentForm.email.$error.pattern && addAgentForm.email.$dirty">Invalid email address.</p>
+          </div>
+        </div>
+        <button class="continue-button" type="submit">Add Agent</button>
+      </div>
+    </form>
+
+    <table class="users-table" ng-show="agents.length">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="agent in agents">
+          <td>{{ agent.name }}</td>
+          <td>{{ agent.username }}</td>
+          <td>{{ agent.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="toast" ng-show="show" class="toast">
+      <div class="toast-body">Brand created successfully!</div>
+    </div>
+  </div>
+</div>

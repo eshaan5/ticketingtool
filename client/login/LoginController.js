@@ -16,7 +16,7 @@ app.controller("LoginController", function ($scope, $location, LoginService) {
       }
 
       if (response.data.result.role != "superAdmin" && response.data.result.name) {
-        alert("You have already submitted the details form!");
+        $location.path("/admin");
         return;
       }
 

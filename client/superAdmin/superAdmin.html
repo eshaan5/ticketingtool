@@ -32,12 +32,14 @@
         <tr>
           <th>Name</th>
           <th>Logo</th>
+          <th>Enable/Disable</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="brand in brands">
           <td>{{ brand.name }}</td>
           <td><img ng-src="{{ brand.logo }}" /></td>
+          <td><button ng-click="deleteBrand(brand._id)">Disable</button></td>
         </tr>
       </tbody>
     </table>

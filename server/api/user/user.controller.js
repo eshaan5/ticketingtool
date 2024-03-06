@@ -2,6 +2,9 @@ var User = require("./user.modal.js");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 
+var generatePassword = require("../../util").generatePassword;
+var sendConfirmationEmail = require("../../util").sendConfirmationEmail;
+
 function signin(req, res) {
   var user = req.body.user;
   var password = req.body.password;
@@ -35,7 +38,7 @@ function signin(req, res) {
 function updateUser(req, res) {
   var name = req.body.name;
   var username = req.body.username;
-  var id = req.query.id;
+  var id = req.user._id;
   User.findOne({ _id: id }).then(function (user) {
     user.name = name;
     user.username = username;
@@ -51,7 +54,42 @@ function updateUser(req, res) {
   });
 }
 
+function createUserByEmail(req, res) {
+  console.log("createUserByEmail");
+  var email = req.body.email;
+  var role = "agent";
+  var brandId = req.user.brandId;
+
+  var password = generatePassword();
+  sendConfirmationEmail(email, password);
+
+  bcrypt.hash(password, 12).then(function (hashedPassword) {
+    User.create({ email: email, password: hashedPassword, brandId: brandId, role: role }).then(function (user) {
+      res.status(201).json(user);
+    })
+    .catch(function (err) {
+      console.log(err, "error in createUserByEmail function in user.controller.js");
+    });
+  });
+}
+
+function getAllAgents(req, res) {
+
+  var searchCriteria = {
+    $and: [
+      { role: "agent" },
+      { brandId: req.user.brandId }
+    ]
+  };
+
+  User.find(searchCriteria).then(function (agents) {
+    res.status(200).json(agents);
+  });
+}
+
 module.exports = {
   signin: signin,
   updateUser: updateUser,
+  createUserByEmail: createUserByEmail,
+  getAllAgents: getAllAgents,
 };

@@ -16,6 +16,10 @@ app.config([
         templateUrl: "./detailsForm/detailsForm.html",
         controller: "DetailsFormController",
       })
+      .when("/admin", {
+        templateUrl: "./admin/admin.html",
+        controller: "AdminController",
+      })
       .otherwise({
         redirectTo: "/",
       });

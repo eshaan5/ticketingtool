@@ -14,7 +14,7 @@ passport.use(
   new JWTStrategy(opts, function (jwt_payload, done) {
     User.findOne({ _id: jwt_payload.id })
       .then(function (user) {
-        if (user.role === "superAdmin") {
+        if (user) {
           done(null, user);
         } else {
           done(null, false);
