@@ -1,8 +1,5 @@
-<link rel="stylesheet" href="/client/detailsForm/detailsForm.css" />
+<link rel="stylesheet" href="/client/components/detailsForm/detailsForm.css" />
 <div class="container" ng-controller="DetailsFormController">
-  <nav>
-    <button ng-click="logout()">Logout</button>
-  </nav>
   <div class="content">
     <div class="heading-section">
       <h2>Complete your details!</h2>
@@ -26,15 +23,12 @@
         <div class="form-field" ng-show="isAdmin">
           <label for="email">Brand logo</label>
           <div class="input-container">
-            <input type="file" id="logo" onchange="angular.element(this).scope().uploadImage(this.files)" required />
+            <input type="file" id="logo" onchange="angular.element(this).scope().uploadImage(this.files)" ng-required="show" />
           </div>
         </div>
+        <p class="error-message" ng-show="error">{{ error }}</p>
         <button class="continue-button" type="submit">Add details</button>
       </div>
     </form>
-
-    <div id="toast" ng-show="show" class="toast">
-      <div class="toast-body">Details added successfully!</div>
-    </div>
   </div>
 </div>

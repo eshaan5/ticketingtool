@@ -1,9 +1,15 @@
 <link rel="stylesheet" href="/client/app/admin/admin.css" />
-<link rel="stylesheet" href="/client/app/superAdmin/superAdmin.css" />
 <div class="container" ng-controller="AdminController">
   <nav>
     <button ng-click="logout()">Logout</button>
   </nav>
+
+  <div id="detailsModal" ng-show="show">
+    <div class="modal-content">
+      <div ng-include="'/client/components/detailsForm/detailsForm.html'"></div>
+    </div>
+  </div>
+
   <div class="content">
     <div class="heading-section">
       <h2>Add Agent!</h2>

@@ -1,11 +1,26 @@
-.container {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+/* Modal container */
+#detailsModal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.container {
+  max-width: 50vw;
 }
 
 .content {
@@ -16,16 +31,23 @@
   padding: 20px 0;
 }
 
+.account-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
 .heading-section {
   margin: 20px 0;
 }
 
 .form-content {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  width: 60vw;
 }
 
 .form-field {
@@ -68,12 +90,20 @@ button {
   justify-content: space-between;
 }
 
+.signup-button button {
+  color: #000;
+  text-decoration: none;
+  border: none;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
 .form-section {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  min-width: 80vw;
   margin: 0 auto;
 }
 
@@ -103,6 +133,19 @@ input {
   margin-top: 5px;
 }
 
+.continue-button button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.continue-button button:hover {
+  background-color: #45a049;
+}
+
 #toast {
   position: fixed;
   bottom: 20px;
@@ -112,4 +155,21 @@ input {
   padding: 15px;
   border-radius: 5px;
   z-index: 1;
+}
+
+.users-table {
+  margin-top: 5vh;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.users-table th {
+  background-color: #f2f2f2;
+  text-align: left;
 }

@@ -16,6 +16,10 @@ app.config([
         templateUrl: "./app/admin/admin.html",
         controller: "AdminController",
       })
+      .when("/agent", {
+        templateUrl: "./app/agent/agent.html",
+        controller: "AgentController",
+      })
       .otherwise({
         redirectTo: "/",
       });

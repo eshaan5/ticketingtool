@@ -10,13 +10,14 @@ app.controller("LoginController", function ($scope, $location, LoginService) {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.result));
       localStorage.setItem("time", new Date().getTime());
-      if (response.data.result.role != "superAdmin" && !response.data.result.name) {
-        $location.path("/detailsForm");
+
+      if (response.data.result.role == "admin") {
+        $location.path("/admin");
         return;
       }
 
-      if (response.data.result.role != "superAdmin" && response.data.result.name) {
-        $location.path("/admin");
+      if (response.data.result.role == "agent") {
+        $location.path("/agent");
         return;
       }
 

@@ -17,6 +17,10 @@ app.controller("AdminController", function ($scope, $location, $timeout, AdminSe
     $location.path("/");
   }
 
+  if (!JSON.parse(localStorage.getItem("user")).name) {
+    $scope.show = true;
+  }
+
   AdminService.getAgents().then(function (response) {
     $scope.agents = response.data;
   });
@@ -26,13 +30,6 @@ app.controller("AdminController", function ($scope, $location, $timeout, AdminSe
     localStorage.removeItem("user");
     $location.path("/");
   };
-
-  function showToast() {
-    $scope.show = true;
-    $timeout(function () {
-      $scope.show = false;
-    }, 3000);
-  }
 
   $scope.submitForm = function () {
     // Handle form submission here

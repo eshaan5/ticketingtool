@@ -46,10 +46,10 @@ function updateUser(req, res) {
     user
       .save()
       .then(function (user) {
-        res.status(200).json({ result: user });
+        res.status(201).json({ result: user });
       })
       .catch(function (err) {
-        console.log(err, "error in updateUser function in user.controller.js");
+        res.status(400).json(err);
       });
   });
 }
@@ -68,7 +68,7 @@ function createUserByEmail(req, res) {
       res.status(201).json(user);
     })
     .catch(function (err) {
-      console.log(err, "error in createUserByEmail function in user.controller.js");
+      res.status(500).json(err);
     });
   });
 }
@@ -84,7 +84,10 @@ function getAllAgents(req, res) {
 
   User.find(searchCriteria).then(function (agents) {
     res.status(200).json(agents);
-  });
+  })
+  .catch(function (err) {
+    res.status(500).json(err);
+  })
 }
 
 module.exports = {
