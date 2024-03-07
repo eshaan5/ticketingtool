@@ -5,19 +5,15 @@ app.config([
   function ($routeProvider) {
     $routeProvider
       .when("/", {
-        templateUrl: "./login/login.html",
+        templateUrl: "./app/login/login.html",
         controller: "LoginController",
       })
       .when("/superAdmin", {
-        templateUrl: "./superAdmin/superAdmin.html",
+        templateUrl: "./app/superAdmin/superAdmin.html",
         controller: "SuperAdminController",
       })
-      .when("/detailsForm", {
-        templateUrl: "./detailsForm/detailsForm.html",
-        controller: "DetailsFormController",
-      })
       .when("/admin", {
-        templateUrl: "./admin/admin.html",
+        templateUrl: "./app/admin/admin.html",
         controller: "AdminController",
       })
       .otherwise({
