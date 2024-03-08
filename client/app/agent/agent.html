@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="/client/app/agent/agent.css" />
 <div class="container" ng-controller="AgentController">
   <nav>
+    <button class="btn" ng-click="toggleOnlineStatus()">
+      <span ng-class="{ 'dot-green': agent.isOnline, 'dot-red': !agent.isOnline }"></span>
+      {{ agent.isOnline ? 'Go Offline' : 'Go Online' }}
+    </button>
     <button ng-click="logout()">Logout</button>
   </nav>
 

@@ -1,4 +1,4 @@
-app.controller("AgentController", function ($scope, $location) {
+app.controller("AgentController", function ($scope, $location, AgentService) {
   // Controller logic for signup page
   $scope.show = false;
 
@@ -18,6 +18,22 @@ app.controller("AgentController", function ($scope, $location) {
   if (!JSON.parse(localStorage.getItem("user")).name) {
     $scope.show = true;
   }
+
+  $scope.agent = JSON.parse(localStorage.getItem("user"));
+
+  $scope.toggleOnlineStatus = function () {
+    // Update the online status for the agent
+    $scope.agent.isOnline = !$scope.agent.isOnline;
+
+    // Call the service to update the status on the server
+    AgentService.updateOnlineStatus()
+      .then(function (response) {
+        localStorage.setItem("user", JSON.stringify(response.data.result));
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+};
 
   $scope.logout = function () {
     localStorage.removeItem("token");

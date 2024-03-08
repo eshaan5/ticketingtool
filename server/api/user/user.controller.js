@@ -90,9 +90,26 @@ function getAllAgents(req, res) {
   })
 }
 
+function updateOnlineStatus(req, res) {
+  var id = req.user._id;
+  User.findOne({ _id: id }).then(function (user) {
+    user.isOnline = !user.isOnline;
+
+    user
+      .save()
+      .then(function (user) {
+        res.status(201).json({ result: user });
+      })
+      .catch(function (err) {
+        res.status(400).json(err);
+      });
+  });
+}
+
 module.exports = {
   signin: signin,
   updateUser: updateUser,
   createUserByEmail: createUserByEmail,
   getAllAgents: getAllAgents,
+  updateOnlineStatus: updateOnlineStatus,
 };
