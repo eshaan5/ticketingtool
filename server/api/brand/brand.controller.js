@@ -36,8 +36,20 @@ function getAllBrands(req, res) {
   });
 }
 
+function getBrand(req, res) {
+  var id = req.params.id;
+  Brand.findById(id)
+    .then(function (brand) {
+      res.status(200).json(brand);
+    })
+    .catch(function (err) {
+      res.status(500).json(err);
+    });
+}
+
 module.exports = {
   createBrand: createBrand,
   getAllBrands: getAllBrands,
   updateBrand: updateBrand,
+  getBrand: getBrand,
 };

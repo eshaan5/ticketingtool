@@ -113,3 +113,9 @@ input {
   border-radius: 5px;
   z-index: 1;
 }
+
+.required-star {
+  color: red;
+  margin-left: 5px; /* Adjust margin as needed */
+}
+

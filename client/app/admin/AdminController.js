@@ -1,4 +1,4 @@
-app.controller("AdminController", function ($scope, $location, $timeout, AdminService, $route) {
+app.controller("AdminController", function ($scope, $location, AdminService, BrandService, $route) {
   // Controller logic for signup page
   $scope.formData = {}; // Initialize form data object
   $scope.show = false;
@@ -13,13 +13,21 @@ app.controller("AdminController", function ($scope, $location, $timeout, AdminSe
     $location.path("/");
   }
 
-  if (JSON.parse(localStorage.getItem("user")).role === "user" || JSON.parse(localStorage.getItem("user")).role === "superAdmin"){
+  if (JSON.parse(localStorage.getItem("user")).role === "user" || JSON.parse(localStorage.getItem("user")).role === "superAdmin") {
     $location.path("/");
   }
 
   if (!JSON.parse(localStorage.getItem("user")).name) {
     $scope.show = true;
   }
+
+  BrandService.getBrand(JSON.parse(localStorage.getItem("user")).brandId).then(function (response) {
+    if (!response.data.logo) {
+      $scope.noLogo = true;
+    } else {
+      $scope.noLogo = false;
+    }
+  });
 
   AdminService.getAgents().then(function (response) {
     $scope.agents = response.data;

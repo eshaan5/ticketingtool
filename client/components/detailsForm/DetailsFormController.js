@@ -1,4 +1,4 @@
-app.controller("DetailsFormController", function ($scope, $location, $timeout, DetailsFormService, $route) {
+app.controller("DetailsFormController", function ($scope, $location, $timeout, BrandService, UserService, $route) {
   // Controller logic for signup page
   $scope.formData = {}; // Initialize form data object
 
@@ -17,12 +17,6 @@ app.controller("DetailsFormController", function ($scope, $location, $timeout, D
 
   if (JSON.parse(localStorage.getItem("user")).role == "admin") $scope.isAdmin = true;
 
-  $scope.logout = function () {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    $location.path("/");
-  };
-
   $scope.uploadImage = function (files) {
     var reader = new FileReader();
 
@@ -35,6 +29,10 @@ app.controller("DetailsFormController", function ($scope, $location, $timeout, D
     reader.readAsDataURL(files[0]); // Read the file as a data URL
   };
 
+  $scope.hasCredentials = function () {
+    return $scope.$parent.noLogo;
+  };
+
   $scope.submitForm = function () {
     // Handle form submission here
     if ($scope.addDetailsForm.$invalid) {
@@ -42,7 +40,9 @@ app.controller("DetailsFormController", function ($scope, $location, $timeout, D
     }
 
     if ($scope.isAdmin) {
-      Promise.all([DetailsFormService.updateUser($scope.formData), DetailsFormService.updateBrand({ logo: $scope.logo })])
+      var promiseArray = $scope.logo ? [UserService.updateUser($scope.formData), BrandService.updateBrand({ logo: $scope.logo })] : [UserService.updateUser($scope.formData)];
+
+      Promise.all(promiseArray)
         .then(function (responses) {
           localStorage.setItem("user", JSON.stringify(responses[0].data.result));
           $scope.$parent.show = false;
@@ -56,7 +56,7 @@ app.controller("DetailsFormController", function ($scope, $location, $timeout, D
           }
         });
     } else {
-      DetailsFormService.updateUser($scope.formData)
+      UserService.updateUser($scope.formData)
         .then(function (response) {
           localStorage.setItem("user", JSON.stringify(response.data.result));
           $scope.$parent.show = false;

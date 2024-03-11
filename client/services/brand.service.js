@@ -31,7 +31,18 @@ app.service("BrandService", function ($http) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
-      data: { isDisabled: brand.isDisabled }
+      data: { isDisabled: brand.isDisabled },
+    });
+  };
+
+  this.getBrand = function (id) {
+    return $http({
+      method: "GET",
+      url: "http://localhost:3000/brand/getBrand/" + id,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
     });
   };
 });

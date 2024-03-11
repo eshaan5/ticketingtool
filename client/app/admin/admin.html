@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="/client/app/admin/admin.css" />
 <div class="container" ng-controller="AdminController">
   <nav>
+    <button ng-click="show=true" ng-show="noLogo">Add Logo</button>
     <button ng-click="logout()">Logout</button>
   </nav>
 
@@ -44,8 +45,8 @@
       </tbody>
     </table>
 
-    <div id="toast" ng-show="show" class="toast">
-      <div class="toast-body">Brand created successfully!</div>
-    </div>
+    <!-- <div id="toast" ng-show="show" class="toast">
+      <div class="toast-body">Agent created successfully!</div>
+    </div> -->
   </div>
 </div>
