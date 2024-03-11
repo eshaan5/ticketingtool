@@ -10,6 +10,10 @@ var brandSchema = new mongoose.Schema(
     logo: {
       type: String,
     },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

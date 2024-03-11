@@ -20,18 +20,14 @@ function createBrand(req, res) {
 }
 
 function updateBrand(req, res) {
-  var id = req.query.id;
-  Brand.findOne({ _id: id }).then(function (existingBrand) {
-    existingBrand.logo = req.body.logo;
-    existingBrand
-      .save()
-      .then(function (brand) {
-        res.status(200).json(brand);
-      })
-      .catch(function (err) {
-        console.log(err, "error in updateBrand function in brand.controller.js");
-      });
-  });
+  var id = req.params.id;
+  Brand.findByIdAndUpdate(id, req.body, { new: true })
+    .then(function (brand) {
+      res.status(200).json({ message: "Brand updated successfully" });
+    })
+    .catch(function (err) {
+      res.status(500).json(err);
+    });
 }
 
 function getAllBrands(req, res) {

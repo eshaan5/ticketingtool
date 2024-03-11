@@ -5,6 +5,7 @@
       <span ng-class="{ 'dot-green': agent.isOnline, 'dot-red': !agent.isOnline }"></span>
       {{ agent.isOnline ? 'Go Offline' : 'Go Online' }}
     </button>
+    <button class="btn btn-success" ng-click="openCreateTicketModal()">Create Ticket</button>
     <button ng-click="logout()">Logout</button>
   </nav>
 
@@ -13,6 +14,8 @@
       <div ng-include="'/client/components/detailsForm/detailsForm.html'"></div>
     </div>
   </div>
+
+  <div id="createTicketModal"></div>
 
   <div class="content">
     <div class="heading-section">

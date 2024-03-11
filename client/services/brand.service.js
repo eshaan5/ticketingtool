@@ -1,4 +1,4 @@
-app.service("SuperAdminService", function ($http) {
+app.service("BrandService", function ($http) {
   // Service logic for signup page
   this.addBrand = function (formData) {
     return $http({
@@ -20,6 +20,18 @@ app.service("SuperAdminService", function ($http) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
+    });
+  };
+
+  this.disableBrand = function (id, brand) {
+    return $http({
+      method: "PUT",
+      url: "http://localhost:3000/brand/disableBrand/" + id,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      data: { isDisabled: brand.isDisabled }
     });
   };
 });

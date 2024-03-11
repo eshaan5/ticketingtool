@@ -38,8 +38,8 @@
       <tbody>
         <tr ng-repeat="brand in brands">
           <td>{{ brand.name }}</td>
-          <td><img ng-src="{{ brand.logo }}" /></td>
-          <td><button ng-click="deleteBrand(brand._id)">Disable</button></td>
+          <td><img ng-src="{{ brand.logo }}" width="100" /></td>
+          <td><button ng-click="disableBrand(brand._id, brand)">{{brand.isDisabled ? "Enable" : "Disable"}}</button></td>
         </tr>
       </tbody>
     </table>

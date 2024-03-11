@@ -151,6 +151,7 @@ input {
 
 .users-table th,
 .users-table td {
+  text-align: center;
   border: 1px solid #ddd;
   padding: 8px;
 }

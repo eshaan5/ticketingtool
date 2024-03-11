@@ -1,9 +1,6 @@
-app.controller("SuperAdminController", function ($scope, $location, $timeout, SuperAdminService, $route) {
-  // Controller logic for signup page
+app.controller("SuperAdminController", function ($scope, $location, $timeout, BrandService, $route) {
+
   $scope.formData = {}; // Initialize form data object
-  $scope.confirmPassword;
-  $scope.arePasswordsEqual = true;
-  $scope.usernameExists = false;
   $scope.show = false;
   $scope.brands = [];
 
@@ -16,11 +13,11 @@ app.controller("SuperAdminController", function ($scope, $location, $timeout, Su
     $location.path('/');
   }
 
-  if (JSON.parse(localStorage.getItem("user")).role === "user") {
+  if (JSON.parse(localStorage.getItem("user")).role === "user" || JSON.parse(localStorage.getItem("user")).role === "agent") {
     $location.path("/login");
   }
 
-  SuperAdminService.getBrands().then(function (response) {
+  BrandService.getBrands().then(function (response) {
     $scope.brands = response.data;
   });
 
@@ -37,25 +34,22 @@ app.controller("SuperAdminController", function ($scope, $location, $timeout, Su
     }, 3000);
   };
 
-  $scope.confirm = function () {
-    if ($scope.formData.password !== $scope.confirmPassword) {
-      $scope.arePasswordsEqual = false;
-      $scope.addBrandForm.$invalid = true;
-    } else {
-      $scope.arePasswordsEqual = true;
-      $scope.addBrandForm.$invalid = false;
-    }
-  };
-
   $scope.submitForm = function () {
     // Handle form submission here
     if ($scope.addBrandForm.$invalid) {
       return;
     }
-    SuperAdminService.addBrand($scope.formData).then(function (response) {
+    BrandService.addBrand($scope.formData).then(function (response) {
       $scope.brands.push(response.data.result);
       $route.reload();
       showToast();
+    });
+  };
+
+  $scope.disableBrand = function (id, brand) {
+    $scope.brands[$scope.brands.indexOf(brand)].isDisabled = !brand.isDisabled;
+    BrandService.disableBrand(id, brand).then(function (response) {
+      console.log(response);
     });
   };
 });

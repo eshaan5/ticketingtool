@@ -1,4 +1,4 @@
-app.controller("AgentController", function ($scope, $location, AgentService) {
+app.controller("AgentController", function ($scope, $location, AgentService, $uibModal, $document) {
   // Controller logic for signup page
   $scope.show = false;
 
@@ -33,7 +33,39 @@ app.controller("AgentController", function ($scope, $location, AgentService) {
       .catch(function (err) {
         console.log(err);
       });
-};
+  };
+
+  $scope.openCreateTicketModal = function () {
+    const modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: "/client/components/createTicketModal/createTicketModal.html",
+      controller: "CreateTicketModalController", // CreateTicketModalController should be implemented
+      resolve: {
+        // Pass any necessary data to the modal controller
+        agent: function () {
+          return $scope.agent; // Passing the first agent as an example
+        },
+      },
+      appendTo: angular.element($document[0].querySelector("#createTicketModal")),
+    });
+
+    console.log(modalInstance.result)
+
+    // Handle modal close/dismiss events if needed
+    modalInstance.result.then(
+      function (newTicket) {
+        // Handle the new ticket (if any) returned from the modal
+        console.log("New ticket created:", newTicket);
+      },
+      function () {
+        // Modal dismissed/closed without creating a ticket
+        console.log("Create ticket modal dismissed");
+      }
+    )
+    .catch(function (err) {
+      console.log(err);
+    });
+  };
 
   $scope.logout = function () {
     localStorage.removeItem("token");
