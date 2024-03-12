@@ -1,6 +1,7 @@
 var User = require("./user.modal.js");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+var Brand = require("../brand/brand.modal.js");
 
 var generatePassword = require("../../util").generatePassword;
 var sendConfirmationEmail = require("../../util").sendConfirmationEmail;
@@ -18,9 +19,34 @@ function signin(req, res) {
       return res.status(404).json({ message: "User does not exist!" });
     }
 
-    bcrypt
-      .compare(password, existingUser.password)
-      .then(function (isMatch) {
+    if (existingUser.role === "admin" || existingUser.role === "agent") {
+      Brand.findOne({ _id: existingUser.brandId })
+        .then(function (brand) {
+          if (!brand) {
+            return res.status(404).json({ message: "Brand does not exist!" });
+          }
+
+          if (brand.isDisabled) {
+            return res.status(404).json({ message: "Your Brand is not active!" });
+          }
+
+          bcrypt.compare(password, existingUser.password).then(function (isMatch) {
+            if (!isMatch) {
+              return res.status(400).json({ message: "Password is incorrect!" });
+            }
+
+            var token = jwt.sign({ username: existingUser.username, role: existingUser.role, id: existingUser._id }, "test", { expiresIn: "1h" });
+
+            res.status(200).json({ result: existingUser, token: token });
+          });
+        })
+          .catch(function (err) {
+          console.log(err, "error in signin function in user.controller.js");
+        });
+    }
+
+    if (existingUser.role === "superAdmin") {
+      bcrypt.compare(password, existingUser.password).then(function (isMatch) {
         if (!isMatch) {
           return res.status(400).json({ message: "Password is incorrect!" });
         }
@@ -28,10 +54,8 @@ function signin(req, res) {
         var token = jwt.sign({ username: existingUser.username, role: existingUser.role, id: existingUser._id }, "test", { expiresIn: "1h" });
 
         res.status(200).json({ result: existingUser, token: token });
-      })
-      .catch(function (err) {
-        console.log(err, "error in signin function in user.controller.js");
       });
+    }
   });
 }
 

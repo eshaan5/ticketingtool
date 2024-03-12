@@ -10,7 +10,7 @@ var middlewares = require("../../middlewares.js");
 
 router.post("/createBrand", passport.authenticate("jwt", { session: false }), middlewares.checkSuperAdmin,createBrand);
 router.get("/allBrands", passport.authenticate("jwt", { session: false }), middlewares.checkSuperAdmin, getAllBrands);
-router.post("/updateBrand", updateBrand);
+router.put("/updateBrand", passport.authenticate("jwt", { session: false }), middlewares.checkAdmin, updateBrand);
 router.put("/disableBrand/:id", passport.authenticate("jwt", { session: false }), middlewares.checkSuperAdmin, updateBrand);
 router.get("/getBrand/:id", passport.authenticate("jwt", { session: false }), middlewares.checkAdmin, getBrand);
 

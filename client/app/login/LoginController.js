@@ -22,6 +22,9 @@ app.controller("LoginController", function ($scope, $location, LoginService) {
       }
 
       $location.path("/superAdmin");
+    })
+    .catch(function (err) {
+      $scope.error = err.data.message;
     });
 
     // Retrieve user from IndexedDB

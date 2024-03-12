@@ -17,7 +17,7 @@
         <input type="password" ng-model="formData.password" name="password" id="password" placeholder="Password" />
       </div>
 
-      <p class="error-message" ng-show="loginFailed">Invalid user or password.</p>
+      <p class="error-message" ng-show="error">{{error}}</p>
 
       <button type="submit" class="login-button">Log In</button>
     </form>

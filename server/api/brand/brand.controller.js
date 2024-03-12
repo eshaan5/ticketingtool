@@ -1,4 +1,4 @@
-var Brand = require("./brand.model");
+var Brand = require("./brand.modal");
 var generatePassword = require("../../util").generatePassword;
 var sendConfirmationEmail = require("../../util").sendConfirmationEmail;
 var bcrypt = require("bcrypt");
@@ -20,7 +20,7 @@ function createBrand(req, res) {
 }
 
 function updateBrand(req, res) {
-  var id = req.params.id;
+  var id = req.user.brandId;
   Brand.findByIdAndUpdate(id, req.body, { new: true })
     .then(function (brand) {
       res.status(200).json({ message: "Brand updated successfully" });

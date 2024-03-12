@@ -45,4 +45,16 @@ app.service("BrandService", function ($http) {
       },
     });
   };
+
+  this.updateBrand = function (formData) {
+    return $http({
+      method: "PUT",
+      url: "http://localhost:3000/brand/updateBrand",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      data: formData,
+    });
+  };
 });
