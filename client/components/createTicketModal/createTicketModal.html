@@ -1,19 +1,22 @@
-<div class="modal-header">
-  <h3 class="modal-title">Create Ticket</h3>
-</div>
-<div class="modal-body">
-  <!-- Your form for creating a ticket goes here -->
-  <form name="createTicketForm" ng-submit="createTicket()">
-    <!-- Form fields go here -->
-    <label for="ticketSource">Source:</label>
-    <input type="text" id="ticketSource" ng-model="newTicket.source" required />
-    <label for="ticketSubject">Subject:</label>
-    <input type="text" id="ticketSubject" ng-model="newTicket.subject" required />
+<link rel="stylesheet" href="/client/components/createTicketModal/createTicketModal.css" />
+<div class="container" ng-controller="CreateTicketModalController">
+    <div class="heading-section">
+      <h3 class="modal-title">Create Ticket</h3>
+    </div>
+    <div class="modal-body">
+      <!-- Your form for creating a ticket goes here -->
+      <form name="createTicketForm" ng-submit="createTicket()">
+        <!-- Form fields go here -->
+        <label for="ticketSource">Source:</label>
+        <input type="text" id="ticketSource" ng-model="newTicket.source" />
+        <label for="ticketSubject">Subject:</label>
+        <input type="text" id="ticketSubject" ng-model="newTicket.subject" />
 
-    <label for="ticketDescription">Description:</label>
-    <textarea id="ticketDescription" ng-model="newTicket.description" required></textarea>
+        <label for="ticketDescription">Description:</label>
+        <textarea id="ticketDescription" ng-model="newTicket.description"></textarea>
 
-    <button type="submit" class="btn btn-primary">Create Ticket</button>
-    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-  </form>
+        <button type="submit" class="btn btn-primary">Create Ticket</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+      </form>
+    </div>
 </div>

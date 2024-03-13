@@ -103,17 +103,6 @@ input {
   margin-top: 5px;
 }
 
-#toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #4caf50;
-  color: #fff;
-  padding: 15px;
-  border-radius: 5px;
-  z-index: 1;
-}
-
 .required-star {
   color: red;
   margin-left: 5px; /* Adjust margin as needed */

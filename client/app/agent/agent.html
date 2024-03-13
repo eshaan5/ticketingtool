@@ -1,21 +1,26 @@
 <link rel="stylesheet" href="/client/app/agent/agent.css" />
-<div class="container" ng-controller="AgentController">
+<div class="container" ng-controller="AgentController as $ctrl">
   <nav>
     <button class="btn" ng-click="toggleOnlineStatus()">
-      <span ng-class="{ 'dot-green': agent.isOnline, 'dot-red': !agent.isOnline }"></span>
+      <span ng-class="{ 'dot-green':  agent.isOnline, 'dot-red': ! agent.isOnline }"></span>
       {{ agent.isOnline ? 'Go Offline' : 'Go Online' }}
     </button>
-    <button class="btn btn-success" ng-click="openCreateTicketModal()">Create Ticket</button>
-    <button ng-click="logout()">Logout</button>
+    <button class="btn btn-success" ng-click=" openCreateTicketModal()">Create Ticket</button>
+    <button ng-click=" logout()">Logout</button>
   </nav>
 
-  <div id="detailsModal" ng-show="show">
+  <div id="detailsModal" ng-show=" show">
     <div class="modal-content">
       <div ng-include="'/client/components/detailsForm/detailsForm.html'"></div>
     </div>
   </div>
 
-  <div id="createTicketModal"></div>
+  <div id="createTicketModal" ng-show="showCreateTicket">
+    <div class="modal-content">
+      <span class="close" ng-click="closeCreateTicketModal()">&times;</span>
+      <div ng-include="'/client/components/createTicketModal/createTicketModal.html'"></div>
+    </div>
+  </div>
 
   <div class="content">
     <div class="heading-section">
