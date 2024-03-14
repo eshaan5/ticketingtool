@@ -1,5 +1,5 @@
 // angular/controllers/CreateTicketModalController.js
-angular.module('myApp').controller('CreateTicketModalController', ['$scope', '$uibModalInstance', 'TicketFieldService', function ($scope, $uibModalInstance, TicketFieldService) {
+angular.module('myApp').controller('CreateTicketModalController', ['$scope', '$uibModalInstance', 'TicketFieldService', 'TicketService', function ($scope, $uibModalInstance, TicketFieldService, TicketService) {
     $scope.newTicket = {}
 
     TicketFieldService.getTicketTypes().then(function (response) {
@@ -12,8 +12,22 @@ angular.module('myApp').controller('CreateTicketModalController', ['$scope', '$u
     });
 
     $scope.createTicket = function () {
-        // Call the service to create the ticket
-        console.log($scope.newTicket);
+        var formData = new FormData();
+        formData.append('title', $scope.newTicket.title);
+        formData.append('source', $scope.newTicket.source);
+        formData.append('type', $scope.newTicket.type);
+        formData.append('relatedTo', $scope.newTicket.relatedTo);
+        formData.append('priority', $scope.newTicket.priority);
+        
+        // Append files
+        var files = document.getElementById('attachments').files;
+        for (var i = 0; i < files.length; i++) {
+            formData.append('attachments', files[i]);
+        }
+
+        TicketService.createTicket(formData).then(function (response) {
+            console.log(response);
+        });
     };
 
     $scope.cancel = function () {

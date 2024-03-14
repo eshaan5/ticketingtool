@@ -177,12 +177,14 @@ input {
 }
 
 nav {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   gap: 20px;
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #ccc;
+  width: 90vw;
+  color: #fff;
 }
 
 .btn span {
@@ -207,4 +209,16 @@ nav {
   right: 10px;
   font-size: 20px;
   cursor: pointer;
+}
+
+button {
+  color: #fff !important;
+}
+
+button:hover {
+  color: #fff !important;
+}
+
+.close {
+  color: black !important;
 }
