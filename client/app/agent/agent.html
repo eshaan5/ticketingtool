@@ -15,12 +15,15 @@
     </div>
   </div>
 
-  <div id="createTicketModal" ng-show="showCreateTicket">
-    <div class="modal-content">
-      <span class="close" ng-click="closeCreateTicketModal()">&times;</span>
-      <div ng-include="'/client/components/createTicketModal/createTicketModal.html'"></div>
+  <script type="text/ng-template" id="createTicketModal.html">
+    <div class="modal-header">
+        <button class="close" type="button" ng-click="cancel()">&times;</button>
     </div>
-  </div>
+    <div class="modal-body">
+        <!-- Include the content of createTicketModal.html here -->
+        <div ng-include="'/client/components/createTicketModal/createTicketModal.html'"></div>
+    </div>
+</script>
 
   <div class="content">
     <div class="heading-section">

@@ -1,4 +1,4 @@
-app.controller("AgentController", function ($location, AgentService, $scope) {
+app.controller("AgentController", function ($location, AgentService, $scope, $uibModal) {
   // Controller logic for signup page
   $scope.show = false;
 
@@ -35,13 +35,29 @@ app.controller("AgentController", function ($location, AgentService, $scope) {
       });
   };
 
-  $scope.openCreateTicketModal = function (size, parentSelector) {
-    $scope.showCreateTicket = true;
-  };
+  $scope.openCreateTicketModal = function () {
+    var modalInstance = $uibModal.open({
+        templateUrl: 'createTicketModal.html', // Template URL of the modal
+        controller: 'CreateTicketModalController', // Controller for the modal
+        size: 'lg', // Size of the modal
+    });
 
-  $scope.closeCreateTicketModal = function () {
-    $scope.showCreateTicket = false;
-  };
+    // Handle modal close/dismiss events if needed
+    modalInstance.result.then(function (selectedItem) {
+        // Handle modal close
+        console.log('Modal closed with:', selectedItem);
+    }, function () {
+        // Handle modal dismiss
+        console.log('Modal dismissed');
+    });
+};
+
+// Function to close the create ticket modal
+$scope.closeCreateTicketModal = function () {
+    // Close the modal using $uibModalInstance
+    console.log('Close the modal');
+    modalInstance.close();
+};
 
   $scope.logout = function () {
     localStorage.removeItem("token");

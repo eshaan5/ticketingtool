@@ -1,5 +1,6 @@
 /* Modal container */
-#detailsModal, #createTicketModal {
+#detailsModal,
+#createTicketModal {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
@@ -13,9 +14,11 @@
 .modal-content {
   background-color: #fefefe;
   margin: auto; /* 15% from the top and centered */
+  margin-top: 0;
   padding: 20px;
   border: 1px solid #888;
-  width: 60%; /* Could be more or less, depending on screen size */
+   /* Could be more or less, depending on screen size */
+   height: 100vh;
 }
 
 .container {

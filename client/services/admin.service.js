@@ -25,5 +25,17 @@ app.service("AdminService", function ($http) {
         },
       });
     };
+
+    this.addTicketType = function (formData) {
+      return $http({
+        method: "POST",
+        url: "http://localhost:3000/ticketType/addTicketType",
+        data: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+    };
   });
   
