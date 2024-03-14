@@ -2,6 +2,8 @@
 <div class="container" ng-controller="AdminController">
   <nav>
     <button ng-click="show=true" ng-show="noLogo">Add Logo</button>
+    <button ng-click="openFieldModal('type')">Add Ticket Type</button>
+    <button ng-click="openFieldModal('relation')">Add Ticket's Relation</button>
     <button ng-click="logout()">Logout</button>
   </nav>
 
@@ -10,6 +12,14 @@
       <div ng-include="'/client/components/detailsForm/detailsForm.html'"></div>
     </div>
   </div>
+
+  <script type="text/ng-template" id="fieldModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="cancel()">&times;</button>
+      <h3 class="modal-title">Add Ticket Type</h3>
+    </div>
+    <div ng-include="'/client/components/ticketFieldsModal/ticketFieldsModal.html'"></div>
+  </script>
 
   <div class="content">
     <div class="heading-section">
