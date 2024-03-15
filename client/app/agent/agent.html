@@ -1,10 +1,7 @@
 <link rel="stylesheet" href="/client/app/agent/agent.css" />
 <div class="container" ng-controller="AgentController as $ctrl">
   <nav>
-    <button class="btn" ng-click="toggleOnlineStatus()">
-      <span ng-class="{ 'dot-green':  agent.isOnline, 'dot-red': ! agent.isOnline }"></span>
-      {{ agent.isOnline ? 'Go Offline' : 'Go Online' }}
-    </button>
+    <button ng-class="{ 'green': agent.isOnline, 'red': !agent.isOnline }" ng-click="toggleOnlineStatus()">{{ agent.isOnline ? 'Go Offline' : 'Go Online' }}</button>
     <button class="btn btn-success" ng-click=" openCreateTicketModal()">Create Ticket</button>
     <button ng-click=" logout()">Logout</button>
   </nav>
@@ -23,11 +20,31 @@
         <!-- Include the content of createTicketModal.html here -->
         <div ng-include="'/client/components/createTicketModal/createTicketModal.html'"></div>
     </div>
-</script>
+  </script>
 
   <div class="content">
     <div class="heading-section">
       <h2>Hello {{agent.name}}!</h2>
+    </div>
+
+    <div class="tickets">
+      <div class="ticket-tile" ng-repeat="ticket in tickets">
+        <div class="column">
+          <div class="details1">
+            <h3 class="title">{{ ticket.title }}</h3>
+            <p class="description">{{ ticket.description }}</p>
+          </div>
+          <div class="details2">
+            <div ng-class="{box: true}">{{ ticket.source }}</div>
+            <div class="box">{{ ticket.status }}</div>
+          </div>
+        </div>
+        <div class="details3">
+          <div ng-class="{box: true}">{{ ticket.relatedTo }}</div>
+          <div ng-class="{box: true}">{{ ticket.type }}</div>
+          <div ng-class="{box: true}">{{ ticket.priority }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

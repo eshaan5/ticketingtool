@@ -1,4 +1,4 @@
-app.controller("AgentController", function ($location, AgentService, $scope, $uibModal) {
+app.controller("AgentController", function ($location, AgentService, $scope, $uibModal, TicketService) {
   // Controller logic for signup page
   $scope.show = false;
 
@@ -21,6 +21,16 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
 
   $scope.agent = JSON.parse(localStorage.getItem("user"));
 
+  $scope.tickets = [];
+
+  TicketService.getTickets()
+    .then(function (response) {
+      $scope.tickets = response.data;
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+
   $scope.toggleOnlineStatus = function () {
     // Update the online status for the agent
     $scope.agent.isOnline = !$scope.agent.isOnline;
@@ -37,27 +47,30 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
 
   $scope.openCreateTicketModal = function () {
     var modalInstance = $uibModal.open({
-        templateUrl: 'createTicketModal.html', // Template URL of the modal
-        controller: 'CreateTicketModalController', // Controller for the modal
-        size: 'lg', // Size of the modal
+      templateUrl: "createTicketModal.html", // Template URL of the modal
+      controller: "CreateTicketModalController", // Controller for the modal
+      size: "lg", // Size of the modal
     });
 
     // Handle modal close/dismiss events if needed
-    modalInstance.result.then(function (selectedItem) {
+    modalInstance.result.then(
+      function (selectedItem) {
         // Handle modal close
-        console.log('Modal closed with:', selectedItem);
-    }, function () {
+        $scope.tickets.push(selectedItem);
+      },
+      function () {
         // Handle modal dismiss
-        console.log('Modal dismissed');
-    });
-};
+        console.log("Modal dismissed");
+      }
+    );
+  };
 
-// Function to close the create ticket modal
-$scope.closeCreateTicketModal = function () {
+  // Function to close the create ticket modal
+  $scope.closeCreateTicketModal = function () {
     // Close the modal using $uibModalInstance
-    console.log('Close the modal');
+    console.log("Close the modal");
     modalInstance.close();
-};
+  };
 
   $scope.logout = function () {
     localStorage.removeItem("token");

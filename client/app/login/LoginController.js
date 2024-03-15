@@ -1,7 +1,7 @@
 app.controller("LoginController", function ($scope, $location, LoginService) {
-  if (localStorage.getItem("token") && localStorage.getItem("time") && new Date().getTime() - localStorage.getItem("time") < 3600000) {
-    $location.path("/superAdmin");
-  }
+  // if (localStorage.getItem("token") && localStorage.getItem("time") && new Date().getTime() - localStorage.getItem("time") < 3600000) {
+  //   $location.path("/superAdmin");
+  // }
 
   // Controller logic for login page
   $scope.formData = {}; // Initialize form data object

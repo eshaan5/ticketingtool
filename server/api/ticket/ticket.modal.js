@@ -26,14 +26,14 @@ var ticketSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    attchments: {
+    attachments: [{
       url: {
         type: String,
       },
       name: {
         type: String,
       },
-    },
+    }],
     assignedTo: {
       agentId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -45,6 +45,10 @@ var ticketSchema = new mongoose.Schema(
         required: true,
       },
     },
+    description: {
+      type: String,
+      required: true,
+    }
   },
   { timestamps: true }
 );

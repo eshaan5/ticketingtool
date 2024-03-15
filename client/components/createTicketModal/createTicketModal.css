@@ -97,3 +97,12 @@ input {
   color: red;
   margin-left: 5px; /* Adjust margin as needed */
 }
+
+.heading-section {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.container {
+  max-height: 85vh;
+}

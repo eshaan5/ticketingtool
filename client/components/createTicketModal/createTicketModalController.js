@@ -4,7 +4,6 @@ angular.module('myApp').controller('CreateTicketModalController', ['$scope', '$u
 
     TicketFieldService.getTicketTypes().then(function (response) {
         $scope.ticketTypes = response.data;
-        console.log($scope.ticketTypes);
     });
 
     TicketFieldService.getTicketRelations().then(function (response) {
@@ -18,6 +17,7 @@ angular.module('myApp').controller('CreateTicketModalController', ['$scope', '$u
         formData.append('type', $scope.newTicket.type);
         formData.append('relatedTo', $scope.newTicket.relatedTo);
         formData.append('priority', $scope.newTicket.priority);
+        formData.append('description', $scope.newTicket.description);
         
         // Append files
         var files = document.getElementById('attachments').files;
@@ -26,7 +26,7 @@ angular.module('myApp').controller('CreateTicketModalController', ['$scope', '$u
         }
 
         TicketService.createTicket(formData).then(function (response) {
-            console.log(response);
+            $uibModalInstance.close(response.data);
         });
     };
 
