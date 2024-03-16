@@ -20,6 +20,7 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
   }
 
   $scope.agent = JSON.parse(localStorage.getItem("user"));
+  $scope.brand = JSON.parse(localStorage.getItem("brand"));
 
   $scope.tickets = [];
 
@@ -71,6 +72,31 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
     console.log("Close the modal");
     modalInstance.close();
   };
+
+  $scope.openTicketModal = function (ticket) {
+    var modalInstance = $uibModal.open({
+        templateUrl: 'ticketModal.html',
+        controller: 'TicketModalController',
+        resolve: {
+            ticket: function () {
+                return ticket; // Pass the ticket object to the modal controller
+            },
+            // agents: function () {
+            //     return $scope.agents; // Pass the list of agents to the modal controller
+            // }
+        }
+    });
+
+    // Handle modal close/dismiss
+    modalInstance.result.then(function () {
+        // Modal closed
+    }, function (reason) {
+        if (reason === 'delete') {
+            // Ticket deleted, handle accordingly
+            console.log('Ticket deleted.');
+        }
+    });
+};
 
   $scope.logout = function () {
     localStorage.removeItem("token");

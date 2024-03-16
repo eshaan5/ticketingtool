@@ -6,7 +6,6 @@
   justify-content: center;
   margin: auto;
   padding: 20px;
-  max-width: 10vw;
 }
 
 .content {
@@ -24,7 +23,7 @@
 .form-code {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .form-field {
@@ -105,4 +104,20 @@ input {
 
 .container {
   max-height: 85vh;
+}
+
+.modal-body {
+  width: 60vw;
+}
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-code2 {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
 }

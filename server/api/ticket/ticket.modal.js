@@ -47,8 +47,19 @@ var ticketSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
-    }
+    },
+    clientDetails: {
+      name: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+      },
+      phone: {
+        type: String,
+      },
+    },
   },
   { timestamps: true }
 );

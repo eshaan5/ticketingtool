@@ -37,7 +37,7 @@ function signin(req, res) {
 
             var token = jwt.sign({ username: existingUser.username, role: existingUser.role, id: existingUser._id }, "test", { expiresIn: "1h" });
 
-            res.status(200).json({ result: existingUser, token: token });
+            res.status(200).json({ result: existingUser, token: token, brand: brand });
           });
         })
           .catch(function (err) {

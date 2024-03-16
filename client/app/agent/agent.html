@@ -1,10 +1,16 @@
 <link rel="stylesheet" href="/client/app/agent/agent.css" />
-<div class="container" ng-controller="AgentController as $ctrl">
+<div class="container" ng-controller="AgentController">
   <nav>
-    <button ng-class="{ 'green': agent.isOnline, 'red': !agent.isOnline }" ng-click="toggleOnlineStatus()">{{ agent.isOnline ? 'Go Offline' : 'Go Online' }}</button>
-    <button class="btn btn-success" ng-click=" openCreateTicketModal()">Create Ticket</button>
-    <button ng-click=" logout()">Logout</button>
+    <img ng-src="{{ brand.logo }}" alt="{{ brand.name }}" width="100px" />
+    <div class="btns">
+      <button ng-show="agent.role == 'agent'" ng-class="{ 'green': agent.isOnline, 'red': !agent.isOnline }" ng-click="toggleOnlineStatus()">{{ agent.isOnline ? 'Go Offline' : 'Go Online' }}</button>
+      <button ng-click=" logout()">Logout</button>
+    </div>
   </nav>
+
+  <div class="btns">
+    <button class="btn btn-success" ng-click=" openCreateTicketModal()">Create Ticket</button>
+  </div>
 
   <div id="detailsModal" ng-show=" show">
     <div class="modal-content">
@@ -22,29 +28,39 @@
     </div>
   </script>
 
-  <div class="content">
-    <div class="heading-section">
-      <h2>Hello {{agent.name}}!</h2>
-    </div>
+  <script type="text/ng-template" id="ticketModal.html">
+        <!-- Include the content of ticketModal.html here -->
+        <div ng-include="'/client/components/ticketModal/ticketModal.html'"></div>
+  </script>
 
-    <div class="tickets">
-      <div class="ticket-tile" ng-repeat="ticket in tickets">
-        <div class="column">
-          <div class="details1">
-            <h3 class="title">{{ ticket.title }}</h3>
-            <p class="description">{{ ticket.description }}</p>
-          </div>
-          <div class="details2">
-            <div ng-class="{box: true}">{{ ticket.source }}</div>
-            <div class="box">{{ ticket.status }}</div>
-          </div>
-        </div>
-        <div class="details3">
-          <div ng-class="{box: true}">{{ ticket.relatedTo }}</div>
-          <div ng-class="{box: true}">{{ ticket.type }}</div>
-          <div ng-class="{box: true}">{{ ticket.priority }}</div>
-        </div>
-      </div>
-    </div>
+  <div class="content">
+    <!-- <div class="filter-row">
+      <select ng-model="filters.status" ng-change="applyFilters()">
+        <option value="">Filter by Status</option>
+        <option value="Open">Open</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Closed">Closed</option>
+      </select>
+      <select ng-model="filters.source" ng-change="applyFilters()">
+        <option value="">Filter by Source</option>
+        <option value="Email">Email</option>
+        <option value="Manual">Manual</option>
+      </select>
+      <select ng-model="filters.relatedTo" ng-change="applyFilters()">
+        <option value="">Filter by Related To</option>
+      </select>
+      <select ng-model="filters.type" ng-change="applyFilters()">
+        <option value="">Filter by Type</option>
+        <option value="Feature Request">Feature Request</option>
+        <option value="Bug Report">Bug Report</option>
+      </select>
+      <select ng-model="filters.priority" ng-change="applyFilters()">
+        <option value="">Filter by Priority</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+    </div> -->
+    <div ng-include="'/client/components/ticketsTable/ticketsTable.html'"></div>
   </div>
 </div>

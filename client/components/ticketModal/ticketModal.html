@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h4 class="modal-title">Ticket Details</h4>
+    <button type="button" class="close" ng-click="closeModal()">&times;</button>
+</div>
+<div class="modal-body">
+    <label>Title:</label>
+    <input type="text" ng-model="ticket.title" disabled>
+
+    <label>Description:</label>
+    <input type="text" ng-model="ticket.description"></input>
+
+    <label>Priority:</label>
+    <select ng-model="ticket.priority">
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+    </select>
+
+    <label>Assign To:</label>
+    <select ng-model="selectedAgent" ng-options="agent.name for agent in agents"></select>
+
+    <h5>Attachments:</h5>
+    <ul>
+        <li ng-repeat="attachment in ticket.attachments"><a href="{{attachment.url}}">{{attachment.name}}</a></li>
+    </ul>
+
+    <label>Add Attachment:</label>
+    <input type="file" ng-model="newAttachment" />
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" ng-click="updateTicket()">Save Changes</button>
+    <button type="button" class="btn btn-danger" ng-click="deleteTicket()">Delete Ticket</button>
+    <button type="button" class="btn btn-secondary" ng-click="closeModal()">Close</button>
+</div>

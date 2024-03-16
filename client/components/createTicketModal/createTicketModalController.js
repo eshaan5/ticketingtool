@@ -18,6 +18,9 @@ angular.module('myApp').controller('CreateTicketModalController', ['$scope', '$u
         formData.append('relatedTo', $scope.newTicket.relatedTo);
         formData.append('priority', $scope.newTicket.priority);
         formData.append('description', $scope.newTicket.description);
+        formData.append('clientDetails.name', $scope.newTicket.clientName);
+        formData.append('clientDetails.email', $scope.newTicket.clientEmail);
+        formData.append('clientDetails.phone', $scope.newTicket.clientNumber);
         
         // Append files
         var files = document.getElementById('attachments').files;

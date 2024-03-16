@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="/client/app/admin/admin.css" />
 <div class="container" ng-controller="AdminController">
   <nav>
+    <img ng-src="{{brand.logo}}" alt="{{brand.name}}" width="200px" ng-show="!noLogo" />
     <button ng-click="show=true" ng-show="noLogo">Add Logo</button>
     <button ng-click="openFieldModal('type')">Add Ticket Type</button>
     <button ng-click="openFieldModal('relation')">Add Ticket's Relation</button>

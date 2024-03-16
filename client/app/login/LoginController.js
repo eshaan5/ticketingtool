@@ -10,6 +10,7 @@ app.controller("LoginController", function ($scope, $location, LoginService) {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.result));
       localStorage.setItem("time", new Date().getTime());
+      localStorage.setItem("brand", JSON.stringify(response.data.brand));
 
       if (response.data.result.role == "admin") {
         $location.path("/admin");

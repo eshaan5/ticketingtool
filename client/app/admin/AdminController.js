@@ -29,6 +29,8 @@ app.controller("AdminController", function ($scope, $location, AdminService, Bra
     }
   });
 
+  $scope.brand = JSON.parse(localStorage.getItem("brand"));
+
   AdminService.getAgents().then(function (response) {
     $scope.agents = response.data;
   });
