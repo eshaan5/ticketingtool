@@ -1,4 +1,4 @@
-app.controller("AdminController", function ($scope, $location, AdminService, BrandService, $route, $uibModal) {
+app.controller("AdminController", function ($scope, $location, AdminService, BrandService, $route, $uibModal, UserService) {
   // Controller logic for signup page
   $scope.formData = {}; // Initialize form data object
   $scope.show = false;
@@ -31,7 +31,7 @@ app.controller("AdminController", function ($scope, $location, AdminService, Bra
 
   $scope.brand = JSON.parse(localStorage.getItem("brand"));
 
-  AdminService.getAgents().then(function (response) {
+  UserService.getAgents().then(function (response) {
     $scope.agents = response.data;
   });
 

@@ -1,35 +1,72 @@
+<link rel="stylesheet" href="/client/components/ticketModal/ticketModal.css" />
 <div class="modal-header">
-    <h4 class="modal-title">Ticket Details</h4>
-    <button type="button" class="close" ng-click="closeModal()">&times;</button>
+  <h4 class="modal-title">Ticket Details</h4>
+  <button type="button" class="close" ng-click="closeModal()">&times;</button>
 </div>
 <div class="modal-body">
-    <label>Title:</label>
-    <input type="text" ng-model="ticket.title" disabled>
+  <label>Title:</label>
+  <input type="text" ng-model="ticket.title" disabled />
 
-    <label>Description:</label>
-    <input type="text" ng-model="ticket.description"></input>
+  <label>Description:</label>
+  <input type="text" ng-model="ticket.description" />
 
-    <label>Priority:</label>
-    <select ng-model="ticket.priority">
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-    </select>
+  <label>Source: </label>
+  <select ng-model="ticket.source" ng-options="source for source in ['Email', 'Manual']" disabled></select>
 
-    <label>Assign To:</label>
-    <select ng-model="selectedAgent" ng-options="agent.name for agent in agents"></select>
+  <div class="flex">
+    <div class="option">
+      <label>Priority:</label>
+      <select ng-model="ticket.priority" ng-options="option for option in ['High', 'Medium', 'Low']" ng-disabled="!editMode"></select>
+    </div>
 
-    <h5>Attachments:</h5>
-    <ul>
-        <li ng-repeat="attachment in ticket.attachments"><a href="{{attachment.url}}">{{attachment.name}}</a></li>
-    </ul>
+    <div class="option">
+      <label>Status:</label>
+      <select ng-model="ticket.status" ng-options="status for status in ['Open', 'In Progress', 'Closed']" ng-disabled="!editMode"></select>
+    </div>
+  </div>
 
-    <label>Add Attachment:</label>
+  <div class="flex">
+    <div class="option">
+      <label>Related To:</label>
+      <select ng-model="ticket.relatedTo" ng-options="relation for relation in ticketRelations" ng-disabled="!editMode"></select>
+    </div>
+
+    <div class="option">
+      <label>Type</label>
+      <select ng-model="ticket.type" ng-options="type for type in ticketTypes" ng-disabled="!editMode"></select>
+    </div>
+  </div>
+
+  <label>Attachments:</label>
+  <ul>
+    <li ng-repeat="attachment in ticket.attachments">
+      <a href="{{attachment.url}}">{{attachment.name}}</a>
+    </li>
+  </ul>
+  <div ng-if="ticket.attachments.length < 4 && editMode">
     <input type="file" ng-model="newAttachment" />
+  </div>
+
+  <label>Client Name:</label>
+  <input type="text" ng-model="ticket.clientDetails.name" disabled />
+
+  <div class="client-details">
+    <label>Client Email:</label>
+    <input type="email" ng-model="ticket.clientDetails.email" disabled />
+
+    <label>Client Phone:</label>
+    <input type="text" ng-model="ticket.clientDetails.phone" disabled />
+  </div>
+
+  <p>Request Date: {{ticket.createdAt | date }}</p>
+
+  <label>Assigned To:</label>
+  <select ng-model="selectedAgentId" ng-options="agent.agentId as agent.agentName for agent in agents" ng-disabled="!editMode">
+    <option value="" ng-if="!ticket.assignedTo">Select Agent</option>
+</select>
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" ng-click="updateTicket()">Save Changes</button>
-    <button type="button" class="btn btn-danger" ng-click="deleteTicket()">Delete Ticket</button>
-    <button type="button" class="btn btn-secondary" ng-click="closeModal()">Close</button>
+  <button type="button" class="btn btn-danger" ng-click="deleteTicket()" ng-if="editMode">Delete Ticket</button>
+  <button type="button" class="btn btn-secondary" ng-click="updateTicket()" ng-if="editMode">Save Changes</button>
 </div>

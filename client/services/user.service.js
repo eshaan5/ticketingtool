@@ -11,4 +11,15 @@ app.service("UserService", function ($http) {
       },
     });
   };
+
+  this.getAgents = function () {
+    return $http({
+      method: "GET",
+      url: "http://localhost:3000/user/allAgents",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  };
 });
