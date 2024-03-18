@@ -170,10 +170,6 @@ input, select {
     margin-left: 5px; /* Adjust margin as needed */
   }
   
-  .modal-body {
-    width: 60vw;
-  }
-  
   .form-code2 {
     display: grid;
     gap: 10px;

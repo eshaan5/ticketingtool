@@ -51,7 +51,42 @@ function getTickets(req, res) {
     });
 }
 
+function updateTicket(req, res) {
+  var ticket = req.body;
+
+  if (ticket.attachments) ticket.attachments = JSON.parse(ticket.attachments);
+
+  s3Upload(req.files)
+    .then(function (data) {
+      ticket.attachments
+        ? (ticket.attachments = ticket.attachments.concat(
+            data.map(function (file) {
+              return {
+                url: file.Location,
+                name: file.key,
+              };
+            })
+          ))
+        : (ticket.attachments = data.map(function (file) {
+            return {
+              url: file.Location,
+              name: file.key,
+            };
+          }));
+
+      return Ticket.findByIdAndUpdate(ticket._id, ticket, { new: true });
+    })
+    .then(function (ticket) {
+      console.log(ticket);
+      res.status(200).json(ticket);
+    })
+    .catch(function (err) {
+      res.status(500).json(err);
+    });
+}
+
 module.exports = {
   createTicket: createTicket,
   getTickets: getTickets,
+  updateTicket: updateTicket,
 };

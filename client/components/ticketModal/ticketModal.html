@@ -44,7 +44,7 @@
     </li>
   </ul>
   <div ng-if="ticket.attachments.length < 4 && editMode">
-    <input type="file" ng-model="newAttachment" />
+    <input id="attachments" multiple type="file" ng-model="newAttachment" />
   </div>
 
   <label>Client Name:</label>
@@ -68,5 +68,5 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-danger" ng-click="deleteTicket()" ng-if="editMode">Delete Ticket</button>
-  <button type="button" class="btn btn-secondary" ng-click="updateTicket()" ng-if="editMode">Save Changes</button>
+  <!-- <button type="button" class="btn btn-secondary" ng-click="updateTicket()" ng-if="editMode">Save Changes</button> -->
 </div>

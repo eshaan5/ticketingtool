@@ -13,4 +13,11 @@ app.service("TicketService", function ($http) {
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     })
   }
+
+  this.updateTicket = function (formData) {
+    return $http.put("http://localhost:3000/ticket/update", formData, {
+      transformRequest: angular.identity,
+      headers: { "Content-Type": undefined, Authorization: "Bearer " + localStorage.getItem("token") },
+    });
+  };
 });

@@ -14,8 +14,10 @@ var upload = multer({
 
 var createTicket = require('./ticket.controller').createTicket;
 var getTickets = require('./ticket.controller').getTickets;
+var updateTicket = require('./ticket.controller').updateTicket;
 
 router.post('/create', passport.authenticate("jwt", { session: false }), upload.array("attachments") ,createTicket);
 router.get('/getTickets', passport.authenticate("jwt", { session: false }), getTickets);
+router.put('/update', passport.authenticate("jwt", { session: false }), upload.array("attachments"), updateTicket);
 
 module.exports = router;
