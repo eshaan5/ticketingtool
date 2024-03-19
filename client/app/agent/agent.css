@@ -187,6 +187,7 @@ nav {
   color: #fff;
   padding-left: 2rem;
   margin-top: 0 !important;
+  height: 13vh;
 }
 
 .btn span {
@@ -261,4 +262,14 @@ nav {
   margin-top: 20px;
   padding-right: 2rem;
   gap: 20px;
+}
+
+.bellBtn {
+  background-color: inherit;
+  color: #fff;
+  width: 50px;
+}
+
+.bell {
+  width: 100px;
 }

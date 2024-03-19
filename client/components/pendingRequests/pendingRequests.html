@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/client/components/pendingRequests/pendingRequests.css" />
+<div class="modal-header">
+    <h4 class="modal-title">Pending Requests</h4>
+    <button type="button" class="close" ng-click="closeModal()">&times;</button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <table class="ticket-table">
+        <thead>
+          <tr>
+            <th>Ticket ID</th>
+            <th>Title</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="request in requests" ng-class="{ 'high-priority': request.priority === 'High', 'medium-priority': request.priority === 'Medium', 'low-priority': request.priority === 'Low' }">
+            <td>{{ request.ticketId }}</td>
+            <td>{{ request.title }}</td>
+            <td>
+              <button class="btn btn-success">Accept</button>
+              <button class="btn btn-danger">Reject</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" ng-click="closeModal()">Close</button>
+  </div>
+  

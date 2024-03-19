@@ -3,6 +3,7 @@
   <nav>
     <img ng-src="{{ brand.logo }}" alt="{{ brand.name }}" width="100px" />
     <div class="btns">
+      <button ng-click="openPendingRequestsModal()" class="bellBtn"><i class="fa-regular fa-bell bell"></i></button>
       <button ng-click=" logout()">Logout</button>
     </div>
   </nav>
@@ -16,6 +17,10 @@
       <div ng-include="'/client/components/detailsForm/detailsForm.html'"></div>
     </div>
   </div>
+
+  <script type="text/ng-template" id="pendingRequestsModal.html">
+    <div ng-include="'/client/components/pendingRequests/pendingRequests.html'"></div>
+  </script>
 
   <script type="text/ng-template" id="createTicketModal.html">
     <div class="modal-header">

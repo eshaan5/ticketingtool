@@ -1,7 +1,7 @@
 var Ticket = require("./ticket.modal");
 var s3Upload = require("../../s3Service").s3Upload;
 var Log = require("../log/log.modal");
-var PendingRequest = require("../../utils/pendingRequests.modal");
+var PendingRequest = require("../pendingRequests/pendingRequests.modal");
 
 function createTicket(req, res) {
   var ticket = req.body;
@@ -69,25 +69,13 @@ function updateTicket(req, res) {
   var prevTicket;
 
   ticket.assignedTo = JSON.parse(ticket.assignedTo);
+  var agent = ticket.assignedTo;
 
   Ticket.findById(ticket._id)
     .then(function (previousTicket) {
       prevTicket = previousTicket.toObject();
       if (ticket.assignedTo.agentId != previousTicket.assignedTo.agentId) {
         action = "raised a request to assign ticket to " + ticket.assignedTo.agentName;
-        var pendingRequest = new PendingRequest({
-          sender: {
-            name: req.user.name,
-            id: req.user._id,
-          },
-          receiver: {
-            name: ticket.assignedTo.agentName,
-            id: ticket.assignedTo.agentId,
-          },
-          ticketId: ticket._id,
-        });
-
-        pendingRequest.save();
 
         ticket.assignedTo = {};
       }
@@ -116,7 +104,22 @@ function updateTicket(req, res) {
       return Ticket.findByIdAndUpdate(ticket._id, ticket, { new: true });
     })
     .then(function (updateTicket) {
-      console.log(updateTicket);
+      if (!updateTicket.assignedTo.agentId) {
+        var pendingRequest = new PendingRequest({
+          sender: {
+            name: req.user.name,
+            id: req.user._id,
+          },
+          receiver: {
+            name: agent.agentName,
+            id: agent.agentId,
+          },
+          ticket: updateTicket.toObject(),
+        });
+
+        pendingRequest.save();
+      }
+
       var log = new Log({
         ticketId: ticket._id,
         userId: req.user._id,

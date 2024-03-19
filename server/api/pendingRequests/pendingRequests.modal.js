@@ -27,11 +27,10 @@ var pendingRequestSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    ticketId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Ticket",
+    ticket: {
+        type: mongoose.Schema.Types.Mixed,
         required: true
-    },
+    }
 });
 
 var PendingRequest = mongoose.model("PendingRequest", pendingRequestSchema);

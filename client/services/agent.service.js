@@ -11,4 +11,16 @@ app.service("AgentService", function ($http) {
       },
     });
   };
+
+  this.getPendingRequests = function () {
+    // Get the pending requests for the agent
+    return $http({
+      method: "GET",
+      url: "http://localhost:3000/pendingRequests",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  };
 });

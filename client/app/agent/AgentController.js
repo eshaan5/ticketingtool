@@ -38,6 +38,30 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
       });
   };
 
+  $scope.openPendingRequestsModal = function () {
+    AgentService.getPendingRequests().then(function (response) {
+      var modalInstance = $uibModal.open({
+        templateUrl: "pendingRequestsModal.html",
+        controller: "PendingRequestsController",
+        resolve: {
+          requests: function () {
+            // Logic to retrieve pending requests
+            return response.data;
+          },
+        },
+      });
+
+      modalInstance.result.then(
+        function () {
+          // Modal closed callback
+        },
+        function () {
+          // Modal dismissed callback
+        }
+      );
+    });
+  };
+
   $scope.openCreateTicketModal = function () {
     var modalInstance = $uibModal.open({
       templateUrl: "createTicketModal.html", // Template URL of the modal

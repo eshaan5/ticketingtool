@@ -4,4 +4,5 @@ module.exports = function (app) {
     app.use("/ticketType", require("./api/ticketType/"));
     app.use("/ticketRelation", require("./api/ticketRelation/"));
     app.use("/ticket", require("./api/ticket/"));
+    app.use("/pendingRequests", require("./api/pendingRequests/"));
 }
