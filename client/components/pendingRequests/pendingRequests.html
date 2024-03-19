@@ -29,8 +29,8 @@
             <td><span class="type"> {{request.ticket.type }}</span></td>
             <td>{{ request.ticket.createdAt | date: 'dd-MMM-yyyy' }}</td>
             <td style="display: flex; gap: 10px;">
-              <button style="max-width: 1.5vw; display: flex; justify-content: center; align-items: center; max-height: 6.5vh;" class="btn btn-success"><i class="fa-solid fa-check"></i></button>
-              <button style="max-width: 1.5vw; display: flex; justify-content: center; align-items: center; max-height: 6.5vh;" class="btn btn-danger"><i class="fa-solid fa-xmark"></i></button>
+              <button ng-click="acceptRequest(request._id)" style="max-width: 1.5vw; display: flex; justify-content: center; align-items: center; max-height: 6.5vh;" class="btn btn-success"><i class="fa-solid fa-check"></i></button>
+              <button ng-click="rejectRequest(request._id)" style="max-width: 1.5vw; display: flex; justify-content: center; align-items: center; max-height: 6.5vh;" class="btn btn-danger"><i class="fa-solid fa-xmark"></i></button>
             </td>
           </tr>
         </tbody>
