@@ -2,6 +2,10 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
   // Controller logic for signup page
   $scope.show = false;
 
+  if ($location.search().ticket) {
+    $location.url($location.path()); // Clear query parameters
+  }
+
   if (localStorage.getItem("time") && new Date().getTime() - localStorage.getItem("time") > 3600000) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -91,24 +95,7 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
   };
 
   $scope.openTicketModal = function (ticket) {
-    var modalInstance = $uibModal.open({
-      templateUrl: "ticketModal.html",
-      controller: "TicketModalController",
-      resolve: {
-        ticket: function () {
-          return ticket; // Pass the ticket object to the modal controller
-        },
-      },
-    });
-
-    // Handle modal close/dismiss
-    modalInstance.result.then(
-      function (ticket) {
-        // Modal closed
-        $route.reload();
-      },
-      function () {}
-    );
+    $location.path("/ticket").search({ ticket: JSON.stringify(ticket) });
   };
 
   $scope.logout = function () {
