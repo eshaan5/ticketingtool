@@ -1,0 +1,54 @@
+.request-table {
+    width: 100%;
+}
+
+.request-table {
+    border-collapse: collapse;
+    border-top: none;
+  }
+  
+  .request-table th, .request-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+    .request-table th {
+        border-top: none;
+    }
+  
+  .request-table tbody tr:hover {
+    background-color: #f2f2f2;
+  }
+
+  /* Priority Styles */
+.high-priority {
+    color: red;
+    background-color: #ffe5e5; /* Extremely light red */
+    padding: 0.4rem 0.7rem;
+    border-radius: 1.3rem;
+    font-weight:500;
+  }
+  
+  .medium-priority {
+    color: #ffcc00; /* Yellow */
+    background-color: #ffffe5;
+    padding: 0.4rem 0.7rem;
+    border-radius: 1.3rem;
+    font-weight:500;
+  }
+  
+  .low-priority {
+    color: green;
+    background-color: #e5ffe5; /* Extremely light green */
+    padding: 0.4rem 0.7rem;
+    border-radius: 1.3rem;
+    font-weight:500;
+  }
+
+  .type {
+    padding: 0.6rem 1rem;
+    border-radius: 1.3rem;
+    font-weight:500;
+    background-color: #f2f2f2; /* Light grey */
+  }

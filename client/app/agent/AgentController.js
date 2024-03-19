@@ -49,6 +49,7 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
             return response.data;
           },
         },
+        size: "xl",
       });
 
       modalInstance.result.then(
