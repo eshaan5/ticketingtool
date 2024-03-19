@@ -1,4 +1,4 @@
-app.controller("AgentController", function ($location, AgentService, $scope, $uibModal, TicketService) {
+app.controller("AgentController", function ($location, AgentService, $scope, $uibModal, $route) {
   // Controller logic for signup page
   $scope.show = false;
 
@@ -23,14 +23,6 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
   $scope.brand = JSON.parse(localStorage.getItem("brand"));
 
   $scope.tickets = [];
-
-  TicketService.getTickets()
-    .then(function (response) {
-      $scope.tickets = response.data;
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
 
   $scope.toggleOnlineStatus = function () {
     // Update the online status for the agent
@@ -75,28 +67,24 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
 
   $scope.openTicketModal = function (ticket) {
     var modalInstance = $uibModal.open({
-        templateUrl: 'ticketModal.html',
-        controller: 'TicketModalController',
-        resolve: {
-            ticket: function () {
-                return ticket; // Pass the ticket object to the modal controller
-            },
-            // agents: function () {
-            //     return $scope.agents; // Pass the list of agents to the modal controller
-            // }
-        }
+      templateUrl: "ticketModal.html",
+      controller: "TicketModalController",
+      resolve: {
+        ticket: function () {
+          return ticket; // Pass the ticket object to the modal controller
+        },
+      },
     });
 
     // Handle modal close/dismiss
-    modalInstance.result.then(function () {
+    modalInstance.result.then(
+      function (ticket) {
         // Modal closed
-    }, function (reason) {
-        if (reason === 'delete') {
-            // Ticket deleted, handle accordingly
-            console.log('Ticket deleted.');
-        }
-    });
-};
+        $route.reload();
+      },
+      function () {}
+    );
+  };
 
   $scope.logout = function () {
     localStorage.removeItem("token");

@@ -1,7 +1,7 @@
 var crypto = require("crypto");
 var nodemailer = require("nodemailer");
 var bcrypt = require("bcrypt");
-var User = require("./api/user/user.modal");
+var User = require("../api/user/user.modal");
 
 function generatePassword() {
   var length = 8;

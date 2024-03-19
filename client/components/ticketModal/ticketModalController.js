@@ -7,12 +7,10 @@ angular.module("myApp").controller("TicketModalController", [
   "TicketService",
   function ($scope, $uibModalInstance, ticket, TicketFieldService, UserService, TicketService) {
     $scope.ticket = angular.copy(ticket); // Make a copy of the ticket object passed from the parent scope
-    console.log("Ticket:", $scope.ticket);
-    $scope.selectedAgent = null; // Selected agent for assignment
     $scope.newAttachment = null; // New attachment to be added
 
     $scope.editMode = true;
-    $scope.selectedAgentId = $scope.ticket.assignedTo ? $scope.ticket.assignedTo.agentId : null;
+    $scope.selectedAgentId = $scope.ticket.assignedTo.agentId;
 
     TicketFieldService.getTicketTypes().then(function (response) {
       $scope.ticketTypes = response.data.map(function (type) {
@@ -35,57 +33,52 @@ angular.module("myApp").controller("TicketModalController", [
       });
     });
 
-    $scope.$watch("selectedAgentId", function (newAgentId, oldAgentId) {
-      if (newAgentId !== oldAgentId) {
-        $scope.ticket.assignedTo = $scope.agents.find((agent) => agent._id === newAgentId);
-      }
-    });
+    // $scope.$watch("selectedAgentId", function (newAgentId, oldAgentId) {
+    //   console.log(newAgentId, oldAgentId);
+    //   if (newAgentId !== oldAgentId) {
+    //     $scope.ticket.assignedTo = $scope.agents.find((agent) => agent._id === newAgentId);
+    //   }
+    // });
 
     $scope.toggleEditMode = function () {
       $scope.editMode = !$scope.editMode;
     };
 
     // Function to update the ticket details
-    $scope.updateTicket = function () {
+    $scope.updateTicket = function (selectedAgentId) {
       // Add logic to update ticket details
       var formData = new FormData();
+      console.log($scope.ticket);
 
-        formData.append("title", $scope.ticket.title);
-        formData.append("source", $scope.ticket.source);
-        formData.append("type", $scope.ticket.type);
-        formData.append("relatedTo", $scope.ticket.relatedTo);
-        formData.append("priority", $scope.ticket.priority);
-        formData.append("description", $scope.ticket.description);
-        formData.append("clientDetails.name", $scope.ticket.clientDetails.name);
-        formData.append("clientDetails.email", $scope.ticket.clientDetails.email);
-        formData.append("clientDetails.phone", $scope.ticket.clientDetails.phone);
-        formData.append("status", $scope.ticket.status);
-        formData.append("assignedTo.agentId", $scope.ticket.assignedTo.agentId);
-        formData.append("assignedTo.agentName", $scope.ticket.assignedTo.agentName);
-        formData.append("attachments", JSON.stringify($scope.ticket.attachments));
-        formData.append("_id", $scope.ticket._id);
+      var newAgentName = $scope.agents.find(function (agent) {
+        return agent.agentId == selectedAgentId;
+      }).agentName;
 
-        // Append files
-        var files = document.getElementById("attachments").files;
-        for (var i = 0; i < files.length; i++) {
-          formData.append("attachments", files[i]);
-        }
+      formData.append("type", $scope.ticket.type);
+      formData.append("relatedTo", $scope.ticket.relatedTo);
+      formData.append("priority", $scope.ticket.priority);
+      formData.append("description", $scope.ticket.description);
+      formData.append("status", $scope.ticket.status);
+      // formData.append("assignedTo.agentId", selectedAgentId);
+      // formData.append("assignedTo.agentName", newAgentName);
+      formData.append("attachments", JSON.stringify($scope.ticket.attachments));
+      formData.append("_id", $scope.ticket._id);
+      formData.append("assignedTo", JSON.stringify({ agentId: selectedAgentId, agentName: newAgentName }));
 
-        TicketService.updateTicket(formData)
-          .then(function (response) {
-            console.log("Updated ticket:", response.data);
-            $uibModalInstance.close(response.data);
-          })
-          .catch(function (err) {
-            console.log(err);
-          });
-    };
+      // Append files
+      var files = document.getElementById("attachments").files;
+      for (var i = 0; i < files.length; i++) {
+        formData.append("attachments", files[i]);
+      }
 
-    // Function to delete the ticket
-    $scope.deleteTicket = function () {
-      // Add logic to delete ticket
-      console.log("Deleted ticket:", $scope.ticket);
-      $uibModalInstance.dismiss("delete");
+      TicketService.updateTicket(formData)
+        .then(function (response) {
+          console.log("Updated ticket:", response.data);
+          $uibModalInstance.close(response.data);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     };
 
     // Function to close the modal

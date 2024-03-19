@@ -253,3 +253,12 @@ nav {
   padding: 5px;
   margin-right: 10px;
 }
+
+.createBtn {
+  display: flex;
+  justify-content: flex-end;
+  width: 100vw;
+  margin-top: 20px;
+  padding-right: 2rem;
+  gap: 20px;
+}

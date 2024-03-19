@@ -62,11 +62,10 @@
 
   <label>Assigned To:</label>
   <select ng-model="selectedAgentId" ng-options="agent.agentId as agent.agentName for agent in agents" ng-disabled="!editMode">
-    <option value="" ng-if="!ticket.assignedTo">Select Agent</option>
 </select>
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" ng-click="deleteTicket()" ng-if="editMode">Delete Ticket</button>
-  <!-- <button type="button" class="btn btn-secondary" ng-click="updateTicket()" ng-if="editMode">Save Changes</button> -->
+  <!-- <button type="button" class="btn btn-danger" ng-click="deleteTicket()" ng-if="editMode">Delete Ticket</button> -->
+  <button type="button" class="btn btn-secondary" ng-click="updateTicket(selectedAgentId)" ng-if="editMode">Save Changes</button>
 </div>

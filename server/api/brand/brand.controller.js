@@ -1,6 +1,6 @@
 var Brand = require("./brand.modal");
-var generatePassword = require("../../util").generatePassword;
-var sendConfirmationEmail = require("../../util").sendConfirmationEmail;
+var generatePassword = require("../../utils/util").generatePassword;
+var sendConfirmationEmail = require("../../utils/util").sendConfirmationEmail;
 var bcrypt = require("bcrypt");
 var User = require("../user/user.modal");
 

@@ -3,8 +3,8 @@ var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var Brand = require("../brand/brand.modal.js");
 
-var generatePassword = require("../../util").generatePassword;
-var sendConfirmationEmail = require("../../util").sendConfirmationEmail;
+var generatePassword = require("../../utils/util.js").generatePassword;
+var sendConfirmationEmail = require("../../utils/util.js").sendConfirmationEmail;
 
 function signin(req, res) {
   var user = req.body.user;

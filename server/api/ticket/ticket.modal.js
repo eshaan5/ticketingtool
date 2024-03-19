@@ -38,11 +38,9 @@ var ticketSchema = new mongoose.Schema(
       agentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true,
       },
       agentName: {
         type: String,
-        required: true,
       },
     },
     description: {

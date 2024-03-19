@@ -3,15 +3,14 @@
   <nav>
     <img ng-src="{{ brand.logo }}" alt="{{ brand.name }}" width="100px" />
     <div class="btns">
-      <button ng-show="agent.role == 'agent'" ng-class="{ 'green': agent.isOnline, 'red': !agent.isOnline }" ng-click="toggleOnlineStatus()">{{ agent.isOnline ? 'Go Offline' : 'Go Online' }}</button>
       <button ng-click=" logout()">Logout</button>
     </div>
   </nav>
 
-  <div class="btns">
+  <div class="createBtn">
+    <button ng-show="agent.role == 'agent'" ng-class="{ 'green': agent.isOnline, 'red': !agent.isOnline }" ng-click="toggleOnlineStatus()">{{ agent.isOnline ? 'Go Offline' : 'Go Online' }}</button>
     <button class="btn btn-success" ng-click=" openCreateTicketModal()">Create Ticket</button>
   </div>
-
   <div id="detailsModal" ng-show=" show">
     <div class="modal-content">
       <div ng-include="'/client/components/detailsForm/detailsForm.html'"></div>
@@ -29,11 +28,11 @@
   </script>
 
   <script type="text/ng-template" id="ticketModal.html">
-        <!-- Include the content of ticketModal.html here -->
-        <div ng-include="'/client/components/ticketModal/ticketModal.html'"></div>
+    <!-- Include the content of ticketModal.html here -->
+    <div ng-include="'/client/components/ticketModal/ticketModal.html'"></div>
   </script>
 
-  <div class="content">
+  <div class="content" ng-show="tickets">
     <!-- <div class="filter-row">
       <select ng-model="filters.status" ng-change="applyFilters()">
         <option value="">Filter by Status</option>
@@ -61,6 +60,7 @@
         <option value="Low">Low</option>
       </select>
     </div> -->
+    <h3 class="table-title">Tickets</h3>
     <div ng-include="'/client/components/ticketsTable/ticketsTable.html'"></div>
   </div>
 </div>

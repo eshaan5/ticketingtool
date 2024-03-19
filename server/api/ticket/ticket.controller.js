@@ -1,5 +1,7 @@
 var Ticket = require("./ticket.modal");
 var s3Upload = require("../../s3Service").s3Upload;
+var Log = require("../log/log.modal");
+var PendingRequest = require("../../utils/pendingRequests.modal");
 
 function createTicket(req, res) {
   var ticket = req.body;
@@ -19,6 +21,16 @@ function createTicket(req, res) {
       return Ticket.create(ticket);
     })
     .then(function (ticket) {
+      var log = new Log({
+        ticketId: ticket._id,
+        userId: req.user._id,
+        action: "create",
+        updatedTicketState: ticket.toObject(),
+        // Other log fields
+      });
+
+      log.save();
+
       res.status(201).json(ticket);
     })
     .catch(function (err) {
@@ -53,11 +65,38 @@ function getTickets(req, res) {
 
 function updateTicket(req, res) {
   var ticket = req.body;
+  var action = "update";
+  var prevTicket;
 
-  if (ticket.attachments) ticket.attachments = JSON.parse(ticket.attachments);
+  ticket.assignedTo = JSON.parse(ticket.assignedTo);
 
-  s3Upload(req.files)
+  Ticket.findById(ticket._id)
+    .then(function (previousTicket) {
+      prevTicket = previousTicket.toObject();
+      if (ticket.assignedTo.agentId != previousTicket.assignedTo.agentId) {
+        action = "raised a request to assign ticket to " + ticket.assignedTo.agentName;
+        var pendingRequest = new PendingRequest({
+          sender: {
+            name: req.user.name,
+            id: req.user._id,
+          },
+          receiver: {
+            name: ticket.assignedTo.agentName,
+            id: ticket.assignedTo.agentId,
+          },
+          ticketId: ticket._id,
+        });
+
+        pendingRequest.save();
+
+        ticket.assignedTo = {};
+      }
+
+      return s3Upload(req.files);
+    })
     .then(function (data) {
+      if (ticket.attachments) ticket.attachments = JSON.parse(ticket.attachments);
+
       ticket.attachments
         ? (ticket.attachments = ticket.attachments.concat(
             data.map(function (file) {
@@ -76,11 +115,23 @@ function updateTicket(req, res) {
 
       return Ticket.findByIdAndUpdate(ticket._id, ticket, { new: true });
     })
-    .then(function (ticket) {
-      console.log(ticket);
+    .then(function (updateTicket) {
+      console.log(updateTicket);
+      var log = new Log({
+        ticketId: ticket._id,
+        userId: req.user._id,
+        action: action,
+        updatedTicketState: updateTicket.toObject(),
+        previousTicketState: prevTicket,
+        // Other log fields
+      });
+
+      log.save();
+
       res.status(200).json(ticket);
     })
     .catch(function (err) {
+      console.log(err);
       res.status(500).json(err);
     });
 }
