@@ -12,6 +12,10 @@ input, select {
     border-bottom: none;
 }
 
+.modal-header {
+  margin-top: 14vh;
+}
+
 .ticket-modal .modal-body {
     padding: 20px;
 }
@@ -182,4 +186,12 @@ input, select {
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
+  }
+
+  .modal-container {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }

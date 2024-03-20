@@ -1,0 +1,132 @@
+.profileClass img {
+  width: 100px;
+}
+.profileClass {
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+.subProfile {
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 5px;
+}
+.sideBar {
+  height: 100vh;
+  width: 15vw;
+  position: fixed;
+  left: 0;
+  background-color: #333;
+  overflow-x: hidden;
+  padding-top: 30px;
+  transition: 0.5s;
+  z-index: 1;
+  margin-top: 12.8vh;
+}
+
+.sideBar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 17px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sideBar a:hover {
+  color: #f1f1f1;
+}
+
+.sideBar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #333;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+nav {
+  padding: 20px 0px 20px 2rem;
+  width: 100%;
+  display: flex !important;
+  justify-content: space-between;
+  gap: 20px;
+  position: fixed;
+  /* align-items: center; */
+  background-color: #333;
+  overflow: hidden;
+  border: 1px solid transparent;
+  z-index: 1;
+  margin-bottom: 0;
+  height: 13vh;
+}
+
+nav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 10px 12px;
+  margin: 6px;
+  text-decoration: none;
+  font-size: large;
+}
+
+nav a:hover {
+  background-color: grey;
+  color: black;
+}
+
+.navbar-brand {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+}
+
+nav h4 {
+  right: 0px;
+  margin-right: 200px;
+  position: absolute;
+}
+
+.user {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.user-name {
+  color: #eee;
+  font-size: 15px;
+}
+
+.menu li {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.menu li:last-child {
+  border-bottom: none;
+}
+
+.fa-user {
+  color: #eee;
+  font-size: 15px;
+  margin-right: 10px;
+}

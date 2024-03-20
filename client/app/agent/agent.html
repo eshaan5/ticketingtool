@@ -1,15 +1,23 @@
 <link rel="stylesheet" href="/client/app/agent/agent.css" />
+<div ng-include="'/client/components/sidePanel/sidePanel.html'"></div>
 <div class="container" ng-controller="AgentController">
-  <nav>
+  <!-- <nav>
     <img ng-src="{{ brand.logo }}" alt="{{ brand.name }}" width="100px" />
     <div class="btns">
       <button ng-click="openPendingRequestsModal()" class="bellBtn"><i class="fa-regular fa-bell bell"></i></button>
       <button ng-click=" logout()">Logout</button>
     </div>
-  </nav>
+  </nav> -->
 
   <div class="createBtn">
-    <button ng-show="agent.role == 'agent'" ng-class="{ 'green': agent.isOnline, 'red': !agent.isOnline }" ng-click="toggleOnlineStatus()">{{ agent.isOnline ? 'Go Offline' : 'Go Online' }}</button>
+    <!-- <button ng-show="agent.role == 'agent'" ng-class="{ 'green': agent.isOnline, 'red': !agent.isOnline }" ng-click="toggleOnlineStatus()">{{ agent.isOnline ? 'Go Offline' : 'Go Online' }}</button> -->
+    <div ng-class="{toggleOff:!agent.isOnline}">
+      <div ng-click="toggleOnlineStatus()" ng-class="{toggleButtonOff:!agent.isOnline}"></div>
+  </div>
+  <div ng-class="{toggleOn:agent.isOnline}">
+      <div ng-click="toggleOnlineStatus()" ng-class="{toggleButtonOn:agent.isOnline}">
+      </div>
+  </div>
     <button class="btn btn-success" ng-click=" openCreateTicketModal()">Create Ticket</button>
   </div>
   <div id="detailsModal" ng-show=" show">
@@ -33,33 +41,6 @@
   </script>
 
   <div class="content" ng-show="tickets">
-    <!-- <div class="filter-row">
-      <select ng-model="filters.status" ng-change="applyFilters()">
-        <option value="">Filter by Status</option>
-        <option value="Open">Open</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Closed">Closed</option>
-      </select>
-      <select ng-model="filters.source" ng-change="applyFilters()">
-        <option value="">Filter by Source</option>
-        <option value="Email">Email</option>
-        <option value="Manual">Manual</option>
-      </select>
-      <select ng-model="filters.relatedTo" ng-change="applyFilters()">
-        <option value="">Filter by Related To</option>
-      </select>
-      <select ng-model="filters.type" ng-change="applyFilters()">
-        <option value="">Filter by Type</option>
-        <option value="Feature Request">Feature Request</option>
-        <option value="Bug Report">Bug Report</option>
-      </select>
-      <select ng-model="filters.priority" ng-change="applyFilters()">
-        <option value="">Filter by Priority</option>
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-      </select>
-    </div> -->
     <h3 class="table-title">Tickets</h3>
     <div ng-include="'/client/components/ticketsTable/ticketsTable.html'"></div>
   </div>

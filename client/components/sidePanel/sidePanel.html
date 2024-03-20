@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="/client/components/sidePanel/sidePanel.css" />
+<!-- HTML -->
+
+<div ng-controller="sideBarController">
+    <div class="alert alert-success" ng-show="showSuccess">{{successMessage}}</div>
+    <!-- <div class="alert alert-success" style="margin-top: 80px;" ng-show="showPassSuccess">{{successMessage}}</div>
+    <div class="alert1 alert-danger" ng-show="showError">{{errorMessage}}</div> -->
+    <!-- navbar -->
+    <nav>
+        <button ng-show="showSideBar" class="openbtn" ng-click="openSideBar=!openSideBar">&#9776;</button>
+        <a class="navbar-brand">{{brand.name}}</a>
+    </nav>
+    <!-- sidebar -->
+
+    <div class="sideBar" ng-show="openSideBar">
+        <div class="profileClass">
+            <div ng-if="userDetails.role!='SuperAdmin'" style="margin-left: 10px;">
+                <img ng-src={{brand.logo}} alt="brandImage">
+            </div>
+            
+        </div>
+        <hr>
+        <div class="user">
+            <i class="fa-regular fa-user"></i>
+            <span class="user-name">{{user.name}}</span>
+            <a href="#" class="change-password">Change Password</a>
+            <a href="#" ng-click="logout()">Logout</a>
+        </div>
+        <div class="menu">
+            <ul style="list-style-type: none;">
+                <li ng-click="goHome()"><a>Home</a></li>
+                <!-- Add more menu items as needed -->
+            </ul>
+        </div>
+    </div>
+</div>

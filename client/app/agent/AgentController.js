@@ -24,6 +24,7 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
   }
 
   $scope.agent = JSON.parse(localStorage.getItem("user"));
+  console.log($scope.agent);
   $scope.brand = JSON.parse(localStorage.getItem("brand"));
 
   $scope.tickets = [];

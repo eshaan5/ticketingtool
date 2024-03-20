@@ -1,70 +1,71 @@
 <link rel="stylesheet" href="/client/app/ticket/ticket.css" />
-<div class="modal-header">
-  <h4 class="modal-title">Ticket Details</h4>
-</div>
-<div class="modal-body">
-  <label>Title:</label>
-  <input type="text" ng-model="ticket.title" disabled />
+<div ng-include="'/client/components/sidePanel/sidePanel.html'"></div>
+<div class="modal-container">
+  <div class="modal-header">
+    <h4 class="modal-title">Ticket Details</h4>
+  </div>
+  <div class="modal-body">
+    <label>Title:</label>
+    <input type="text" ng-model="ticket.title" disabled />
 
-  <label>Description:</label>
-  <input type="text" ng-model="ticket.description" />
+    <label>Description:</label>
+    <input type="text" ng-model="ticket.description" />
 
-  <label>Source: </label>
-  <select ng-model="ticket.source" ng-options="source for source in ['Email', 'Manual']" disabled></select>
+    <label>Source: </label>
+    <select ng-model="ticket.source" ng-options="source for source in ['Email', 'Manual']" disabled></select>
 
-  <div class="flex">
-    <div class="option">
-      <label>Priority:</label>
-      <select ng-model="ticket.priority" ng-options="option for option in ['High', 'Medium', 'Low']" ng-disabled="!editMode"></select>
+    <div class="flex">
+      <div class="option">
+        <label>Priority:</label>
+        <select ng-model="ticket.priority" ng-options="option for option in ['High', 'Medium', 'Low']" ng-disabled="!editMode"></select>
+      </div>
+
+      <div class="option">
+        <label>Status:</label>
+        <select ng-model="ticket.status" ng-options="status for status in ['Open', 'In Progress', 'Closed']" ng-disabled="!editMode"></select>
+      </div>
     </div>
 
-    <div class="option">
-      <label>Status:</label>
-      <select ng-model="ticket.status" ng-options="status for status in ['Open', 'In Progress', 'Closed']" ng-disabled="!editMode"></select>
+    <div class="flex">
+      <div class="option">
+        <label>Related To:</label>
+        <select ng-model="ticket.relatedTo" ng-options="relation for relation in ticketRelations" ng-disabled="!editMode"></select>
+      </div>
+
+      <div class="option">
+        <label>Type</label>
+        <select ng-model="ticket.type" ng-options="type for type in ticketTypes" ng-disabled="!editMode"></select>
+      </div>
     </div>
-  </div>
 
-  <div class="flex">
-    <div class="option">
-      <label>Related To:</label>
-      <select ng-model="ticket.relatedTo" ng-options="relation for relation in ticketRelations" ng-disabled="!editMode"></select>
+    <label>Attachments:</label>
+    <ul>
+      <li ng-repeat="attachment in ticket.attachments">
+        <a href="{{attachment.url}}">{{attachment.name}}</a>
+      </li>
+    </ul>
+    <div ng-if="ticket.attachments.length < 4 && editMode">
+      <input id="attachments" multiple type="file" ng-model="newAttachment" />
     </div>
 
-    <div class="option">
-      <label>Type</label>
-      <select ng-model="ticket.type" ng-options="type for type in ticketTypes" ng-disabled="!editMode"></select>
+    <label>Client Name:</label>
+    <input type="text" ng-model="ticket.clientDetails.name" disabled />
+
+    <div class="client-details">
+      <label>Client Email:</label>
+      <input type="email" ng-model="ticket.clientDetails.email" disabled />
+
+      <label>Client Phone:</label>
+      <input type="text" ng-model="ticket.clientDetails.phone" disabled />
     </div>
+
+    <p>Request Date: {{ticket.createdAt | date }}</p>
+
+    <label>Assigned To:</label>
+    <select ng-model="selectedAgentId" ng-options="agent.agentId as agent.agentName for agent in agents" ng-disabled="!editMode"></select>
   </div>
-
-  <label>Attachments:</label>
-  <ul>
-    <li ng-repeat="attachment in ticket.attachments">
-      <a href="{{attachment.url}}">{{attachment.name}}</a>
-    </li>
-  </ul>
-  <div ng-if="ticket.attachments.length < 4 && editMode">
-    <input id="attachments" multiple type="file" ng-model="newAttachment" />
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-danger" ng-click="deleteTicket()" ng-if="editMode">Delete Ticket</button> -->
+    <button type="button" class="btn btn-secondary" ng-click="updateTicket(selectedAgentId)" ng-if="editMode">Save Changes</button>
   </div>
-
-  <label>Client Name:</label>
-  <input type="text" ng-model="ticket.clientDetails.name" disabled />
-
-  <div class="client-details">
-    <label>Client Email:</label>
-    <input type="email" ng-model="ticket.clientDetails.email" disabled />
-
-    <label>Client Phone:</label>
-    <input type="text" ng-model="ticket.clientDetails.phone" disabled />
-  </div>
-
-  <p>Request Date: {{ticket.createdAt | date }}</p>
-
-  <label>Assigned To:</label>
-  <select ng-model="selectedAgentId" ng-options="agent.agentId as agent.agentName for agent in agents" ng-disabled="!editMode">
-</select>
-
-</div>
-<div class="modal-footer">
-  <!-- <button type="button" class="btn btn-danger" ng-click="deleteTicket()" ng-if="editMode">Delete Ticket</button> -->
-  <button type="button" class="btn btn-secondary" ng-click="updateTicket(selectedAgentId)" ng-if="editMode">Save Changes</button>
 </div>
