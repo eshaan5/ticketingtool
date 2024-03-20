@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="/client/app/superAdmin/superAdmin.css" />
+<div ng-include="'/client/components/sidePanel/sidePanel.html'"></div>
 <div class="container" ng-controller="SuperAdminController">
-  <nav>
+  <!-- <nav>
     <button ng-click="logout()">Logout</button>
-  </nav>
+  </nav> -->
   <div class="content">
     <div class="heading-section">
       <h2>Add Brand!</h2>
@@ -23,7 +24,7 @@
             <p class="error-message" ng-show="addBrandForm.email.$error.pattern && addBrandForm.email.$dirty">Invalid email address.</p>
           </div>
         </div>
-        <button class="continue-button" type="submit">Create Brand</button>
+        <button class="continue-button btn btn-primary" type="submit">Create Brand</button>
       </div>
     </form>
 
@@ -39,7 +40,15 @@
         <tr ng-repeat="brand in brands">
           <td>{{ brand.name }}</td>
           <td><img ng-src="{{ brand.logo }}" width="100" /></td>
-          <td><button ng-click="disableBrand(brand._id, brand)">{{brand.isDisabled ? "Enable" : "Disable"}}</button></td>
+          <!-- <td><button ng-click="disableBrand(brand._id, brand)">{{brand.isDisabled ? "Enable" : "Disable"}}</button></td> -->
+          <td>
+            <div ng-class="{toggleOff:brand.isDisabled}">
+              <div ng-click="disableBrand(brand._id, brand)" ng-class="{toggleButtonOff:brand.isDisabled}"></div>
+            </div>
+            <div ng-class="{toggleOn:!brand.isDisabled}">
+              <div ng-click="disableBrand(brand._id, brand)" ng-class="{toggleButtonOn:!brand.isDisabled}"></div>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

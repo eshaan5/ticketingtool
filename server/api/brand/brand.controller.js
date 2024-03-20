@@ -20,7 +20,7 @@ function createBrand(req, res) {
 }
 
 function updateBrand(req, res) {
-  var id = req.user.brandId;
+  var id = req.user.brandId || req.params.id;
   Brand.findByIdAndUpdate(id, req.body, { new: true })
     .then(function (brand) {
       res.status(200).json({ message: "Brand updated successfully" });

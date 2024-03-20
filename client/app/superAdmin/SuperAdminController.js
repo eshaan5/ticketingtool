@@ -19,11 +19,13 @@ app.controller("SuperAdminController", function ($scope, $location, $timeout, Br
 
   BrandService.getBrands().then(function (response) {
     $scope.brands = response.data;
+    console.log($scope.brands);
   });
 
   $scope.logout = function () {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("brand");
     $location.path("/");
   };
 

@@ -1,12 +1,6 @@
 <link rel="stylesheet" href="/client/app/admin/admin.css" />
+<div ng-include="'/client/components/sidePanel/sidePanel.html'"></div>
 <div class="container" ng-controller="AdminController">
-  <nav>
-    <img ng-src="{{brand.logo}}" alt="{{brand.name}}" width="200px" ng-show="!noLogo" />
-    <button ng-click="show=true" ng-show="noLogo">Add Logo</button>
-    <button ng-click="openFieldModal('type')">Add Ticket Type</button>
-    <button ng-click="openFieldModal('relation')">Add Ticket's Relation</button>
-    <button ng-click="logout()">Logout</button>
-  </nav>
 
   <div id="detailsModal" ng-show="show">
     <div class="modal-content">
@@ -35,7 +29,7 @@
             <p class="error-message" ng-show="addAgentForm.email.$error.pattern && addAgentForm.email.$dirty">Invalid email address.</p>
           </div>
         </div>
-        <button class="continue-button" type="submit">Add Agent</button>
+        <button class="continue-button btn btn-primary" type="submit">Add Agent</button>
       </div>
     </form>
 
