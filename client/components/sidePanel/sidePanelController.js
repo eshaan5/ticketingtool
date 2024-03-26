@@ -23,31 +23,16 @@ angular.module("myApp").controller("sideBarController", function ($scope, $locat
     else if ($scope.user.role == "agent") $location.path("/agent");
   };
 
-  $scope.changePass = function () {
+  $scope.openAddBrandModal = function () {
     var modalInstance = $uibModal.open({
-      animation: true,
-      ariaLabelledBy: "modal-title",
-      ariaDescribedBy: "modal-body",
-      templateUrl: "/FrontEnd/Components/passwordModal/passwordModal.html",
-      controller: "ModalInstancePassword",
-      size: "sm",
+      templateUrl: "/client/components/addBrandModal/addBrandModal.html",
+      controller: "addBrandModalCtrl",
+      size: "md",
     });
 
-    modalInstance.result
-      .then(
-        function (response) {
-          $scope.showSuccess = true;
-          $scope.successMessage = response.message;
-          $timeout(function () {
-            $scope.showSuccess = false;
-          }, 1500);
-        },
-        function () {
-          console.log("no reason");
-        }
-      )
-      .catch(function (err) {
-        console.log(err);
-      });
+    modalInstance.result.then(function (brand) {
+      $scope.brand = brand;
+      console.log($scope.brand);
+    });
   };
 });

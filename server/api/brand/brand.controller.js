@@ -5,7 +5,7 @@ var bcrypt = require("bcrypt");
 var User = require("../user/user.modal");
 
 function createBrand(req, res) {
-  var brand = { name: req.body.name };
+  var brand = { name: req.body.name, brandEmail: req.body.brandEmail, password: req.body.password };
   var email = req.body.email;
   Brand.create(brand).then(function (brand) {
     // generate password -> send email -> create user

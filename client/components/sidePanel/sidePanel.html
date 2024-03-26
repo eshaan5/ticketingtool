@@ -22,7 +22,7 @@
     <div class="user">
       <i class="fa-regular fa-user"></i>
       <span class="user-name">{{user.name}}</span>
-      <a href="#" class="change-password">Change Password</a>
+      <!-- <a href="#" class="change-password">Change Password</a> -->
       <a href="#" ng-click="logout()">Logout</a>
     </div>
     <div class="menu">
@@ -31,6 +31,7 @@
         <li ng-click="show=true" ng-show="noLogo && isAdmin"><a>Add Logo</a></li>
         <li ng-click="openFieldModal('type')" ng-show="isAdmin"><a>Add Ticket Type</a></li>
         <li ng-click="openFieldModal('relation')" ng-show="isAdmin"><a>Add Ticket's Relation</a></li>
+        <li ng-click="openAddBrandModal()" ng-show="isSuperAdmin"><a>Add Brand</a></li>
         <!-- Add more menu items as needed -->
       </ul>
     </div>

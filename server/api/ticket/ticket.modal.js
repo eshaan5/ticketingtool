@@ -13,7 +13,6 @@ var ticketSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      required: true,
     },
     priority: {
       type: String,
@@ -25,7 +24,6 @@ var ticketSchema = new mongoose.Schema(
     },
     relatedTo: {
       type: String,
-      required: true,
     },
     attachments: [{
       url: {
@@ -58,6 +56,10 @@ var ticketSchema = new mongoose.Schema(
       phone: {
         type: String,
       },
+    },
+    brandId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Brand",
     },
   },
   { timestamps: true }

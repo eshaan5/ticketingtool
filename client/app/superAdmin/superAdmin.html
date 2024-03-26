@@ -1,32 +1,7 @@
 <link rel="stylesheet" href="/client/app/superAdmin/superAdmin.css" />
 <div ng-include="'/client/components/sidePanel/sidePanel.html'"></div>
 <div class="container" ng-controller="SuperAdminController">
-  <!-- <nav>
-    <button ng-click="logout()">Logout</button>
-  </nav> -->
   <div class="content">
-    <div class="heading-section">
-      <h2>Add Brand!</h2>
-    </div>
-    <form name="addBrandForm" class="form-section" ng-submit="submitForm()">
-      <div class="form-content">
-        <div class="form-field">
-          <label for="name">Name</label>
-          <div class="input-container">
-            <input type="text" id="name" placeholder="Name" ng-model="formData.name" name="name" ng-pattern="/^[a-zA-Z\s]+$/" required />
-            <p class="error-message" ng-show="addBrandForm.name.$error.pattern && addBrandForm.name.$dirty">Name should only contain letters.</p>
-          </div>
-        </div>
-        <div class="form-field">
-          <label for="email">Admin Email</label>
-          <div class="input-container">
-            <input type="email" id="email" placeholder="Email" ng-model="formData.email" name="email" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" required />
-            <p class="error-message" ng-show="addBrandForm.email.$error.pattern && addBrandForm.email.$dirty">Invalid email address.</p>
-          </div>
-        </div>
-        <button class="continue-button btn btn-primary" type="submit">Create Brand</button>
-      </div>
-    </form>
 
     <table class="users-table" ng-show="brands.length">
       <thead>

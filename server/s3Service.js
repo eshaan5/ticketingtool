@@ -6,8 +6,8 @@ function s3Upload (files) {
     var params = files.map(function (file) {
         return {
             Bucket: process.env.AWS_BUCKET_NAME,
-            Key: 'ticketAttachments/' + file.originalname, // File name you want to save as in S3
-            Body: file.buffer
+            Key: 'ticketAttachments/' + file.originalname || 'ticketAttachments/' + file.filename, // File name you want to save as in S3
+            Body: file.buffer || file.content
         };
     });
 
