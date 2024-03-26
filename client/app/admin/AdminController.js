@@ -35,12 +35,6 @@ app.controller("AdminController", function ($scope, $location, AdminService, Bra
     $scope.agents = response.data;
   });
 
-  $scope.logout = function () {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    $location.path("/");
-  };
-
   $scope.openFieldModal = function (modalType) {
     var modalInstance = $uibModal.open({
         templateUrl: 'fieldModal.html', // Template URL of the modal

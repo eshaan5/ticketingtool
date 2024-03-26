@@ -36,8 +36,6 @@ function createTicketFromEmail() {
                   if (err) throw err;
                   // create ticket
 
-                  console.log(mail);
-
                   var ticket = {
                     title: mail.subject,
                     source: "Email",

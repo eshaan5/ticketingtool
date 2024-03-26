@@ -1,4 +1,4 @@
-app.controller("AgentController", function ($location, AgentService, $scope, $uibModal, $route) {
+app.controller("AgentController", function ($location, AgentService, $scope, $uibModal, UserService) {
   // Controller logic for signup page
   $scope.show = false;
 
@@ -34,13 +34,9 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
     $scope.agent.isOnline = !$scope.agent.isOnline;
 
     // Call the service to update the status on the server
-    AgentService.updateOnlineStatus()
-      .then(function (response) {
-        localStorage.setItem("user", JSON.stringify(response.data.result));
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+    UserService.updateUser({isOnline: $scope.agent.isOnline}).then(function (response) {
+      localStorage.setItem("user", JSON.stringify(response.data.result));
+    });
   };
 
   $scope.openPendingRequestsModal = function () {

@@ -1,4 +1,4 @@
-angular.module("myApp").controller("sideBarController", function ($scope, $location, $uibModal, $timeout) {
+angular.module("myApp").controller("sideBarController", function ($scope, $location, $uibModal, UserService) {
   $scope.showSideBar = true;
 
   if (localStorage.getItem("brand")) {
@@ -12,10 +12,13 @@ angular.module("myApp").controller("sideBarController", function ($scope, $locat
   $scope.isAdmin = $scope.user.role == "admin";
 
   $scope.logout = function () {
-    localStorage.removeItem("user");
-    localStorage.removeItem("brand");
-    localStorage.removeItem("time");
-    $location.path("/");
+    UserService.updateUser({ isOnline: false }).then(function (response) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("brand");
+      localStorage.removeItem("time");
+      localStorage.removeItem("token");
+      $location.path("/");
+    });
   };
   $scope.goHome = function () {
     if ($scope.user.role == "superAdmin") $location.path("/superAdmin");
