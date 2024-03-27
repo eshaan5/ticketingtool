@@ -7,7 +7,8 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var mongoose = require("mongoose");
 var dotenv = require("dotenv");
-require("./cron");
+// require("./utils/cron");
+// require("./utils/SQSConsumer");
 
 var seedSuperAdmin = require("./seed");
 

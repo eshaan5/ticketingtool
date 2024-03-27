@@ -2,12 +2,12 @@ var cron = require("node-cron");
 var createTicketFromEmail = require("./emailCreation");
 var assignTicketsToAgents = require("./assignTicket");
 
-cron.schedule("*/15 * * * *", function () {
-    console.log("Fetching emails");
+cron.schedule("*/15 * * * * *", function () {
+  console.log("Fetching emails");
   createTicketFromEmail();
 });
 
-cron.schedule("*/5 * * * *", function () {
+cron.schedule("*/30 * * * * *", function () {
   console.log("Assigning tickets");
   assignTicketsToAgents();
 });

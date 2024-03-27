@@ -2,7 +2,6 @@ angular.module("myApp").controller("sideBarController", function ($scope, $locat
   $scope.showSideBar = true;
 
   if (localStorage.getItem("brand")) {
-    console.log("brand");
     $scope.brand = JSON.parse(localStorage.getItem("brand"));
   }
   $scope.user = JSON.parse(localStorage.getItem("user"));

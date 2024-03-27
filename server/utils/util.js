@@ -1,7 +1,6 @@
 var crypto = require("crypto");
 var nodemailer = require("nodemailer");
-var bcrypt = require("bcrypt");
-var User = require("../api/user/user.modal");
+var Ticket = require("../api/ticket/ticket.modal");
 
 function generatePassword() {
   var length = 8;
@@ -58,7 +57,20 @@ function sendConfirmationEmail(email, password) {
   });
 }
 
+function generateTicketId (brandId) {
+
+  return Ticket.countDocuments({brandId: brandId})
+    .then(count => {
+      return "#TC-" + (count+1);
+    })
+    .catch(err => {
+      console.error("Error generating ticket ID:", err);
+    });
+
+}
+
 module.exports = {
   generatePassword: generatePassword,
   sendConfirmationEmail: sendConfirmationEmail,
+  generateTicketId: generateTicketId
 };

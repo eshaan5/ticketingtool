@@ -1,5 +1,5 @@
-var Ticket = require("./api/ticket/ticket.modal");
-var User = require("./api/user/user.modal");
+var Ticket = require("../api/ticket/ticket.modal");
+var User = require("../api/user/user.modal");
 
 function assignTicketsToAgents() {
   Ticket.aggregate([

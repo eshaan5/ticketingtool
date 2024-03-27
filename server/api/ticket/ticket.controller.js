@@ -1,7 +1,8 @@
 var Ticket = require("./ticket.modal");
-var s3Upload = require("../../s3Service").s3Upload;
+var s3Upload = require("../../utils/s3Service").s3Upload;
 var Log = require("../log/log.modal");
 var PendingRequest = require("../pendingRequests/pendingRequests.modal");
+var enqueueTicket = require("../../utils/SQSProducer");
 
 function createTicket(req, res) {
   var ticket = req.body;
@@ -9,6 +10,7 @@ function createTicket(req, res) {
   ticket.assignedTo = {};
   ticket.assignedTo.agentId = req.user._id;
   ticket.assignedTo.agentName = req.user.name;
+  ticket.brandId = req.user.brandId;
 
   s3Upload(req.files)
     .then(function (data) {
@@ -18,20 +20,11 @@ function createTicket(req, res) {
           name: file.key,
         };
       });
-      return Ticket.create(ticket);
+      return enqueueTicket(ticket);
     })
-    .then(function (ticket) {
-      var log = new Log({
-        ticketId: ticket._id,
-        userId: req.user._id,
-        action: "create",
-        updatedTicketState: ticket.toObject(),
-        // Other log fields
-      });
-
-      log.save();
-
-      res.status(201).json(ticket);
+    .then(function (data) {
+      console.log(data);
+      res.status(200).json({ message: "Ticket created successfully" });
     })
     .catch(function (err) {
       res.status(500).json(err);

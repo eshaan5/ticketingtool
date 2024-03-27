@@ -1,9 +1,8 @@
 var Imap = require("imap");
 var simpleParser = require("mailparser").simpleParser;
-var Brand = require("./api/brand/brand.modal");
+var Brand = require("../api/brand/brand.modal");
 var s3Upload = require("./s3Service").s3Upload;
-var Ticket = require("./api/ticket/ticket.modal");
-var Log = require("./api/log/log.modal");
+var enqueueTicket = require("./SQSProducer");
 
 function createTicketFromEmail() {
   Brand.find({}).then(function (brands) {
@@ -57,16 +56,7 @@ function createTicketFromEmail() {
                           name: file.key,
                         };
                       });
-                      return Ticket.create(ticket);
-                    })
-                    .then(function (ticket) {
-                      var log = new Log({
-                        ticketId: ticket._id,
-                        action: "create",
-                        updatedTicketState: ticket.toObject(),
-                      });
-
-                      log.save();
+                      enqueueTicket(ticket);
                     })
                     .catch(function (err) {
                       console.log(err);
