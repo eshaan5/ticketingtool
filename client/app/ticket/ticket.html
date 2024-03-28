@@ -66,6 +66,14 @@
   </div>
   <div class="modal-footer">
     <!-- <button type="button" class="btn btn-danger" ng-click="deleteTicket()" ng-if="editMode">Delete Ticket</button> -->
+    <button type="button" class="btn btn-info" ng-click="viewLogs(1)">View Logs</button>
     <button type="button" class="btn btn-secondary" ng-click="updateTicket(selectedAgentId)" ng-if="editMode">Save Changes</button>
+  </div>
+  <div ng-if="showLogs">
+    <h4>Logs:</h4>
+    <ul>
+      <li ng-repeat="log in logs">{{ log }}</li> <!-- Displaying logs with ng-repeat -->
+    </ul>
+    <ul uib-pagination boundary-links="true" total-items="totalLogs" ng-model="currentPage" items-per-page="pageSize" class="pagination-sm" previous-text="&lsaquo;" ng-change="viewLogs(currentPage)" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
   </div>
 </div>

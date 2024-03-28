@@ -62,6 +62,7 @@ function updateTicket(req, res) {
   var prevTicket;
 
   ticket.assignedTo = JSON.parse(ticket.assignedTo);
+  ticket.clientDetails = JSON.parse(ticket.clientDetails);
   var agent = ticket.assignedTo;
 
   Ticket.findById(ticket._id)
@@ -114,7 +115,7 @@ function updateTicket(req, res) {
       }
 
       var log = new Log({
-        ticketId: ticket._id,
+        ticketId: ticket.ticketId,
         userId: req.user._id,
         action: action,
         updatedTicketState: updateTicket.toObject(),

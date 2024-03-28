@@ -10,6 +10,22 @@ angular.module("myApp").controller("TicketController", [
 
     $scope.editMode = true;
     $scope.selectedAgentId = $scope.ticket.assignedTo.agentId;
+    $scope.showLogs = false;
+    $scope.currentPage = 1;
+    $scope.pageSize = 1; // Number of logs per page
+
+    $scope.viewLogs = function (currPage) {
+      TicketService.getLogs($scope.ticket.ticketId, currPage, $scope.pageSize)
+        .then(function (response) {
+          $scope.logs = response.data.logs;
+          $scope.totalLogs = response.data.total;
+          $scope.showLogs = true;
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    };
+    // Fetch logs for the ticket
 
     TicketFieldService.getTicketTypes().then(function (response) {
       $scope.ticketTypes = response.data.map(function (type) {
@@ -46,14 +62,15 @@ angular.module("myApp").controller("TicketController", [
         return agent.agentId == selectedAgentId;
       }).agentName;
 
-      formData.append("type", $scope.ticket.type);
-      formData.append("relatedTo", $scope.ticket.relatedTo);
-      formData.append("priority", $scope.ticket.priority);
-      formData.append("description", $scope.ticket.description);
-      formData.append("status", $scope.ticket.status);
+      for (var key in $scope.ticket) {
+        if (key == "attachments") continue;
+        if (key == "assignedTo") continue;
+        if (key == "clientDetails") continue;
+        formData.append(key, $scope.ticket[key]);
+      }
       formData.append("attachments", JSON.stringify($scope.ticket.attachments));
-      formData.append("_id", $scope.ticket._id);
       formData.append("assignedTo", JSON.stringify({ agentId: selectedAgentId, agentName: newAgentName }));
+      formData.append("clientDetails", JSON.stringify($scope.ticket.clientDetails));
 
       // Append files
       var files = document.getElementById("attachments").files;

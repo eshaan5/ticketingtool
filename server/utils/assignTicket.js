@@ -1,5 +1,6 @@
 var Ticket = require("../api/ticket/ticket.modal");
 var User = require("../api/user/user.modal");
+var Log = require("../api/log/log.modal");
 
 function assignTicketsToAgents() {
   Ticket.aggregate([
@@ -34,8 +35,14 @@ function assignTicketsToAgents() {
               };
               i = (i + 1) % agents.length;
               Ticket.findByIdAndUpdate(t._id, t)
-                .then(function () {
-                  console.log("Ticket assigned to agent");
+                .then(function (ticket) {
+                  var log = new Log({
+                    ticketId: ticket.ticketId,
+                    action: "assigned ticket to " + agents[i].name,
+                    updatedTicketState: ticket.toObject(),
+                  });
+
+                  log.save();
                 })
                 .catch(function (err) {
                   console.log(err);

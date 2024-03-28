@@ -61,7 +61,7 @@ function generateTicketId (brandId) {
 
   return Ticket.countDocuments({brandId: brandId})
     .then(count => {
-      return "#TC-" + (count+1);
+      return "TC-" + (count+1);
     })
     .catch(err => {
       console.error("Error generating ticket ID:", err);

@@ -51,7 +51,7 @@ function signin(req, res) {
           return res.status(400).json({ message: "Password is incorrect!" });
         }
 
-        var token = jwt.sign({ username: existingUser.username, role: existingUser.role, id: existingUser._id }, "test", { expiresIn: "1h" });
+        var token = jwt.sign({ username: existingUser.username, role: existingUser.role, id: existingUser._id }, "test", { expiresIn: "1d" });
 
         res.status(200).json({ result: existingUser, token: token });
       });

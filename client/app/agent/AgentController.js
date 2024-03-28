@@ -6,7 +6,7 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
     $location.url($location.path()); // Clear query parameters
   }
 
-  if (localStorage.getItem("time") && new Date().getTime() - localStorage.getItem("time") > 3600000) {
+  if (localStorage.getItem("time") && new Date().getTime() - localStorage.getItem("time") > 86400000) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("time");

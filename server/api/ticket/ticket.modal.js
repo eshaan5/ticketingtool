@@ -61,6 +61,10 @@ var ticketSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Brand",
     },
+    ticketId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
