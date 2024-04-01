@@ -10,7 +10,7 @@ function getLogs(req, res) {
   Log.countDocuments({ ticketId: ticketId})
   .then(function (count) {
     Log.find({ ticketId: ticketId })
-      .sort({ createdAt: -1 })
+      .sort({ timestamp: -1 })
       .skip((page - 1) * pageSize)
       .limit(pageSize)
       .then(function (logs) {

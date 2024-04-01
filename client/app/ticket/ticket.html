@@ -72,7 +72,7 @@
   <div ng-if="showLogs">
     <h4>Logs:</h4>
     <ul>
-      <li ng-repeat="log in logs" ng-click="openModal(log)">{{ log.user.name || log.user.agentName }} {{log.action}}d the ticket on {{log.timestamp | date: 'dd MMM yyyy'}}</li>
+      <li ng-repeat="log in logs" style="cursor: pointer;" ng-click="openModal(log)">{{ log.user.name || log.user.agentName }} {{log.action}}<span ng-if="log.action == 'create' || log.action == 'update'">d the ticket</span> on {{log.timestamp | date: 'dd MMM yyyy'}}</li>
       <!-- Displaying logs with ng-repeat -->
     </ul>
     <ul uib-pagination boundary-links="true" total-items="totalLogs" ng-model="currentPage" items-per-page="pageSize" class="pagination-sm" previous-text="&lsaquo;" ng-change="viewLogs(currentPage)" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>

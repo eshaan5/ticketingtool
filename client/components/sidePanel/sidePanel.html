@@ -32,6 +32,7 @@
         <li ng-click="openFieldModal('type')" ng-show="isAdmin"><a>Add Ticket Type</a></li>
         <li ng-click="openFieldModal('relation')" ng-show="isAdmin"><a>Add Ticket's Relation</a></li>
         <li ng-click="openAddBrandModal()" ng-show="isSuperAdmin"><a>Add Brand</a></li>
+        <li ng-click="openPendingRequestsModal()" ng-show="!isSuperAdmin && !isAdmin"><a>Pending Requests</a></li>
         <!-- Add more menu items as needed -->
       </ul>
     </div>

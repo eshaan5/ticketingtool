@@ -31,8 +31,13 @@ function manipulateRequest(req, res) {
         ticket
           .save()
           .then(function (updatedTicket) {
+            return Ticket.findById(updatedTicket._id)
+            .select("assignedTo priority status attachments type relatedTo description _id ticketId");
+          })
+          .then(function (updatedTicket) {
             var log = new Log({
-              ticketId: ticket._id,
+              ticketDocId: updatedTicket._id,
+              ticketId: updatedTicket.ticketId,
               userId: req.user._id,
               action: action + "ed the request",
               updatedTicketState: updatedTicket.toObject(),

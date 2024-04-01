@@ -21,7 +21,9 @@ angular.module("myApp").controller("LogModalController", function ($scope, $uibM
     }
 
     if (field === "assignedTo") {
-      return $scope.previousTicket.assignedTo.agentId != $scope.updatedTicket.assignedTo.agentId;
+      if ($scope.previousTicket.assignedTo && $scope.updatedTicket.assignedTo) return $scope.previousTicket.assignedTo.agentId != $scope.updatedTicket.assignedTo.agentId;
+
+      return true;
     }
 
     return $scope.previousTicket[field] !== $scope.updatedTicket[field];
