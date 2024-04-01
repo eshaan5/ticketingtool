@@ -3,6 +3,7 @@ var generatePassword = require("../../utils/util").generatePassword;
 var sendConfirmationEmail = require("../../utils/util").sendConfirmationEmail;
 var bcrypt = require("bcrypt");
 var User = require("../user/user.modal");
+var permissions = require("../../permissions").permissions;
 
 function createBrand(req, res) {
   var brand = { name: req.body.name, brandEmail: req.body.brandEmail, password: req.body.password };
@@ -12,7 +13,7 @@ function createBrand(req, res) {
     var password = generatePassword();
     sendConfirmationEmail(email, password);
     bcrypt.hash(password, 12).then(function (hashedPassword) {
-      User.create({ email: email, password: hashedPassword, brandId: brand._id, role: "admin" }).then(function (user) {
+      User.create({ email: email, password: hashedPassword, brandId: brand._id, role: "admin", permissions: permissions.admin }).then(function (user) {
         res.status(201).json(brand);
       });
     });

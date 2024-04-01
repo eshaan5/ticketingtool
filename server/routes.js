@@ -6,4 +6,5 @@ module.exports = function (app) {
     app.use("/ticket", require("./api/ticket/"));
     app.use("/pendingRequests", require("./api/pendingRequests/"));
     app.use("/log", require("./api/log/"));
+    app.use("/permissions", require("./permissions").router);
 }

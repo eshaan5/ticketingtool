@@ -2,6 +2,7 @@ var User = require("./user.modal.js");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var Brand = require("../brand/brand.modal.js");
+var permissions = require("../../permissions.js").permissions;
 
 var generatePassword = require("../../utils/util.js").generatePassword;
 var sendConfirmationEmail = require("../../utils/util.js").sendConfirmationEmail;
@@ -73,14 +74,15 @@ function updateUser(req, res) {
 function createUserByEmail(req, res) {
   console.log("createUserByEmail");
   var email = req.body.email;
-  var role = "agent";
+  var role = req.body.role;
+  var customPermissions = req.body.permissions;
   var brandId = req.user.brandId;
 
   var password = generatePassword();
   sendConfirmationEmail(email, password);
 
   bcrypt.hash(password, 12).then(function (hashedPassword) {
-    User.create({ email: email, password: hashedPassword, brandId: brandId, role: role })
+    User.create({ email: email, password: hashedPassword, brandId: brandId, role: role, permissions: customPermissions})
       .then(function (user) {
         res.status(201).json(user);
       })

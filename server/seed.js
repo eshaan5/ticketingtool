@@ -1,5 +1,6 @@
 var User = require("./api/user/user.modal.js");
 var bcrypt = require("bcrypt");
+var permissions = require("./permissions").permissions;
 
 module.exports = function() {
   User.findOne({ role: "superAdmin" }).then(function (superAdmin) {
@@ -12,6 +13,7 @@ module.exports = function() {
       email: "superadmin@gmail.com",
       username: "superadmin",
       role: "superAdmin",
+      permissions: permissions.superAdmin,
     };
 
     bcrypt.hash("Passw0rd#", 12).then(function (hash) {

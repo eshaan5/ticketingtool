@@ -32,6 +32,9 @@ var userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    permissions: {
+      type: [String],
+    },
   },
   {
     timestamps: true,
