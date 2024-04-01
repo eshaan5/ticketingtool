@@ -23,7 +23,6 @@ function createTicket(req, res) {
       return enqueueTicket(ticket);
     })
     .then(function (data) {
-      console.log(data);
       res.status(200).json({ message: "Ticket created successfully" });
     })
     .catch(function (err) {
@@ -66,6 +65,7 @@ function updateTicket(req, res) {
   var agent = ticket.assignedTo;
 
   Ticket.findById(ticket._id)
+    .select("assignedTo priority status attachments type relatedTo description")
     .then(function (previousTicket) {
       prevTicket = previousTicket.toObject();
       if (ticket.assignedTo.agentId != previousTicket.assignedTo.agentId) {
@@ -95,7 +95,7 @@ function updateTicket(req, res) {
             };
           }));
 
-      return Ticket.findByIdAndUpdate(ticket._id, ticket, { new: true });
+      return Ticket.findByIdAndUpdate(ticket._id, ticket, { new: true, select: "assignedTo priority status attachments type relatedTo description _id ticketId" });
     })
     .then(function (updateTicket) {
       if (!updateTicket.assignedTo.agentId) {
@@ -115,8 +115,9 @@ function updateTicket(req, res) {
       }
 
       var log = new Log({
+        ticketDocId: updateTicket._id,
         ticketId: ticket.ticketId,
-        userId: req.user._id,
+        user: req.user,
         action: action,
         updatedTicketState: updateTicket.toObject(),
         previousTicketState: prevTicket,

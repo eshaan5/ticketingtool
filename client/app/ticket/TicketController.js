@@ -4,7 +4,8 @@ angular.module("myApp").controller("TicketController", [
   "UserService",
   "TicketService",
   "$location",
-  function ($scope, TicketFieldService, UserService, TicketService, $location) {
+  "$uibModal", // Inject the $uibModal service
+  function ($scope, TicketFieldService, UserService, TicketService, $location, $uibModal) {
     $scope.ticket = JSON.parse($location.search().ticket); // Make a copy of the ticket object passed from the parent scope
     $scope.newAttachment = null; // New attachment to be added
 
@@ -12,7 +13,7 @@ angular.module("myApp").controller("TicketController", [
     $scope.selectedAgentId = $scope.ticket.assignedTo.agentId;
     $scope.showLogs = false;
     $scope.currentPage = 1;
-    $scope.pageSize = 1; // Number of logs per page
+    $scope.pageSize = 5; // Number of logs per page
 
     $scope.viewLogs = function (currPage) {
       TicketService.getLogs($scope.ticket.ticketId, currPage, $scope.pageSize)
@@ -86,6 +87,30 @@ angular.module("myApp").controller("TicketController", [
         .catch(function (err) {
           console.log(err);
         });
+    };
+
+    $scope.openModal = function (log) {
+      if (log.action == "create") return;
+
+      var modalInstance = $uibModal.open({
+        templateUrl: "logModal.html",
+        controller: "LogModalController",
+        size: "lg",
+        resolve: {
+          log: function () {
+            return log;
+          },
+        },
+      });
+
+      modalInstance.result.then(
+        function (selectedItem) {
+          $scope.selected = selectedItem;
+        },
+        function () {
+          console.log("Modal dismissed at: " + new Date());
+        }
+      );
     };
   },
 ]);

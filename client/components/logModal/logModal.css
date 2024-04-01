@@ -1,0 +1,21 @@
+.modal-body {
+  display: flex;
+}
+
+.left-side,
+.right-side {
+  min-width: 50%;
+  max-width: 50%;
+  padding: 0 20px;
+  word-wrap: normal;
+}
+
+.red {
+  color: red;
+  background-color: #ffe5e5;
+}
+
+.green {
+  color: green;
+  background-color: #e5ffe5; /* Extremely light green */
+}

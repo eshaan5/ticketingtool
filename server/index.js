@@ -1,14 +1,10 @@
-// starting point of server
-// body parser, cors - for cross-origin resource sharing, express - for routing, mongoose - for models, nodemon - for auto-restarting server
-// type: module in package.json helps in using import instead of require
-
 var express = require("express");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var mongoose = require("mongoose");
 var dotenv = require("dotenv");
 // require("./utils/cron");
-// require("./utils/SQSConsumer");
+require("./utils/SQSConsumer");
 
 var seedSuperAdmin = require("./seed");
 

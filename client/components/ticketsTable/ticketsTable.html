@@ -16,7 +16,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="ticket in tickets" ng-click="openTicketModal(ticket)">
-      <td>#TC-{{ $index+1 }}</td>
+      <td>#{{ticket.ticketId}}</td>
       <td>{{ ticket.title }}</td>
       <td><span ng-class="{'high-priority': ticket.priority === 'High', 'medium-priority': ticket.priority === 'Medium', 'low-priority': ticket.priority === 'Low'}">{{ ticket.priority }}</span></td>
       <td>{{ ticket.description }}</td>

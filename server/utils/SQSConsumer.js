@@ -24,20 +24,30 @@ function pollQueue() {
           generateTicketId(ticket.brandId)
             .then(function (ticketId) {
               ticket.ticketId = ticketId;
-              console.log(ticket, "1");
 
               return Ticket.create(ticket);
             })
+            .then(function (newTicket) {
+              return Ticket.findById(newTicket._id).select("assignedTo priority status attachments type relatedTo description _id ticketId");
+            })
             .then(function (ticket) {
               var log = new Log({
+                ticketDocId: ticket._id,
                 ticketId: ticket.ticketId,
-                userId: ticket.assignedTo.agentId,
+                user: ticket.assignedTo,
                 action: "create",
                 updatedTicketState: ticket.toObject(),
                 // Other log fields
               });
 
               log.save();
+
+              sqs
+                .deleteMessage({
+                  QueueUrl: params.QueueUrl,
+                  ReceiptHandle: message.ReceiptHandle,
+                })
+                .promise();
             })
             .catch(function () {
               sqs
@@ -45,20 +55,13 @@ function pollQueue() {
                   QueueUrl: params.QueueUrl,
                   ReceiptHandle: message.ReceiptHandle,
                 })
-                .promise()
-
+                .promise();
             });
         });
       }
     })
     .catch(function (err) {
       console.log(err);
-      sqs
-        .deleteMessage({
-          QueueUrl: params.QueueUrl,
-          ReceiptHandle: message.ReceiptHandle,
-        })
-        .promise();
     });
 }
 

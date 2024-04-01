@@ -5,3 +5,7 @@ body {
   padding: 0;
   color: rgb(24, 24, 24) !important;
 }
+
+ul {
+  list-style-type: none; /* Remove bullets */
+}
