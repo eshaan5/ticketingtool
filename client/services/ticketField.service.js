@@ -2,7 +2,7 @@ app.service("TicketFieldService", function ($http) {
 
     this.addTicketField = function (fieldData, type) {
 
-        var urlTo = type == 'type' ? "http://localhost:3000/ticketType/addTicketType" : "http://localhost:3000/ticketRelation/addTicketRelation";
+        var urlTo = type == 'type' ? "ticketType/addTicketType" : "ticketRelation/addTicketRelation";
 
         return $http({
             method: "POST",
@@ -18,7 +18,7 @@ app.service("TicketFieldService", function ($http) {
     this.getTicketTypes = function () {
         return $http({
             method: "GET",
-            url: "http://localhost:3000/ticketType/getTicketTypes",
+            url: "ticketType/getTicketTypes",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + localStorage.getItem("token"),
@@ -29,7 +29,7 @@ app.service("TicketFieldService", function ($http) {
     this.getTicketRelations = function () {
         return $http({
             method: "GET",
-            url: "http://localhost:3000/ticketRelation/getTicketRelations",
+            url: "ticketRelation/getTicketRelations",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + localStorage.getItem("token"),

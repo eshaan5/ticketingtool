@@ -1,12 +1,15 @@
 .checkbox-label {
-    display: inline-block;
-    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-right: 5px; /* Adjust as needed */
+    gap: 5px;
   }
 
   .checkboxes {
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
     margin-top: 10px;
   }
   

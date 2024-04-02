@@ -40,11 +40,12 @@ angular.module("myApp").controller("TicketController", [
       });
     });
 
-    UserService.getAgents().then(function (response) {
-      $scope.agents = response.data.map(function (agent) {
+    UserService.getUsers().then(function (response) {
+      $scope.agents = response.data.map(function (user) {
+        if (user.role != "agent") return;
         return {
-          agentId: agent._id,
-          agentName: agent.name,
+          agentId: user._id,
+          agentName: user.name,
         };
       });
     });

@@ -4,7 +4,7 @@ app.service("AgentService", function ($http) {
     // Update the user details
     return $http({
       method: "GET",
-      url: "http://localhost:3000/user/updateOnlineStatus",
+      url: "user/updateOnlineStatus",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -16,7 +16,7 @@ app.service("AgentService", function ($http) {
     // Get the pending requests for the agent
     return $http({
       method: "GET",
-      url: "http://localhost:3000/pendingRequests",
+      url: "pendingRequests",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),

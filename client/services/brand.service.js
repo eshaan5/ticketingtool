@@ -3,7 +3,7 @@ app.service("BrandService", function ($http) {
   this.addBrand = function (formData) {
     return $http({
       method: "POST",
-      url: "http://localhost:3000/brand/createBrand",
+      url: "brand/createBrand",
       data: formData,
       headers: {
         "Content-Type": "application/json",
@@ -15,7 +15,7 @@ app.service("BrandService", function ($http) {
   this.getBrands = function () {
     return $http({
       method: "GET",
-      url: "http://localhost:3000/brand/allBrands",
+      url: "brand/allBrands",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -26,7 +26,7 @@ app.service("BrandService", function ($http) {
   this.disableBrand = function (id, brand) {
     return $http({
       method: "PUT",
-      url: "http://localhost:3000/brand/disableBrand/" + id,
+      url: "brand/disableBrand/" + id,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -38,7 +38,7 @@ app.service("BrandService", function ($http) {
   this.getBrand = function (id) {
     return $http({
       method: "GET",
-      url: "http://localhost:3000/brand/getBrand/" + id,
+      url: "brand/getBrand/" + id,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -49,7 +49,7 @@ app.service("BrandService", function ($http) {
   this.updateBrand = function (formData) {
     return $http({
       method: "PUT",
-      url: "http://localhost:3000/brand/updateBrand",
+      url: "brand/updateBrand",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),

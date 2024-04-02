@@ -3,7 +3,7 @@ app.service("UserService", function ($http) {
   this.updateUser = function (formData) {
     return $http({
       method: "PUT",
-      url: "http://localhost:3000/user/updateUser",
+      url: "user/updateUser",
       data: formData,
       headers: {
         "Content-Type": "application/json",
@@ -15,7 +15,7 @@ app.service("UserService", function ($http) {
   this.getUsers = function () {
     return $http({
       method: "GET",
-      url: "http://localhost:3000/user/allUsers",
+      url: "user/allUsers",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -26,7 +26,7 @@ app.service("UserService", function ($http) {
   this.addUser = function (formData) {
     return $http({
       method: "POST",
-      url: "http://localhost:3000/user/createUser",
+      url: "user/createUser",
       data: formData,
       params: {
         brandId: JSON.parse(localStorage.getItem("user")).brandId,
