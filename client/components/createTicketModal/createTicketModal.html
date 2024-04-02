@@ -49,24 +49,24 @@
       </div>
       <div class="form-group">
         <label for="description"> Description: </label>
-        <input id="description" type="text" class="form-control" ng-model="newTicket.description" />
+        <textarea id="description" class="form-control" ng-model="newTicket.description" required></textarea>
       </div>
 
       <div class="form-code2">
       <div class="form-group">
         <label for="clientName">Client Name:</label>
-        <input id="clientName" type="text" class="form-control" ng-model="newTicket.clientName" required />
+        <input id="clientName" type="text" class="form-control" ng-model="newTicket.clientDetails.name" required />
       </div>
 
       <div class="form-group">
         <label for="clientNumber">Client Number:</label>
-        <input id="clientNumber" name="clientNumber" type="text" class="form-control" ng-model="newTicket.clientNumber" ng-pattern="/^\d{10}$/" />
+        <input id="clientNumber" name="clientNumber" type="text" class="form-control" ng-model="newTicket.clientDetails.phone" ng-pattern="/^\d{10}$/" />
         <p class="error-message" ng-show="createTicketForm.clientNumber.$error.pattern && createTicketForm.clientNumber.$dirty">Phone number should be 10 digits.</p>
       </div>
 
       <div class="form-group">
         <label for="clientEmail">Client Email:</label>
-        <input id="clientEmail" name="clientEmail" type="email" class="form-control" ng-model="newTicket.clientEmail" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" />
+        <input id="clientEmail" name="clientEmail" type="email" class="form-control" ng-model="newTicket.clientDetails.email" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" />
         <p class="error-message" ng-show="createTicketForm.clientEmail.$error.pattern && createTicketForm.clientEmail.$dirty">Enter a valid email address.</p>
       </div>
     </div>

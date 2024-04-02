@@ -11,6 +11,7 @@ function createTicket(req, res) {
   ticket.assignedTo.agentId = req.user._id;
   ticket.assignedTo.agentName = req.user.name;
   ticket.brandId = req.user.brandId;
+  ticket.clientDetails = JSON.parse(ticket.clientDetails);
 
   s3Upload(req.files)
     .then(function (data) {
