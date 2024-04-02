@@ -1,4 +1,4 @@
-angular.module("myApp").controller("sideBarController", function ($scope, $location, $uibModal, UserService) {
+angular.module("myApp").controller("sideBarController", function ($scope, $location, $uibModal, UserService, $route) {
   $scope.showSideBar = true;
 
   if (localStorage.getItem("brand")) {
@@ -19,6 +19,23 @@ angular.module("myApp").controller("sideBarController", function ($scope, $locat
       $location.path("/");
     });
   };
+
+  $scope.openAddUserModal = function () {
+    var modalInstance = $uibModal.open({
+      templateUrl: "addUserModal.html",
+      controller: "AddUserModalController",
+      size: "lg",
+    });
+
+    modalInstance.result.then(
+      function (user) {
+        $scope.users.push(user);
+        $route.reload();
+      },
+      function () {}
+    );
+  };
+
   $scope.goHome = function () {
     if ($scope.user.role == "superAdmin") $location.path("/superAdmin");
     else if ($scope.user.role == "admin") $location.path("/admin");

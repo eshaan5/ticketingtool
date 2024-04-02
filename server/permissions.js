@@ -3,9 +3,9 @@ var passport = require("./passport.js");
 var middlewares = require("./middlewares.js");
 
 var permissions = {
-  superAdmin: ["create-brand", "read-brand", "search-brand", "disable-brand"],
-  admin: ["create-admin", "disable-admin", "disable-agent", "create-agent", "create-ticket-characteristics", "read-users", "read-agents", "read-tickets", "read-ticket-comments", "read-ticket-logs"],
-  agent: ["create-ticket", "get-ticket", "update-ticket", "comment-ticket", "read-ticket-comments", "read-ticket-logs"],
+  superAdmin: {'create-brand': true, 'read-brand': true, 'search-brand': true, 'disable-brand': true},
+  admin: {'create-admin': true, 'disable-admin': true, 'disable-agent': true, 'create-agent': true, 'create-ticket-characteristics': true, 'read-users': true, 'read-agents': true, 'read-tickets': true, 'read-ticket-comments': true, 'read-ticket-logs': true},
+  agent: {'create-ticket': true, 'get-ticket': true, 'update-ticket': true, 'comment-ticket': true, 'read-ticket-comments': true, 'read-ticket-logs': true},
 };
 
 router.get("/:role", passport.authenticate("jwt", { session: false }), middlewares.checkAdmin, function (req, res) {

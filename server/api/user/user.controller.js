@@ -72,7 +72,6 @@ function updateUser(req, res) {
 }
 
 function createUserByEmail(req, res) {
-  console.log("createUserByEmail");
   var email = req.body.email;
   var role = req.body.role;
   var customPermissions = req.body.permissions;
@@ -92,14 +91,14 @@ function createUserByEmail(req, res) {
   });
 }
 
-function getAllAgents(req, res) {
+function getAllUsers(req, res) {
   var searchCriteria = {
-    $and: [{ role: "agent" }, { brandId: req.user.brandId }],
+    $and: [{ brandId: req.user.brandId }],
   };
 
   User.find(searchCriteria)
-    .then(function (agents) {
-      res.status(200).json(agents);
+    .then(function (users) {
+      res.status(200).json(users);
     })
     .catch(function (err) {
       res.status(500).json(err);
@@ -126,6 +125,6 @@ module.exports = {
   signin: signin,
   updateUser: updateUser,
   createUserByEmail: createUserByEmail,
-  getAllAgents: getAllAgents,
+  getAllUsers: getAllUsers,
   updateOnlineStatus: updateOnlineStatus,
 };

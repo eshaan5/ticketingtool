@@ -2,7 +2,7 @@ app.controller("AdminController", function ($scope, $location, AdminService, Bra
   // Controller logic for signup page
   $scope.formData = {}; // Initialize form data object
   $scope.show = false;
-  $scope.agents = [];
+  $scope.users = [];
 
   if (localStorage.getItem("time") && new Date().getTime() - localStorage.getItem("time") > 3600000) {
     localStorage.removeItem("token");
@@ -31,8 +31,8 @@ app.controller("AdminController", function ($scope, $location, AdminService, Bra
 
   $scope.brand = JSON.parse(localStorage.getItem("brand"));
 
-  UserService.getAgents().then(function (response) {
-    $scope.agents = response.data;
+  UserService.getUsers().then(function (response) {
+    $scope.users = response.data;
   });
 
   $scope.openFieldModal = function (modalType) {
@@ -54,16 +54,4 @@ app.controller("AdminController", function ($scope, $location, AdminService, Bra
         console.log('Modal dismissed');
     });
 };
-
-  $scope.submitForm = function () {
-    // Handle form submission here
-    if ($scope.addAgentForm.$invalid) {
-      return;
-    }
-    console.log($scope.formData);
-    AdminService.addAgent($scope.formData).then(function (response) {
-      $scope.agents.push(response.data.result);
-      $route.reload();
-    });
-  };
 });

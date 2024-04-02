@@ -12,10 +12,25 @@ app.service("UserService", function ($http) {
     });
   };
 
-  this.getAgents = function () {
+  this.getUsers = function () {
     return $http({
       method: "GET",
-      url: "http://localhost:3000/user/allAgents",
+      url: "http://localhost:3000/user/allUsers",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  };
+
+  this.addUser = function (formData) {
+    return $http({
+      method: "POST",
+      url: "http://localhost:3000/user/createUser",
+      data: formData,
+      params: {
+        brandId: JSON.parse(localStorage.getItem("user")).brandId,
+      },
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),

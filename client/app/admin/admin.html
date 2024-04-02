@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="/client/app/admin/admin.css" />
 <div ng-include="'/client/components/sidePanel/sidePanel.html'"></div>
 <div class="container" ng-controller="AdminController">
-
   <div id="detailsModal" ng-show="show">
     <div class="modal-content">
       <div ng-include="'/client/components/detailsForm/detailsForm.html'"></div>
@@ -17,41 +16,26 @@
   </script>
 
   <div class="content">
-    <div class="heading-section">
-      <h2>Add Agent!</h2>
-    </div>
-    <form name="addAgentForm" class="form-section" ng-submit="submitForm()">
-      <div class="form-content">
-        <div class="form-field">
-          <label for="email">Agent Email</label>
-          <div class="input-container">
-            <input type="email" id="email" placeholder="Email" ng-model="formData.email" name="email" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" required />
-            <p class="error-message" ng-show="addAgentForm.email.$error.pattern && addAgentForm.email.$dirty">Invalid email address.</p>
-          </div>
-        </div>
-        <button class="continue-button btn btn-primary" type="submit">Add Agent</button>
-      </div>
-    </form>
-
-    <table class="users-table" ng-show="agents.length">
+    <script type="text/ng-template" id="addUserModal.html">
+      <div ng-include="'/client/components/addUserModal/addUserModal.html'"></div>
+    </script>
+    <table class="users-table" ng-show="users.length">
       <thead>
         <tr>
           <th>Name</th>
+          <th>Role</th>
           <th>Username</th>
           <th>Email</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="agent in agents">
-          <td>{{ agent.name }}</td>
-          <td>{{ agent.username }}</td>
-          <td>{{ agent.email }}</td>
+        <tr ng-repeat="user in users">
+          <td>{{ user.name }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
         </tr>
       </tbody>
     </table>
-
-    <!-- <div id="toast" ng-show="show" class="toast">
-      <div class="toast-body">Agent created successfully!</div>
-    </div> -->
   </div>
 </div>

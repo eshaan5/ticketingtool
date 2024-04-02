@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/client/components/addUserModal/addUserModal.css" />
+<div class="modal-header">
+  <h4 class="modal-title">Add User</h4>
+</div>
+<div class="modal-body">
+  <form name="addUserForm" ng-submit="submitForm()">
+    <div class="form-group">
+      <label for="email">User Email</label>
+      <input type="email" id="email" class="form-control" placeholder="Email" ng-model="formData.email" name="email" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" required />
+      <p class="error-message" ng-show="addUserForm.email.$error.pattern && addUserForm.email.$dirty">Invalid email address.</p>
+    </div>
+    <div class="form-group">
+      <label for="role">Role</label>
+      <select id="role" class="form-control" ng-model="formData.role" ng-options="role for role in roles" ng-change="loadPermissions(formData.role)" required></select>
+    </div>
+    <h4>Permissions</h4>
+    <div class="checkboxes">
+      <div class="form-group" ng-repeat="(permission, label) in permissions">
+        <label class="checkbox-label">
+          <input type="checkbox" type="checkbox" type="checkbox" ng-model="formData.permissions[permission]" />
+          {{ permission }}
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add User</button>
+  </form>
+</div>

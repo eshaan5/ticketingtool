@@ -33,7 +33,7 @@ var userSchema = new mongoose.Schema(
       default: false,
     },
     permissions: {
-      type: [String],
+      type: Object,
     },
   },
   {
@@ -42,8 +42,8 @@ var userSchema = new mongoose.Schema(
 );
 
 // Define a pre-save hook to validate the user before saving
-userSchema.pre('save', function(next) {
-  if (this.role === 'admin' || this.role === 'agent') {
+userSchema.pre("save", function (next) {
+  if (this.role === "admin" || this.role === "agent") {
     // Allow brand field to be set
     next();
   } else {

@@ -1,0 +1,19 @@
+.checkbox-label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px; /* Adjust as needed */
+  }
+
+  .checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  
+  .checkbox-label input[type="checkbox"] {
+    width: 16px; /* Adjust the width and height to reduce the size */
+    height: 16px;
+    margin: 0;
+    vertical-align: middle;
+  }
+  

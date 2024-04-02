@@ -52,7 +52,7 @@ function sendConfirmationEmail(email, password) {
     if (error) {
       console.error("Error sending confirmation email:", error);
     } else {
-      console.log("Confirmation email sent:", info.response);
+      console.log("Confirmation email sent");
     }
   });
 }
