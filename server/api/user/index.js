@@ -11,8 +11,8 @@ var middlewares = require("../../middlewares.js");
 
 router.post("/login", signin);
 router.put("/updateUser", passport.authenticate("jwt", { session: false }), updateUser);
-router.post("/createUser", passport.authenticate("jwt", { session: false }), middlewares.checkAdmin, createUser);
-router.get("/allUsers", passport.authenticate("jwt", { session: false }), getAllUsers);
+router.post("/createUser", passport.authenticate("jwt", { session: false }), middlewares.checkPermission('create-user'), createUser);
+router.get("/allUsers", passport.authenticate("jwt", { session: false }), middlewares.checkPermission('read-users'), getAllUsers);
 router.get("/updateOnlineStatus", passport.authenticate("jwt", { session: false }), updateOnlineStatus);
 
 module.exports = router;

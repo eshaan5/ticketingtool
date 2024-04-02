@@ -1,4 +1,4 @@
-app.controller("AdminController", function ($scope, $location, AdminService, BrandService, $route, $uibModal, UserService) {
+app.controller("AdminController", function ($scope, $location, BrandService, $uibModal, UserService) {
   // Controller logic for signup page
   $scope.formData = {}; // Initialize form data object
   $scope.show = false;

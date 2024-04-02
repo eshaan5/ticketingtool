@@ -4,11 +4,11 @@ var middlewares = require("./middlewares.js");
 
 var permissions = {
   superAdmin: {'create-brand': true, 'read-brand': true, 'search-brand': true, 'disable-brand': true},
-  admin: {'create-admin': true, 'disable-admin': true, 'disable-agent': true, 'create-agent': true, 'create-ticket-characteristics': true, 'read-users': true, 'read-agents': true, 'read-tickets': true, 'read-ticket-comments': true, 'read-ticket-logs': true},
-  agent: {'create-ticket': true, 'get-ticket': true, 'update-ticket': true, 'comment-ticket': true, 'read-ticket-comments': true, 'read-ticket-logs': true},
+  admin: {'create-user': true, 'disable-user': true, 'create-ticket-characteristics': true, 'read-users': true, 'read-tickets': true, 'read-ticket-comments': true, 'read-ticket-logs': true, 'update-brand': true, 'read-brand': true,},
+  agent: {'create-ticket': true, 'get-ticket': true, 'update-ticket': true, 'comment-ticket': true, 'read-ticket-comments': true, 'read-ticket-logs': true, 'get-ticket-characteristics': true},
 };
 
-router.get("/:role", passport.authenticate("jwt", { session: false }), middlewares.checkAdmin, function (req, res) {
+router.get("/:role", passport.authenticate("jwt", { session: false }), middlewares.checkPermission('create-user'), function (req, res) {
   var role = req.params.role;
   res.status(200).json(permissions[role]);
 });

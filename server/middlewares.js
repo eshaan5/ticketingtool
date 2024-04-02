@@ -12,7 +12,17 @@ function checkAdmin(req, res, next) {
   next();
 }
 
+function checkPermission (permission) {
+  return function (req, res, next) {
+    if (!req.user.permissions[permission]) {
+      return res.status(403).send("Forbidden");
+    }
+    next();
+  };
+}
+
 module.exports = {
   checkSuperAdmin,
   checkAdmin,
+  checkPermission,
 };

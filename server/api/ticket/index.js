@@ -16,8 +16,8 @@ var createTicket = require('./ticket.controller').createTicket;
 var getTickets = require('./ticket.controller').getTickets;
 var updateTicket = require('./ticket.controller').updateTicket;
 
-router.post('/create', passport.authenticate("jwt", { session: false }), upload.array("attachments") ,createTicket);
-router.get('/getTickets', passport.authenticate("jwt", { session: false }), getTickets);
-router.put('/update', passport.authenticate("jwt", { session: false }), upload.array("attachments"), updateTicket);
+router.post('/create', passport.authenticate("jwt", { session: false }), middlewares.checkPermission('create-ticket'), upload.array("attachments") ,createTicket);
+router.get('/getTickets', passport.authenticate("jwt", { session: false }), middlewares.checkPermission('get-ticket'), getTickets);
+router.put('/update', passport.authenticate("jwt", { session: false }), middlewares.checkPermission('update-ticket'), upload.array("attachments"), updateTicket);
 
 module.exports = router;
