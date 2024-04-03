@@ -54,4 +54,8 @@ angular.module("myApp").controller("sideBarController", function ($scope, $locat
       console.log($scope.brand);
     });
   };
+
+  $scope.openAnalytics = function () {
+    $location.path("/analytics");
+  };
 });

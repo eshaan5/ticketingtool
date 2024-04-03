@@ -24,6 +24,10 @@ app.config([
         templateUrl: "./app/ticket/ticket.html",
         controller: "TicketController",
       })
+      .when("/analytics", {
+        templateUrl: "./app/analytics/analytics.html",
+        // controller: "AnalyticsController"
+      })
       .otherwise({
         redirectTo: "/",
       });

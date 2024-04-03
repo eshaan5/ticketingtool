@@ -1,0 +1,17 @@
+.analytics-container {
+    /* margin-top: 80vh; */
+    padding-top: 0 !important;
+    margin-top: 30vh !important;
+    margin-bottom: 0 !important;
+    display: flex;
+}
+
+.container {
+    /* padding-top: 0 !important; */
+    padding-top: 13vh;
+}
+
+h1 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}

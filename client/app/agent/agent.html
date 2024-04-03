@@ -1,16 +1,8 @@
 <link rel="stylesheet" href="/client/app/agent/agent.css" />
 <div ng-include="'/client/components/sidePanel/sidePanel.html'"></div>
 <div class="container" ng-controller="AgentController">
-  <!-- <nav>
-    <img ng-src="{{ brand.logo }}" alt="{{ brand.name }}" width="100px" />
-    <div class="btns">
-      <button ng-click="openPendingRequestsModal()" class="bellBtn"><i class="fa-regular fa-bell bell"></i></button>
-      <button ng-click=" logout()">Logout</button>
-    </div>
-  </nav> -->
 
   <div class="createBtn">
-    <!-- <button ng-show="agent.role == 'agent'" ng-class="{ 'green': agent.isOnline, 'red': !agent.isOnline }" ng-click="toggleOnlineStatus()">{{ agent.isOnline ? 'Go Offline' : 'Go Online' }}</button> -->
     <div ng-class="{toggleOff:!agent.isOnline}">
       <div ng-click="toggleOnlineStatus()" ng-class="{toggleButtonOff:!agent.isOnline}"></div>
   </div>

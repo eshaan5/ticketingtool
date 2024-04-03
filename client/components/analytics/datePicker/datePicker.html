@@ -1,0 +1,20 @@
+<!-- date-range-picker.html -->
+<link rel="stylesheet" href="/client/components/analytics/datePicker/datePicker.css" />
+<div class="date-range-container" ng-controller="DatePickerController">
+    <div class="input-group">
+      <span class="input-group-addon">Start Date</span>
+      <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="startDate" is-open="startDatePopupOpen" ng-click="openStartDatePopup($event)" placeholder="Select start date"
+      ng-change="verifyDates()" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="openStartDatePopup($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">End Date</span>
+      <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="endDate" is-open="endDatePopupOpen" ng-click="openEndDatePopup($event)" placeholder="Select end date" ng-change="verifyDates()" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="openEndDatePopup($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+    </div>
+    <p class="date-warning" ng-if="showDateWarning">{{ dateWarningMessage }}</p>
+  </div>

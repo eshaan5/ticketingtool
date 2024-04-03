@@ -1,0 +1,38 @@
+/* date-range-picker.css */
+.date-range-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin: 0 10px;
+}
+
+.input-group-addon {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+  color: #333;
+}
+
+.form-control {
+  border-color: #ccc;
+  box-shadow: none;
+}
+
+.btn-default {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+  color: #333;
+}
+
+.btn-default:hover {
+  background-color: #e0e0e0;
+}
+
+.date-warning {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}

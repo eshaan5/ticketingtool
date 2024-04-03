@@ -7,4 +7,5 @@ module.exports = function (app) {
     app.use("/pendingRequests", require("./api/pendingRequests/"));
     app.use("/log", require("./api/log/"));
     app.use("/permissions", require("./permissions").router);
+    app.use("/analytics", require("./api/analytics"));
 }

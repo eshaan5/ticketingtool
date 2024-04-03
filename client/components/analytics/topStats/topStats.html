@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/client/components/analytics/topStats/topStats.css" />
+<div class="top-stats-container" ng-controller="TopStatsController">
+    <div class="top-stat">
+      <div class="stat-value">{{ analyticsData.assignedTickets }}</div>
+      <div class="stat-label">Assigned Tickets</div>
+    </div>
+    <div class="top-stat">
+      <div class="stat-value">{{ analyticsData.closedTickets }}</div>
+      <div class="stat-label">Resolved Tickets</div>
+    </div>
+    <div class="top-stat">
+      <div class="stat-value">{{ analyticsData.pendingTickets }}</div>
+      <div class="stat-label">Pending Tickets</div>
+    </div>
+  </div>

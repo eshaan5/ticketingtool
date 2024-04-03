@@ -41,13 +41,13 @@ angular.module("myApp").controller("TicketController", [
     });
 
     UserService.getUsers().then(function (response) {
-      $scope.agents = response.data.map(function (user) {
-        if (user.role != "agent") return;
-        return {
-          agentId: user._id,
-          agentName: user.name,
-        };
-      });
+      $scope.agents = response.data
+        .filter(function (user) {
+          return user.role == "agent";
+        })
+        .map(function (agent) {
+          return { agentId: agent._id, agentName: agent.name };
+        });
     });
 
     $scope.toggleEditMode = function () {
