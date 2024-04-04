@@ -153,10 +153,13 @@ function getTotalAssignedTickets(startDate, endDate, agentId) {
       },
     },
     {
-      $count: "ticketCount",
+      $group: {
+        _id: "$ticketDocId",
+        total: { $sum: 1 },
+      },
     },
   ]).then((result) => {
-    return result[0].ticketCount;
+    return result.length;
   });
 }
 
@@ -173,10 +176,51 @@ function getTotalResolvedTickets(startDate, endDate, agentId) {
       },
     },
     {
-      $count: "ticketCount",
+      $group: {
+        _id: "$ticketDocId",
+        total: { $sum: 1 },
+      },
     },
   ]).then((result) => {
-    return result[0].ticketCount;
+    return result.length;
+  });
+}
+
+function getUsersResolutionTime (startDate, endDate, user) {
+  return Ticket.aggregate([
+    {
+      $match: {
+        brandId: user.brandId,
+        "resolution.date": {
+          $gte: new Date(new Date(startDate).setHours(0o0, 0o0, 0o0)),
+          $lt: new Date(new Date(endDate).setHours(23, 59, 59)),
+        },
+      }
+    },
+    {
+      $group: {
+        _id: "$resolution.by",
+        avgTime: { $avg: "$resolution.time" }
+      }
+    },
+    {
+      $sort: { avgTime: 1 }
+    }
+  ]).then((result) => {
+    var currentUser = result.find(function(item) {
+      return item._id._id.toString() == user._id.toString();
+    });
+    var currentUserIndex = result.indexOf(currentUser);
+
+    var topUsers = result.slice(0, 5);
+
+    return {
+      currentUser: {
+        rank: currentUserIndex + 1,
+        avgTime: currentUser.avgTime
+      },
+      topUsers
+    };
   });
 }
 
@@ -190,4 +234,5 @@ module.exports = {
   getClientWiseTicket,
   getTotalAssignedTickets,
   getTotalResolvedTickets,
+  getUsersResolutionTime
 };

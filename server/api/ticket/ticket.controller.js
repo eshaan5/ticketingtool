@@ -96,6 +96,13 @@ function updateTicket(req, res) {
             };
           }));
 
+          if (ticket.status == "Closed") {
+            ticket.resolution = {};
+            ticket.resolution.date = new Date();
+            ticket.resolution.time = ((new Date() - new Date(ticket.createdAt)) / (1000 * 60 * 60 * 24)) + 1;
+            ticket.resolution.by = req.user;
+          }
+
       return Ticket.findByIdAndUpdate(ticket._id, ticket, { new: true, select: "assignedTo priority status attachments type relatedTo description _id ticketId" });
     })
     .then(function (updateTicket) {

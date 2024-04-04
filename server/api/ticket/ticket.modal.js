@@ -65,6 +65,7 @@ var ticketSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    resolution: {}
   },
   { timestamps: true }
 );

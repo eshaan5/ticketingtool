@@ -19,11 +19,11 @@
     </div>
     <div class="total-stats">
       <div class="stat-box">
-        <div class="stat-value">{{ analyticsData.totalAssignedTickets }}</div>
+        <div class="stat-value">{{ analyticsData.totalAssignedTickets || 0 }}</div>
         <div class="stat-label">Total Assigned Tickets</div>
       </div>
       <div class="stat-box">
-        <div class="stat-value">{{ analyticsData.totalResolvedTickets }}</div>
+        <div class="stat-value">{{ analyticsData.totalResolvedTickets || 0 }}</div>
         <div class="stat-label">Total Resolved Tickets</div>
       </div>
     </div>
