@@ -5,10 +5,10 @@ app.controller("DatePickerController", [
     $scope.endDate = new Date();
     $scope.startDate = new Date();
 
-    AnalyticsService.getAnalytics($scope.startDate, $scope.endDate).then(function (response) {
-      $scope.analyticsData = response.data;
-      console.log($scope.analyticsData);
-    });
+    // AnalyticsService.getAnalytics($scope.startDate, $scope.endDate).then(function (response) {
+    //   $scope.analyticsData = response.data;
+    //   console.log($scope.analyticsData);
+    // });
 
     $scope.openStartDatePopup = function ($event) {
       $scope.startDatePopupOpen = true;
@@ -37,10 +37,11 @@ app.controller("DatePickerController", [
       }
 
       if (!$scope.showDateWarning) {
-        AnalyticsService.getAnalytics($scope.startDate, $scope.endDate).then(function (response) {
-          $scope.analyticsData = response.data;
-          console.log($scope.analyticsData);
+        $scope.charts.forEach(function (chart) {
+          chart.destroy();
         });
+
+        $scope.getAnalytics($scope.startDate, $scope.endDate);
       }
     };
   },
