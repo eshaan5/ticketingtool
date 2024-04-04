@@ -3,28 +3,36 @@
 <div class="pie-charts-container">
     <div class="pie-chart-wrapper">
       <canvas id="chart1"></canvas>
-      <div class="chart-label">Type</div>
+      <div class="chart-label">{{role == 'agent' ? "Type" : "Source"}}</div>
     </div>
     <div class="pie-chart-wrapper">
       <canvas id="chart2"></canvas>
-      <div class="chart-label">Related To</div>
+      <div class="chart-label">{{role == 'agent' ? "Related To" : "Priority"}}</div>
     </div>
     <div class="pie-chart-wrapper">
       <canvas id="chart3"></canvas>
-      <div class="chart-label">Priority</div>
+      <div class="chart-label">{{role == 'agent' ? "Priority" : "Client"}}</div>
     </div>
     <div class="pie-chart-wrapper">
       <canvas id="chart4"></canvas>
-      <div class="chart-label">Client</div>
+      <div class="chart-label">{{role == 'agent' ? "Client" : "Type"}}</div>
+    </div>
+    <div class="pie-chart-wrapper">
+      <canvas id="chart5"></canvas>
+      <div class="chart-label">Related To</div>
+    </div>
+    <div class="pie-chart-wrapper">
+      <canvas id="chart6"></canvas>
+      <div class="chart-label">Status</div>
     </div>
     <div class="total-stats">
       <div class="stat-box">
-        <div class="stat-value">{{ analyticsData.totalAssignedTickets || 0 }}</div>
-        <div class="stat-label">Total Assigned Tickets</div>
+        <div class="stat-value">{{ role == 'admin' ? analyticsData.totalTickets : analyticsData.totalAssignedTickets || 0 }}</div>
+        <div class="stat-label">{{role == 'admin' ? "Total Tickets" : "Total Assigned Tickets"}}</div>
       </div>
       <div class="stat-box">
-        <div class="stat-value">{{ analyticsData.totalResolvedTickets || 0 }}</div>
-        <div class="stat-label">Total Resolved Tickets</div>
+        <div class="stat-value">{{ role == 'agent' ? analyticsData.totalResolvedTickets : analyticsData.avgResolutionTime || 0 }}</div>
+        <div class="stat-label">{{role == 'agent' ? "Total Resolved Tickets" : "Average Resolution Time"}}</div>
       </div>
     </div>
   </div>

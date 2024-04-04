@@ -186,7 +186,7 @@ function getTotalResolvedTickets(startDate, endDate, agentId) {
   });
 }
 
-function getUsersResolutionTime (startDate, endDate, user) {
+function getUsersResolutionTime (startDate, endDate, user, page, pageSize) {
   return Ticket.aggregate([
     {
       $match: {
@@ -205,22 +205,15 @@ function getUsersResolutionTime (startDate, endDate, user) {
     },
     {
       $sort: { avgTime: 1 }
+    },
+    {
+      $skip: (page - 1) * pageSize
+    },
+    {
+      $limit: pageSize
     }
   ]).then((result) => {
-    var currentUser = result.find(function(item) {
-      return item._id._id.toString() == user._id.toString();
-    });
-    var currentUserIndex = result.indexOf(currentUser);
-
-    var topUsers = result.slice(0, 5);
-
-    return {
-      currentUser: {
-        rank: currentUserIndex + 1,
-        avgTime: currentUser.avgTime
-      },
-      topUsers
-    };
+    return result;
   });
 }
 

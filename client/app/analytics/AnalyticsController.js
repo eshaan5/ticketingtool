@@ -6,6 +6,14 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
   // });
   $scope.analyticsData = {};
   $scope.charts = [];
+
+  $scope.totalAgents = 0;
+  $scope.currentPage = 1;
+  $scope.pageSize = 10;
+
+  $scope.endDate = new Date();
+  $scope.startDate = new Date();
+
   function renderPieChart(canvasId, data) {
     var ctx = document.getElementById(canvasId).getContext("2d");
     var chart = new Chart(ctx, {
@@ -33,26 +41,30 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
   $scope.generatePieCharts = function (data) {
     // Fetch data from the backend and render the pie charts
     // Example data for demonstration
+    if ($scope.role == "agent") {
     renderPieChart("chart1", data.typewisePie);
     renderPieChart("chart2", data.relatedPie);
     renderPieChart("chart3", data.prioritywisePie);
     renderPieChart("chart4", data.clientwisePie);
+    } else if ($scope.role == "admin") {
+    renderPieChart("chart1", data.ticketsBySource);
+    renderPieChart("chart2", data.ticketsByPriority);
+    renderPieChart("chart3", data.ticketsByClient);
+    renderPieChart("chart4", data.ticketsByType);
+    renderPieChart("chart5", data.ticketsByRelation);
+    renderPieChart("chart6", data.ticketsByStatus);
+    }
   };
 
   function renderBarGraph(data) {
-    console.log(data);
 
-    var labels = data.topUsers.map(function (user) {
-      return user._id.name;
-    });
-    var graphData = data.topUsers.map(function (user) {
-      return user.avgTime;
+    var labels = data.map(function (item) {
+      return item._id.name;
     });
 
-    if (data.currentUser && !data.topUsers.includes(data.currentUser)) {
-      $scope.showUserPosition = true;
-      $scope.userPosition = data.currentUser.rank;
-    }
+    var graphData = data.map(function (item) {
+      return item.avgTime;
+    });
 
     var ctx = document.getElementById("barChart").getContext("2d");
     var chart = new Chart(ctx, {
@@ -68,8 +80,8 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
         ],
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        // responsive: true,
+        // maintainAspectRatio: false,
         scales: {
           yAxes: [
             {
@@ -84,8 +96,15 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     $scope.charts.push(chart);
   }
 
-  $scope.getAnalytics = function (startDate, endDate) {
-    AnalyticsService.getAnalytics(startDate, endDate).then(function (response) {
+  $scope.getAnalytics = function (currentPage, startDate, endDate) {
+    $scope.charts.forEach(function (chart) {
+      chart.destroy();
+    });
+
+    var start = startDate ? startDate : $scope.startDate;
+    var end = endDate ? endDate : $scope.endDate;
+
+    AnalyticsService.getAnalytics(start, end, currentPage, $scope.pageSize).then(function (response) {
       $scope.analyticsData = response.data;
       console.log($scope.analyticsData);
       $scope.generatePieCharts($scope.analyticsData);

@@ -1,10 +1,7 @@
 app.controller("DatePickerController", [
   "$scope",
   "AnalyticsService",
-  function ($scope, AnalyticsService) {
-    $scope.endDate = new Date();
-    $scope.startDate = new Date();
-
+  function ($scope) {
     // AnalyticsService.getAnalytics($scope.startDate, $scope.endDate).then(function (response) {
     //   $scope.analyticsData = response.data;
     //   console.log($scope.analyticsData);
@@ -37,11 +34,7 @@ app.controller("DatePickerController", [
       }
 
       if (!$scope.showDateWarning) {
-        $scope.charts.forEach(function (chart) {
-          chart.destroy();
-        });
-
-        $scope.getAnalytics($scope.startDate, $scope.endDate);
+        $scope.getAnalytics(1, $scope.startDate, $scope.endDate);
       }
     };
   },

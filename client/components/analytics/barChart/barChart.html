@@ -1,8 +1,6 @@
 <!-- bar-graph.html -->
 <link rel="stylesheet" href="/client/components/analytics/barChart/barChart.css">
 <div class="bar-graph-container">
-  <canvas id="barChart"></canvas>
-  <div class="user-position" ng-if="showUserPosition">
-    <span>Your position: {{ userPosition }}</span>
-  </div>
+  <canvas id="barChart" height="200px"></canvas>
+  <ul uib-pagination boundary-links="true" total-items="totalAgents" ng-model="currentPage" items-per-page="pageSize" class="pagination-sm" previous-text="&lsaquo;" ng-change="changeGraph(currentPage)" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
 </div>
