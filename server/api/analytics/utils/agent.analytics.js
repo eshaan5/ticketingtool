@@ -141,6 +141,45 @@ function getClientWiseTicket(startDate, endDate, agentId) {
   });
 }
 
+function getTotalAssignedTickets(startDate, endDate, agentId) {
+  return Log.aggregate([
+    {
+      $match: {
+        "updatedTicketState.assignedTo.agentId": agentId,
+        timestamp: {
+          $gte: new Date(new Date(startDate).setHours(0o0, 0o0, 0o0)),
+          $lt: new Date(new Date(endDate).setHours(23, 59, 59)),
+        },
+      },
+    },
+    {
+      $count: "ticketCount",
+    },
+  ]).then((result) => {
+    return result[0].ticketCount;
+  });
+}
+
+function getTotalResolvedTickets(startDate, endDate, agentId) {
+  return Log.aggregate([
+    {
+      $match: {
+        "updatedTicketState.status": "Closed",
+        "user._id": agentId,
+        timestamp: {
+          $gte: new Date(new Date(startDate).setHours(0o0, 0o0, 0o0)),
+          $lt: new Date(new Date(endDate).setHours(23, 59, 59)),
+        },
+      },
+    },
+    {
+      $count: "ticketCount",
+    },
+  ]).then((result) => {
+    return result[0].ticketCount;
+  });
+}
+
 module.exports = {
   getAssignedTickets,
   getPendingTickets,
@@ -149,4 +188,6 @@ module.exports = {
   getRelatedTickets,
   getPriorityWiseTicket,
   getClientWiseTicket,
+  getTotalAssignedTickets,
+  getTotalResolvedTickets,
 };

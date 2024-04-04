@@ -11,7 +11,7 @@ function generateAnalytics(req, res) {
   var startDate = formatDate(req.query.startDate);
   var endDate = formatDate(req.query.endDate);
 
-  Promise.all([agentAnalytics.getAssignedTickets(req.user._id), agentAnalytics.getPendingTickets(req.user._id), agentAnalytics.getClosedTickets(req.user._id), agentAnalytics.getTypeWiseTicket(startDate, endDate, req.user._id), agentAnalytics.getRelatedTickets(startDate, endDate, req.user._id), agentAnalytics.getPriorityWiseTicket(startDate, endDate, req.user._id), agentAnalytics.getClientWiseTicket(startDate, endDate, req.user._id)]).then((result) => {
+  Promise.all([agentAnalytics.getAssignedTickets(req.user._id), agentAnalytics.getPendingTickets(req.user._id), agentAnalytics.getClosedTickets(req.user._id), agentAnalytics.getTypeWiseTicket(startDate, endDate, req.user._id), agentAnalytics.getRelatedTickets(startDate, endDate, req.user._id), agentAnalytics.getPriorityWiseTicket(startDate, endDate, req.user._id), agentAnalytics.getClientWiseTicket(startDate, endDate, req.user._id), agentAnalytics.getTotalAssignedTickets(startDate, endDate, req.user._id), agentAnalytics.getTotalResolvedTickets(startDate, endDate, req.user._id)]).then((result) => {
     res.json({
       assignedTickets: result[0],
       pendingTickets: result[1],
@@ -20,6 +20,8 @@ function generateAnalytics(req, res) {
       relatedPie: result[4],
       prioritywisePie: result[5],
       clientwisePie: result[6],
+      totalAssignedTickets: result[7],
+      totalResolvedTickets: result[8],
     });
   });
 }
