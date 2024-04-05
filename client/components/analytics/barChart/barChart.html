@@ -1,10 +1,12 @@
 <!-- bar-graph.html -->
-<link rel="stylesheet" href="/client/components/analytics/barChart/barChart.css">
-<div class="bar-graph-container">
-  <canvas id="barChart" height="200px"></canvas>
-  <ul uib-pagination boundary-links="true" total-items="totalAgents" ng-model="currentPage" items-per-page="pageSize" class="pagination-sm" previous-text="&lsaquo;" ng-change="changeGraph(currentPage)" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
-</div>
-<div class="bar-graph-container">
-  <canvas id="barChart2" height="200px"></canvas>
-  <ul uib-pagination boundary-links="true" total-items="totalAgents" ng-model="currentPage" items-per-page="pageSize" class="pagination-sm" previous-text="&lsaquo;" ng-change="changeGraph(currentPage)" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+<link rel="stylesheet" href="/client/components/analytics/barChart/barChart.css" />
+<div class="bar">
+  <div class="bar-graph-container">
+    <canvas id="barChart1" height="100px"></canvas>
+    <ul uib-pagination boundary-links="true" total-items="totalG1" ng-model="currentPage1" items-per-page="10" class="pagination-sm" previous-text="&lsaquo;" ng-change="changeGraph(currentPage)" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+  </div>
+  <div class="bar-graph-container">
+    <canvas id="barChart2" height="100px"></canvas>
+    <ul ng-if="!isAdmin()" uib-pagination boundary-links="true" total-items="totalG1" ng-model="currentPage2" items-per-page="10" class="pagination-sm" previous-text="&lsaquo;" ng-change="changeGraph(currentPage)" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+  </div>
 </div>

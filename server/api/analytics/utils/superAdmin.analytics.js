@@ -56,8 +56,8 @@ function brandWiseResolutionTime(startDate, endDate, page, limit=10) {
             },
             {
               $group: {
-                _id: {brandName: brand.name},
-                avgResolutionTime: { $avg: "$resolution.time" },
+                _id: {name: brand.name},
+                value: { $avg: "$resolution.time" },
               },
             },
             {
@@ -100,8 +100,8 @@ function brandsByTicketCount(startDate, endDate, page, limit=10) {
             },
             {
               $group: {
-                _id: {brandName: brand.name},
-                count: { $sum: 1 },
+                _id: {name: brand.name},
+                value: { $sum: 1 },
               },
             },
             {

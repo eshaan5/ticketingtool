@@ -1,8 +1,14 @@
 /* bar-graph.css */
 .bar-graph-container {
-  position: relative;
   margin-bottom: 20px;
-  max-height: 100px !important;
+ 
+}
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: space-between;
 }
 
 #barChart {

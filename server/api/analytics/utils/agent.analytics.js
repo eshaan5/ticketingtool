@@ -199,21 +199,21 @@ function getUsersResolutionTime (startDate, endDate, user, page, pageSize=10) {
     },
     {
       $group: {
-        _id: "$resolution.by",
-        avgTime: { $avg: "$resolution.time" }
+        _id: {name: "$resolution.by.name"},
+        value: { $avg: "$resolution.time" }
       }
     },
     {
       $sort: { avgTime: 1 }
     },
     {
-      $skip: (page - 1) * pageSize
-    },
-    {
-      $limit: pageSize
+      $facet: {
+        number: [ { $count: "total" } ],
+        data: [ { $skip: (page-1) * pageSize }, { $limit: pageSize } ]
+      }
     }
   ]).then((result) => {
-    return result;
+    return result[0];
   });
 }
 

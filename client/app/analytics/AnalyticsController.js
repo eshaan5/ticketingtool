@@ -8,8 +8,8 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
   $scope.charts = [];
 
   $scope.totalAgents = 0;
-  $scope.currentPage = 1;
-  $scope.pageSize = 10;
+  $scope.currentPage1 = 1;
+  $scope.currentPage2 = 1;
 
   $scope.endDate = new Date();
   $scope.startDate = new Date();
@@ -68,23 +68,43 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     }
   };
 
-  function renderBarGraph(data) {
-    var labels = data.map(function (item) {
-      return item._id.name;
-    });
+  function renderBarGraph1(data, label) {
+    var labels, graphData;
+    if ($scope.isSuperAdmin()) {
+      labels = data
+        .filter(function (item) {
+          return item.length;
+        })
+        .map(function (item) {
+          console.log(item[0]._id.name);
+          return item[0]._id.name;
+        });
 
-    var graphData = data.map(function (item) {
-      return item.avgTime;
-    });
+      graphData = data
+        .filter(function (item) {
+          return item.length;
+        })
+        .map(function (item) {
+          return item[0].value;
+        });
+    } else {
+      labels = data.map(function (item) {
+        return item._id.name;
+      });
 
-    var ctx = document.getElementById("barChart").getContext("2d");
+      graphData = data.map(function (item) {
+        return item.value;
+      });
+    }
+
+    var ctx = document.getElementById("barChart1").getContext("2d");
     var chart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: labels,
         datasets: [
           {
-            label: "Average Resolution Time (days)",
+            label: label,
             data: graphData,
             backgroundColor: "#36A2EB",
           },
@@ -107,7 +127,136 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     $scope.charts.push(chart);
   }
 
-  $scope.getAnalytics = function (currentPage, startDate, endDate) {
+  function renderBarGraph2(data, label) {
+    var labels = data
+      .filter(function (item) {
+        return item.length;
+      })
+      .map(function (item) {
+        return item[0]._id.name;
+      });
+
+    var graphData = data
+      .filter(function (item) {
+        return item.length;
+      })
+      .map(function (item) {
+        return item[0].value;
+      });
+
+    var ctx = document.getElementById("barChart2").getContext("2d");
+    var chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: label,
+            data: graphData,
+            backgroundColor: "#FF6384",
+          },
+        ],
+      },
+      options: {
+        // responsive: true,
+        // maintainAspectRatio: false,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+    $scope.charts.push(chart);
+  }
+
+  function renderBarGraph3 (data) {
+
+    var createLabel = function (data) {
+      var maxWeeks = 0;
+      data.forEach(function (item) {
+        maxWeeks = Math.max(maxWeeks, item.length);
+      });
+  
+      var labels = [];
+      for (var i = 0; i < maxWeeks; i++) {
+        labels.push("Week " + (i + 1));
+      }
+  
+      return labels;
+    };
+
+    var datasets = [
+      {
+        label: "Sunday",
+        data: data[0],
+        borderColor: "rgba(255, 255, 0, 1)",
+        borderWidth: 1,
+        fill: false,
+      },
+      {
+        label: "Monday",
+        data: data[1],
+        borderColor: "rgba(0, 128, 128, 1)",
+        borderWidth: 1,
+        fill: false,
+      },
+      {
+        label: "Tuesday",
+        data: data[2],
+        borderColor: "rgba(128, 0, 128, 1)",
+        borderWidth: 1,
+        fill: false,
+      },
+      {
+        label: "Wednesday",
+        data: data[3],
+        borderColor: "rgba(255, 165, 0, 1)",
+        borderWidth: 1,
+        fill: false,
+      },
+      {
+        label: "Thursday",
+        data: data[4],
+        borderColor: "rgba(0, 0, 255, 1)",
+        borderWidth: 1,
+        fill: false,
+      },
+      {
+        label: "Friday",
+        data: data[5],
+        borderColor: "rgba(0, 255, 0, 1)",
+        borderWidth: 1,
+        fill: false,
+      },
+      {
+        label: "Saturday",
+        data: data[6],
+        borderColor: "rgba(255, 0, 0, 1)",
+        borderWidth: 1,
+        fill: false,
+      },
+    ];
+
+    //final data structure for chart.js
+    var data = {
+      labels: createLabel(data),
+      datasets: datasets,
+    };
+    var config = {
+      type: "line",
+      data: data,
+    };
+    var ctx = document.getElementById("barChart2").getContext("2d");
+    var chart = new Chart(ctx, config);
+    $scope.charts.push(chart);
+  }
+
+  $scope.getAnalytics = function (currentPage1, currentPage2, startDate, endDate) {
     $scope.charts.forEach(function (chart) {
       chart.destroy();
     });
@@ -115,12 +264,23 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     var start = startDate ? startDate : $scope.startDate;
     var end = endDate ? endDate : $scope.endDate;
 
-    AnalyticsService.getAnalytics(start, end, currentPage, $scope.pageSize).then(function (response) {
+    AnalyticsService.getAnalytics(start, end, currentPage1, currentPage2).then(function (response) {
       $scope.analyticsData = response.data;
       console.log($scope.analyticsData);
 
       if (!$scope.isSuperAdmin()) $scope.generatePieCharts($scope.analyticsData);
-      renderBarGraph($scope.analyticsData.usersResolutionTime);
+      if ($scope.isSuperAdmin()) {
+        $scope.totalG1 = $scope.analyticsData.totalBrands;
+        renderBarGraph1($scope.analyticsData.brandWiseResolutionTime, "Average Resolution Time (days)");
+        renderBarGraph2($scope.analyticsData.brandsByTicketCount, "Tickets");
+      } else if ($scope.isAgent()) {
+        $scope.totalG1 = $scope.analyticsData.usersResolutionTime.number[0].total;
+        renderBarGraph1($scope.analyticsData.usersResolutionTime.data, "Average Resolution Time (days)");
+      } else {
+        $scope.totalG1 = $scope.analyticsData.usersResolutionTime.number[0].total;
+        renderBarGraph1($scope.analyticsData.usersResolutionTime.data, "Average Resolution Time (days)");
+        renderBarGraph3($scope.analyticsData.weeksDayWiseTicketCount);
+      }
     });
   };
 });

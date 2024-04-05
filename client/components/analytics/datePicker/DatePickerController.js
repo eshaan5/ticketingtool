@@ -34,7 +34,7 @@ app.controller("DatePickerController", [
       }
 
       if (!$scope.showDateWarning) {
-        $scope.getAnalytics(1, $scope.startDate, $scope.endDate);
+        $scope.getAnalytics(1, 1, $scope.startDate, $scope.endDate);
       }
     };
   },
