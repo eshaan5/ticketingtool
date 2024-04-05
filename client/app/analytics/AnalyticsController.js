@@ -14,6 +14,18 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
   $scope.endDate = new Date();
   $scope.startDate = new Date();
 
+  $scope.isAdmin = function () {
+    return $scope.role === "admin";
+  };
+
+  $scope.isAgent = function () {
+    return $scope.role === "agent";
+  };
+
+  $scope.isSuperAdmin = function () {
+    return $scope.role === "superAdmin";
+  };
+
   function renderPieChart(canvasId, data) {
     var ctx = document.getElementById(canvasId).getContext("2d");
     var chart = new Chart(ctx, {
@@ -42,22 +54,21 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     // Fetch data from the backend and render the pie charts
     // Example data for demonstration
     if ($scope.role == "agent") {
-    renderPieChart("chart1", data.typewisePie);
-    renderPieChart("chart2", data.relatedPie);
-    renderPieChart("chart3", data.prioritywisePie);
-    renderPieChart("chart4", data.clientwisePie);
+      renderPieChart("chart1", data.typewisePie);
+      renderPieChart("chart2", data.relatedPie);
+      renderPieChart("chart3", data.prioritywisePie);
+      renderPieChart("chart4", data.clientwisePie);
     } else if ($scope.role == "admin") {
-    renderPieChart("chart1", data.ticketsBySource);
-    renderPieChart("chart2", data.ticketsByPriority);
-    renderPieChart("chart3", data.ticketsByClient);
-    renderPieChart("chart4", data.ticketsByType);
-    renderPieChart("chart5", data.ticketsByRelation);
-    renderPieChart("chart6", data.ticketsByStatus);
+      renderPieChart("chart1", data.ticketsBySource);
+      renderPieChart("chart2", data.ticketsByPriority);
+      renderPieChart("chart3", data.ticketsByClient);
+      renderPieChart("chart4", data.ticketsByType);
+      renderPieChart("chart5", data.ticketsByRelation);
+      renderPieChart("chart6", data.ticketsByStatus);
     }
   };
 
   function renderBarGraph(data) {
-
     var labels = data.map(function (item) {
       return item._id.name;
     });
@@ -107,7 +118,8 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     AnalyticsService.getAnalytics(start, end, currentPage, $scope.pageSize).then(function (response) {
       $scope.analyticsData = response.data;
       console.log($scope.analyticsData);
-      $scope.generatePieCharts($scope.analyticsData);
+
+      if (!$scope.isSuperAdmin()) $scope.generatePieCharts($scope.analyticsData);
       renderBarGraph($scope.analyticsData.usersResolutionTime);
     });
   };

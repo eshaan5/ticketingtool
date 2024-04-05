@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="/client/components/analytics/topStats/topStats.css" />
 <div class="top-stats-container">
     <div class="top-stat">
-      <div class="stat-value">{{ analyticsData.assignedTickets || 0 }}</div>
-      <div class="stat-label">Assigned Tickets</div>
+      <div class="stat-value">{{ isAgent() ? analyticsData.assignedTickets : analyticsData.totalBrands || 0 }}</div>
+      <div class="stat-label">{{ isAgent() ? "Assigned Tickets" : "Total Brands"}}</div>
     </div>
     <div class="top-stat">
-      <div class="stat-value">{{ analyticsData.closedTickets || 0 }}</div>
-      <div class="stat-label">Resolved Tickets</div>
+      <div class="stat-value">{{ isAgent() ? analyticsData.closedTickets : analyticsData.totalTickets || 0 }}</div>
+      <div class="stat-label">{{ isAgent() ? "Resolved Tickets" : "Total Tickets" }}</div>
     </div>
-    <div class="top-stat">
+    <div ng-if="isAgent()" class="top-stat">
       <div class="stat-value">{{ analyticsData.pendingTickets || 0 }}</div>
       <div class="stat-label">Pending Tickets</div>
     </div>

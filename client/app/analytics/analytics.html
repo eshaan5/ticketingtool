@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="/client/app/analytics/analytics.css" />
 <div ng-include="'/client/components/sidePanel/sidePanel.html'"></div>
 <div class="container" ng-controller="AnalyticsController">
-  <div ng-if="role == 'agent'" ng-include="'/client/components/analytics/topStats/topStats.html'"></div>
+  <div ng-if="!isAdmin()" ng-include="'/client/components/analytics/topStats/topStats.html'"></div>
   <div ng-include="'/client/components/analytics/datePicker/datePicker.html'"></div>
-  <div ng-include="'/client/components/analytics/pieCharts/pieCharts.html'"></div>
+  <div ng-if="!isSuperAdmin()" ng-include="'/client/components/analytics/pieCharts/pieCharts.html'"></div>
   <div ng-include="'/client/components/analytics/barChart/barChart.html'"></div>
 </div>
