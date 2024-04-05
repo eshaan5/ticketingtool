@@ -3,19 +3,26 @@
 <div class="container" ng-controller="SuperAdminController">
   <div class="content">
 
+    <h1>Brands</h1>
+
     <table class="users-table" ng-show="brands.length">
       <thead>
         <tr>
+          <th>S. No.</th>
           <th>Name</th>
           <th>Logo</th>
+          <th>Admin</th>
+          <th>Created On</th>
           <th>Enable/Disable</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="brand in brands">
+          <td>{{ $index + 1 }}</td>
           <td>{{ brand.name }}</td>
           <td><img ng-src="{{ brand.logo }}" width="100" /></td>
-          <!-- <td><button ng-click="disableBrand(brand._id, brand)">{{brand.isDisabled ? "Enable" : "Disable"}}</button></td> -->
+          <td><i class="fa-solid fa-person"></i></td>
+          <td>{{ brand.createdAt | date: 'dd-MM-yyyy' }}</td>
           <td>
             <div ng-class="{toggleOff:brand.isDisabled}">
               <div ng-click="disableBrand(brand._id, brand)" ng-class="{toggleButtonOff:brand.isDisabled}"></div>
@@ -27,6 +34,8 @@
         </tr>
       </tbody>
     </table>
+
+    <ul uib-pagination ng-model="currentPage" total-items="totalBrands" items-per-page="pageSize" ng-change="pageChanged()" max-size="5" class="pagination-sm" boundary-links="true"></ul>
 
     <div id="toast" ng-show="show" class="toast">
       <div class="toast-body">Brand created successfully!</div>

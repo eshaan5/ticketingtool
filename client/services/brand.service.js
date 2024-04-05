@@ -12,10 +12,10 @@ app.service("BrandService", function ($http) {
     });
   };
 
-  this.getBrands = function () {
+  this.getBrands = function (currentPage, pageSize) {
     return $http({
       method: "GET",
-      url: "brand/allBrands",
+      url: "brand/allBrands" + "?page=" + currentPage + "&limit=" + pageSize,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),

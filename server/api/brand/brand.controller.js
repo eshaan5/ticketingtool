@@ -32,9 +32,20 @@ function updateBrand(req, res) {
 }
 
 function getAllBrands(req, res) {
-  Brand.find({}).then(function (brands) {
-    res.status(200).json(brands);
-  });
+  var page = parseInt(req.query.page) || 1;
+  var limit = parseInt(req.query.limit) || 10;
+  Brand.countDocuments()
+    .then(function (total) {
+      Brand.find()
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .then(function (brands) {
+          res.status(200).json({ total: total, brands: brands });
+        });
+    })
+    .catch(function (err) {
+      res.status(500).json(err);
+    });
 }
 
 function getBrand(req, res) {

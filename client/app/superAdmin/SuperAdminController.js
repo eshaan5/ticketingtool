@@ -17,9 +17,24 @@ app.controller("SuperAdminController", function ($scope, $location, $timeout, Br
     $location.path("/login");
   }
 
-  BrandService.getBrands().then(function (response) {
-    $scope.brands = response.data;
-  });
+  $scope.currentPage = 1;
+  $scope.pageSize = 10;
+
+  // Load brands data initially
+  loadBrands();
+
+  // Function to load brands data with pagination
+  function loadBrands() {
+    BrandService.getBrands($scope.currentPage, $scope.pageSize).then(function (response) {
+      $scope.brands = response.data.brands;
+      $scope.totalBrands = response.data.total;
+    });
+  }
+
+  // Handle page change
+  $scope.pageChanged = function () {
+    loadBrands();
+  };
 
   $scope.logout = function () {
     localStorage.removeItem("token");
