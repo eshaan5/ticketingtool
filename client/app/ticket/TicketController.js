@@ -6,6 +6,10 @@ angular.module("myApp").controller("TicketController", [
   "$location",
   "$uibModal", // Inject the $uibModal service
   function ($scope, TicketFieldService, UserService, TicketService, $location, $uibModal) {
+    if (!localStorage.getItem("token")) {
+      $location.path("/");
+    }
+
     $scope.ticket = JSON.parse($location.search().ticket); // Make a copy of the ticket object passed from the parent scope
     $scope.newAttachment = null; // New attachment to be added
 

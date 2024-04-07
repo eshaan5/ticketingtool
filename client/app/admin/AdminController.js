@@ -1,4 +1,9 @@
 app.controller("AdminController", function ($scope, $location, BrandService, $uibModal, UserService) {
+
+  if (!localStorage.getItem("token")) {
+    $location.path("/login");
+  }
+
   // Controller logic for signup page
   $scope.formData = {}; // Initialize form data object
   $scope.show = false;

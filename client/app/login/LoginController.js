@@ -14,15 +14,18 @@ app.controller("LoginController", function ($scope, $location, LoginService) {
       localStorage.setItem("brand", JSON.stringify(response.data.brand));
 
       if (response.data.result.role == "admin") {
+        $location.replace("/admin");
         $location.path("/admin");
         return;
       }
 
       if (response.data.result.role == "agent") {
+        $location.replace("/agent");
         $location.path("/agent");
         return;
       }
 
+      $location.replace("/superAdmin");
       $location.path("/superAdmin");
     })
     .catch(function (err) {

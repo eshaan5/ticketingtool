@@ -1,31 +1,47 @@
 <link rel="stylesheet" href="/client/components/ticketsTable/ticketsTable.css" />
-<table ng-show="tickets.length" class="ticket-table" ng-controller="TicketsTableController">
-  <thead>
-    <tr>
-      <th>Ticket ID</th>
-      <th>Title</th>
-      <th>Priority</th>
-      <th>Description</th>
-      <th>Status</th>
-      <th>Source</th>
-      <th>Type</th>
-      <th>Related To</th>
-      <th>Client Name</th>
-      <th>Request Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="ticket in tickets" ng-click="openTicketModal(ticket)">
-      <td>#{{ticket.ticketId}}</td>
-      <td>{{ ticket.title }}</td>
-      <td><span ng-class="{'high-priority': ticket.priority === 'High', 'medium-priority': ticket.priority === 'Medium', 'low-priority': ticket.priority === 'Low'}">{{ ticket.priority }}</span></td>
-      <td>{{ ticket.description }}</td>
-      <td>{{ ticket.status }}</td>
-      <td>{{ ticket.source }}</td>
-      <td><span class="type"> {{ticket.type }}</span></td>
-      <td>{{ ticket.relatedTo }}</td>
-      <td>{{ ticket.clientDetails.name }}</td>
-      <td>{{ ticket.createdAt | date:'dd-MMM-yyyy HH:mm' }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="container" ng-controller="TicketsTableController">
+  <div class="search">
+    <input type="text" ng-model="searchText" placeholder="Search by Title or Description" />
+    <button ng-click="search()">Search</button>
+  </div>
+  <table ng-show="tickets.length" class="ticket-table">
+    <thead>
+      <tr>
+        <th>Ticket ID</th>
+        <th>Title</th>
+        <th ng-click="sortBy('priority')">Priority <i class="fa" ng-class="{'fa-sort': sortColumn !== 'priority', 'fa-sort-asc': sortColumn === 'priority' && !reverseSort, 'fa-sort-desc': sortColumn === 'priority' && reverseSort}"></i></th>
+        <th>Description</th>
+        <th ng-click="sortBy('status')">Status <i class="fa" ng-class="{'fa-sort': sortColumn !== 'status', 'fa-sort-asc': sortColumn === 'status' && !reverseSort, 'fa-sort-desc': sortColumn === 'status' && reverseSort}"></i></th>
+        <th ng-click="sortBy('source')">Source <i class="fa" ng-class="{'fa-sort': sortColumn !== 'source', 'fa-sort-asc': sortColumn === 'source' && !reverseSort, 'fa-sort-desc': sortColumn === 'source' && reverseSort}"></i></th>
+        <th>Type</th>
+        <th>Related To</th>
+        <th>Client Name</th>
+        <th ng-click="sortBy('createdAt')">Request Date <i class="fa" ng-class="{'fa-sort': sortColumn !== 'createdAt', 'fa-sort-asc': sortColumn === 'createdAt' && !reverseSort, 'fa-sort-desc': sortColumn === 'createdAt' && reverseSort}"></i></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="ticket in tickets" ng-click="openTicketModal(ticket)">
+        <td>#{{ticket.ticketId}}</td>
+        <td>{{ ticket.title }}</td>
+        <td><span ng-class="{'high-priority': ticket.priority === 'High', 'medium-priority': ticket.priority === 'Medium', 'low-priority': ticket.priority === 'Low'}">{{ ticket.priority }}</span></td>
+        <td>{{ ticket.description }}</td>
+        <td>
+          <span
+            ng-class="{
+          'open-status': ticket.status === 'Open',
+          'in-progress-status': ticket.status === 'In Progress',
+          'closed-status': ticket.status === 'Closed'
+        }"
+            >{{ ticket.status }}</span
+          >
+        </td>
+        <td>{{ ticket.source }}</td>
+        <td><span class="type"> {{ticket.type }}</span></td>
+        <td>{{ ticket.relatedTo }}</td>
+        <td>{{ ticket.clientDetails.name }}</td>
+        <td>{{ ticket.createdAt | date:'dd-MMM-yyyy HH:mm' }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <ul uib-pagination ng-model="currentPage" total-items="totalItems" items-per-page="pageSize" max-size="5" boundary-links="true" ng-change="getTickets()"></ul>
+</div>

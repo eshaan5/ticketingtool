@@ -32,24 +32,66 @@ function createTicket(req, res) {
 }
 
 function getTickets(req, res) {
-  Ticket.aggregate([
-    // Match tickets assigned to the current user
-    { $match: { "assignedTo.agentId": req.user._id } },
+  var page = parseInt(req.query.page) || 1;
+  var pageSize = parseInt(req.query.pageSize) || 10;
+  var sortBy = req.query.sortBy || "createdAt"; // Default sorting by createdAt
+  var reverseSort = req.query.reverseSort === "true";
+  var searchText = req.query.searchText || "";
 
-    // Add priority level based on conditions
+  var sortCriteria = {};
+  if (sortBy === "priority") {
+    // Sort by priority based on mapping
+    sortCriteria = { $sort: { $cond: { if: { $eq: ["$priority", "Low"] }, then: 1, else: { $cond: { if: { $eq: ["$priority", "Medium"] }, then: 2, else: 3 } } } } };
+  } else if (sortBy === "status") {
+    // Sort by status based on mapping
+    sortCriteria = { $sort: { $cond: { if: { $eq: ["$status", "Open"] }, then: 1, else: { $cond: { if: { $eq: ["$status", "In Progress"] }, then: 2, else: 3 } } } } };
+  } else if (sortBy === "createdAt") {
+    // Sort by createdAt
+    sortCriteria[sortBy] = reverseSort ? 1 : -1;
+  } else {
+    // Default sorting criteria
+    sortCriteria[sortBy] = reverseSort ? -1 : 1;
+  }
+
+  Ticket.aggregate([
     {
-      $addFields: {
-        priorityLevel: {
-          $cond: [{ $eq: ["$priority", "high"] }, 1, { $cond: [{ $eq: ["$priority", "medium"] }, 2, 3] }],
-        },
+      $facet: {
+        // Perform pagination
+        tickets: [
+          {
+            $match: {
+              $or: [
+                { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
+                { description: { $regex: searchText, $options: "i" } }, // Case-insensitive search in description
+              ],
+            },
+          },
+          {
+            $sort: sortCriteria,
+          },
+          {
+            $skip: (page - 1) * pageSize,
+          },
+          {
+            $limit: pageSize,
+          },
+        ],
+        // Count total number of tickets
+        totalCount: [
+          {
+            $count: "totalItems",
+          },
+        ],
       },
     },
-
-    // Sort tickets by priority level
-    { $sort: { priorityLevel: 1 } },
   ])
-    .then(function (tickets) {
-      res.status(200).json(tickets);
+    .then(function (result) {
+      var response = {
+        tickets: result[0].tickets,
+        totalItems: result[0].totalCount[0].totalItems,
+      };
+
+      res.status(200).json(response);
     })
     .catch(function (err) {
       res.status(500).json(err);
@@ -96,12 +138,12 @@ function updateTicket(req, res) {
             };
           }));
 
-          if (ticket.status == "Closed") {
-            ticket.resolution = {};
-            ticket.resolution.date = new Date();
-            ticket.resolution.time = ((new Date() - new Date(ticket.createdAt)) / (1000 * 60 * 60 * 24)) + 1;
-            ticket.resolution.by = req.user;
-          }
+      if (ticket.status == "Closed") {
+        ticket.resolution = {};
+        ticket.resolution.date = new Date();
+        ticket.resolution.time = (new Date() - new Date(ticket.createdAt)) / (1000 * 60 * 60 * 24) + 1;
+        ticket.resolution.by = req.user;
+      }
 
       return Ticket.findByIdAndUpdate(ticket._id, ticket, { new: true, select: "assignedTo priority status attachments type relatedTo description _id ticketId" });
     })

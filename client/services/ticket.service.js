@@ -6,8 +6,9 @@ app.service("TicketService", function ($http) {
     });
   };
 
-  this.getTickets = function () {
+  this.getTickets = function (page, pageSize, sortColumn, reverseSort, searchText) {
     return $http({
+      params: { page, pageSize, sortColumn, reverseSort, searchText },
       method: "GET",
       url: "ticket/getTickets",
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },

@@ -1,4 +1,9 @@
 app.controller("AnalyticsController", function ($scope, AnalyticsService, $location) {
+
+  if (!localStorage.getItem("token")) {
+    $location.path("/");
+  }
+
   $scope.role = JSON.parse(localStorage.getItem("user")).role;
   // AnalyticsService.getAnalytics().then(function(response) {
   //     $scope.analyticsData = response.data;

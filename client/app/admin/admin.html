@@ -19,6 +19,7 @@
     <script type="text/ng-template" id="addUserModal.html">
       <div ng-include="'/client/components/addUserModal/addUserModal.html'"></div>
     </script>
+    <h3>Employees</h3>
     <table class="users-table" ng-show="users.length">
       <thead>
         <tr>
@@ -26,6 +27,7 @@
           <th>Role</th>
           <th>Username</th>
           <th>Email</th>
+          <th>Joined On</th>
         </tr>
       </thead>
       <tbody>
@@ -34,6 +36,7 @@
           <td>{{ user.role }}</td>
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
+          <td>{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
         </tr>
       </tbody>
     </table>

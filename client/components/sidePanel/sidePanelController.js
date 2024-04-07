@@ -1,4 +1,4 @@
-angular.module("myApp").controller("sideBarController", function ($scope, $location, $uibModal, UserService, $route) {
+angular.module("myApp").controller("sideBarController", function ($scope, $location, $uibModal, UserService, $route, $window) {
   $scope.showSideBar = true;
 
   if (localStorage.getItem("brand")) {

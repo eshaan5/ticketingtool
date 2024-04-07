@@ -49,3 +49,33 @@
     font-weight:500;
     background-color: #f2f2f2; /* Light grey */
   }
+
+  .search {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .open-status {
+    color: #ffcc00; /* Yellow */
+    background-color: #ffffe5; /* Extremely light yellow */
+    padding: 0.4rem 0.7rem;
+    border-radius: 1.3rem;
+  }
+  
+  .in-progress-status {
+    color: green;
+    background-color: rgba(0, 255, 0, 0.3); /* Extremely light green */
+    padding: 0.4rem 0.7rem;
+    border-radius: 1.3rem;
+  }
+  
+  .closed-status {
+    color: purple;
+    background-color: rgba(128, 0, 128, 0.3); /* Extremely light purple */
+    padding: 0.4rem 0.7rem;
+    border-radius: 1.3rem;
+  }
+  

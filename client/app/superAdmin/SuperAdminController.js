@@ -1,5 +1,9 @@
 app.controller("SuperAdminController", function ($scope, $location, $timeout, BrandService, $route, $uibModal) {
 
+  if (!localStorage.getItem("token")) {
+    $location.path("/");
+  }
+
   $scope.formData = {}; // Initialize form data object
   $scope.show = false;
   $scope.brands = [];

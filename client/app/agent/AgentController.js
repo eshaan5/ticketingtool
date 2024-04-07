@@ -1,4 +1,7 @@
 app.controller("AgentController", function ($location, AgentService, $scope, $uibModal, UserService) {
+  if (!localStorage.getItem("token")) {
+    $location.path("/");
+  }
   // Controller logic for signup page
   $scope.show = false;
 
@@ -33,7 +36,7 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
     $scope.agent.isOnline = !$scope.agent.isOnline;
 
     // Call the service to update the status on the server
-    UserService.updateUser({isOnline: $scope.agent.isOnline}).then(function (response) {
+    UserService.updateUser({ isOnline: $scope.agent.isOnline }).then(function (response) {
       localStorage.setItem("user", JSON.stringify(response.data.result));
     });
   };
@@ -91,6 +94,9 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
   };
 
   $scope.openTicketModal = function (ticket) {
+    if (ticket.status === "Closed") {
+      return;
+    }
     $location.path("/ticket").search({ ticket: JSON.stringify(ticket) });
   };
 
