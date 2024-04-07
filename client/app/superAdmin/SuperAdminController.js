@@ -1,4 +1,4 @@
-app.controller("SuperAdminController", function ($scope, $location, $timeout, BrandService, $route) {
+app.controller("SuperAdminController", function ($scope, $location, $timeout, BrandService, $route, $uibModal) {
 
   $scope.formData = {}; // Initialize form data object
   $scope.show = false;
@@ -66,6 +66,24 @@ app.controller("SuperAdminController", function ($scope, $location, $timeout, Br
     $scope.brands[$scope.brands.indexOf(brand)].isDisabled = !brand.isDisabled;
     BrandService.disableBrand(id, brand).then(function (response) {
       console.log(response);
+    });
+  };
+
+  $scope.openBrandAdminModal = function (brandId) {
+    var modalInstance = $uibModal.open({
+      templateUrl: '/client/components/brandAdminsModal/brandAdminsModal.html',
+      controller: 'BrandAdminsModalController',
+      resolve: {
+        brandId: function () {
+          return brandId;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      // Handle modal close event if needed
+    }, function () {
+      // Handle modal dismiss event if needed
     });
   };
 });

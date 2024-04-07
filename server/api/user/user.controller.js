@@ -121,10 +121,28 @@ function updateOnlineStatus(req, res) {
   });
 }
 
+function getAllAdmins(req, res) {
+
+  var brandId = req.query.brandId;
+
+  var searchCriteria = {
+    $and: [{ brandId: brandId }, { role: "admin" }],
+  };
+
+  User.find(searchCriteria)
+    .then(function (users) {
+      res.status(200).json(users);
+    })
+    .catch(function (err) {
+      res.status(500).json(err);
+    });
+}
+
 module.exports = {
   signin: signin,
   updateUser: updateUser,
   createUserByEmail: createUserByEmail,
   getAllUsers: getAllUsers,
   updateOnlineStatus: updateOnlineStatus,
+  getAllAdmins: getAllAdmins,
 };

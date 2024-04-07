@@ -21,7 +21,7 @@
           <td>{{ $index + 1 }}</td>
           <td>{{ brand.name }}</td>
           <td><img ng-src="{{ brand.logo }}" width="100" /></td>
-          <td><i class="fa-solid fa-person"></i></td>
+          <td><i ng-click="openBrandAdminModal(brand._id)" class="fa-solid fa-person"></i></td>
           <td>{{ brand.createdAt | date: 'dd-MM-yyyy' }}</td>
           <td>
             <div ng-class="{toggleOff:brand.isDisabled}">

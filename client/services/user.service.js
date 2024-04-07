@@ -37,4 +37,15 @@ app.service("UserService", function ($http) {
       },
     });
   };
+
+  this.getAdmins = function (brandId) {
+    return $http({
+      method: "GET",
+      url: "user/getAdmins?brandId=" + brandId,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  };
 });
