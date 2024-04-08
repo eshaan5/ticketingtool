@@ -41,7 +41,7 @@ function signin(req, res) {
             res.status(200).json({ result: existingUser, token: token, brand: brand });
           });
         })
-          .catch(function (err) {
+        .catch(function (err) {
           console.log(err, "error in signin function in user.controller.js");
         });
     }
@@ -81,7 +81,7 @@ function createUserByEmail(req, res) {
   sendConfirmationEmail(email, password);
 
   bcrypt.hash(password, 12).then(function (hashedPassword) {
-    User.create({ email: email, password: hashedPassword, brandId: brandId, role: role, permissions: customPermissions})
+    User.create({ email: email, password: hashedPassword, brandId: brandId, role: role, permissions: customPermissions })
       .then(function (user) {
         res.status(201).json(user);
       })
@@ -122,7 +122,6 @@ function updateOnlineStatus(req, res) {
 }
 
 function getAllAdmins(req, res) {
-
   var brandId = req.query.brandId;
 
   var searchCriteria = {
@@ -138,6 +137,30 @@ function getAllAdmins(req, res) {
     });
 }
 
+function changePassword(req, res) {
+  var id = req.user._id;
+  User.findOne({ _id: id }).then(function (user) {
+    bcrypt.compare(req.body.currentPassword, user.password).then(function (isMatch) {
+      if (!isMatch) {
+        return res.status(400).json({ message: "Old password is incorrect!" });
+      }
+
+      bcrypt.hash(req.body.newPassword, 12).then(function (hashedPassword) {
+        user.password = hashedPassword;
+
+        user
+          .save()
+          .then(function (user) {
+            res.status(201).json({ message: "Password changed successfully!"});
+          })
+          .catch(function (err) {
+            res.status(400).json(err);
+          });
+      });
+    });
+  });
+}
+
 module.exports = {
   signin: signin,
   updateUser: updateUser,
@@ -145,4 +168,5 @@ module.exports = {
   getAllUsers: getAllUsers,
   updateOnlineStatus: updateOnlineStatus,
   getAllAdmins: getAllAdmins,
+  changePassword: changePassword,
 };

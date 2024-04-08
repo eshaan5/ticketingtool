@@ -6,6 +6,7 @@ var createUser = require("./user.controller.js").createUserByEmail;
 var getAllUsers = require("./user.controller.js").getAllUsers;
 var updateOnlineStatus = require("./user.controller.js").updateOnlineStatus;
 var getAllAdmins = require("./user.controller.js").getAllAdmins;
+var changePassword = require("./user.controller.js").changePassword;
 
 var passport = require("../../passport.js");
 var middlewares = require("../../middlewares.js");
@@ -16,5 +17,6 @@ router.post("/createUser", passport.authenticate("jwt", { session: false }), mid
 router.get("/allUsers", passport.authenticate("jwt", { session: false }), middlewares.checkPermission("read-users"), getAllUsers);
 router.get("/updateOnlineStatus", passport.authenticate("jwt", { session: false }), updateOnlineStatus);
 router.get("/getAdmins", passport.authenticate("jwt", { session: false }), getAllAdmins);
+router.post("/changePassword", passport.authenticate("jwt", { session: false }), changePassword);
 
 module.exports = router;

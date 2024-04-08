@@ -48,4 +48,16 @@ app.service("UserService", function ($http) {
       },
     });
   };
+
+  this.changePassword = function (formData) {
+    return $http({
+      method: "POST",
+      url: "user/changePassword",
+      data: formData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  };
 });

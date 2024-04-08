@@ -22,8 +22,10 @@
     <div class="user">
       <i class="fa-regular fa-user"></i>
       <span class="user-name">{{user.name}}</span>
-      <!-- <a href="#" class="change-password">Change Password</a> -->
-      <a href="#" ng-click="logout()">Logout</a>
+      <ul style="list-style-type: none">
+      <li ng-click="openChangePasswordModal()" class="change-password"><a>Change Password</a></li>
+      <li ng-click="logout()"><a>Logout</a></li>
+    </ul>
     </div>
     <div class="menu">
       <ul style="list-style-type: none">

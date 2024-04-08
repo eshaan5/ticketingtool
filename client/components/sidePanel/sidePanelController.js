@@ -55,6 +55,22 @@ angular.module("myApp").controller("sideBarController", function ($scope, $locat
     });
   };
 
+  $scope.openChangePasswordModal = function () {
+    var modalInstance = $uibModal.open({
+      templateUrl: "/client/components/changePassword/changePassword.html",
+      controller: "ChangePasswordController",
+    });
+
+    modalInstance.result.then(
+      function () {
+        // Modal closed
+      },
+      function () {
+        // Modal dismissed
+      }
+    );
+  };
+
   $scope.openAnalytics = function () {
     $location.path("/analytics");
   };
