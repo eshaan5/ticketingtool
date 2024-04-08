@@ -1,4 +1,4 @@
-app.controller("AgentController", function ($location, AgentService, $scope, $uibModal, UserService) {
+app.controller("AgentController", function ($location, AgentService, $scope, $uibModal, UserService, $timeout, $route) {
   if (!localStorage.getItem("token")) {
     $location.path("/");
   }
@@ -78,6 +78,9 @@ app.controller("AgentController", function ($location, AgentService, $scope, $ui
       function (selectedItem) {
         // Handle modal close
         $scope.tickets.push(selectedItem);
+        $timeout(function () {
+          $route.reload();
+        }, 3000);
       },
       function () {
         // Handle modal dismiss

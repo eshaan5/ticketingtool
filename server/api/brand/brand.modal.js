@@ -9,12 +9,9 @@ var brandSchema = new mongoose.Schema(
     },
     brandEmail: {
       type: String,
-      required: true,
-      unique: true,
     },
     password: {
       type: String,
-      required: true,
     },
     logo: {
       type: String,

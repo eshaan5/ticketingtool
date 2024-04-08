@@ -34,41 +34,72 @@ function createTicket(req, res) {
 function getTickets(req, res) {
   var page = parseInt(req.query.page) || 1;
   var pageSize = parseInt(req.query.pageSize) || 10;
-  var sortBy = req.query.sortBy || "createdAt"; // Default sorting by createdAt
+  var sortBy = req.query.sortColumn || "createdAt"; // Default sorting by createdAt
   var reverseSort = req.query.reverseSort === "true";
   var searchText = req.query.searchText || "";
+  var selectedPriority = req.query.selectedPriority || "";
+  var selectedStatus = req.query.selectedStatus || "";
 
-  var sortCriteria = {};
+  var sortCriteria = {},
+  projectCriteria = {
+    $addFields: {
+      sortField: {
+        $cond: [
+          { $eq: ["$priority", "Low"] },
+          1,
+          { $cond: [{ $eq: ["$priority", "Medium"] }, 2, 3] },
+        ],
+      },
+    },
+  };
+  
   if (sortBy === "priority") {
     // Sort by priority based on mapping
-    sortCriteria = { $sort: { $cond: { if: { $eq: ["$priority", "Low"] }, then: 1, else: { $cond: { if: { $eq: ["$priority", "Medium"] }, then: 2, else: 3 } } } } };
+    sortCriteria = { $sort: { sortField: reverseSort ? 1 : -1 } };
   } else if (sortBy === "status") {
     // Sort by status based on mapping
-    sortCriteria = { $sort: { $cond: { if: { $eq: ["$status", "Open"] }, then: 1, else: { $cond: { if: { $eq: ["$status", "In Progress"] }, then: 2, else: 3 } } } } };
+    sortCriteria = { $sort: { status: reverseSort ? 1 : -1 } };
   } else if (sortBy === "createdAt") {
     // Sort by createdAt
-    sortCriteria[sortBy] = reverseSort ? 1 : -1;
+    sortCriteria = { $sort: { createdAt: reverseSort ? 1 : -1 } };
+  } else if (sortBy == "source") {
+    sortCriteria = { $sort: { source: reverseSort ? 1 : -1 } };
   } else {
     // Default sorting criteria
-    sortCriteria[sortBy] = reverseSort ? -1 : 1;
+    sortCriteria = { $sort: { createdAt: -1 } };
   }
 
+  var matchQuery =
+    req.user.role == "admin"
+      ? {
+          $match: {
+            $or: [
+              { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
+              { description: { $regex: searchText, $options: "i" } }, // Case-insensitive search in description
+            ],
+            brandId: req.user.brandId, // Filter tickets assigned to the logged-in agent
+          },
+        }
+      : {
+          $match: {
+            $and: [
+              { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
+              { description: { $regex: searchText, $options: "i" } }, // Case-insensitive search in description
+              { priority: { $regex: selectedPriority } }, // Case-insensitive search in priority
+              { status: { $regex: selectedStatus } }, // Case-insensitive search in status
+            ],
+            "assignedTo.agentId": req.user._id, // Filter tickets assigned to the logged-in agent
+          },
+        };
+
   Ticket.aggregate([
+    matchQuery,
+    projectCriteria,
+    sortCriteria,
     {
       $facet: {
         // Perform pagination
         tickets: [
-          {
-            $match: {
-              $or: [
-                { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
-                { description: { $regex: searchText, $options: "i" } }, // Case-insensitive search in description
-              ],
-            },
-          },
-          {
-            $sort: sortCriteria,
-          },
           {
             $skip: (page - 1) * pageSize,
           },
@@ -90,10 +121,10 @@ function getTickets(req, res) {
         tickets: result[0].tickets,
         totalItems: result[0].totalCount[0].totalItems,
       };
-
       res.status(200).json(response);
     })
     .catch(function (err) {
+      console.log(err);
       res.status(500).json(err);
     });
 }

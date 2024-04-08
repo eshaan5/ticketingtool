@@ -7,6 +7,17 @@ app.controller("DatePickerController", [
     //   console.log($scope.analyticsData);
     // });
 
+    function lastMonthDate() {
+      var date = new Date();
+      date.setMonth(date.getMonth() - 1);
+      return date;
+    }
+
+    $scope.startDate = lastMonthDate();
+    $scope.endDate = new Date();
+
+    $scope.getAnalytics(1, 1, $scope.startDate, $scope.endDate);
+
     $scope.openStartDatePopup = function ($event) {
       $scope.startDatePopupOpen = true;
     };

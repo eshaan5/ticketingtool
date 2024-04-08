@@ -56,6 +56,7 @@
     align-items: flex-start !important;
     gap: 1rem;
     margin-bottom: 2rem;
+    width: 80vw;
   }
 
   .open-status {
@@ -79,3 +80,44 @@
     border-radius: 1.3rem;
   }
   
+  /* Custom CSS for modern select elements */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.select-wrapper select {
+  appearance: none; /* Remove default appearance */
+  -webkit-appearance: none; /* Remove default appearance for Safari */
+  -moz-appearance: none; /* Remove default appearance for Firefox */
+  border: 1px solid #ccc; /* Add border */
+  padding: 8px 12px; /* Add padding */
+  font-size: 16px; /* Set font size */
+  background-color: #fff; /* Set background color */
+  color: #333; /* Set text color */
+  cursor: pointer; /* Set cursor to pointer */
+  border-radius: 2rem;
+  width: 10vw;
+}
+
+option {
+  border-radius: 2rem;
+}
+
+.select-wrapper::before {
+  content: '\25BC'; /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none; /* Disable pointer events */
+}
+
+/* Optional: Hover effect */
+.select-wrapper select:hover {
+  border-color: #999; /* Change border color on hover */
+}
+
+input {
+  max-width: 40vw;
+}

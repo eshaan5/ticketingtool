@@ -4,17 +4,23 @@ app.controller("TicketsTableController", function ($scope, TicketService) {
   $scope.sortColumn = "createdAt";
   $scope.reverseSort = false;
   $scope.searchText = "";
+  $scope.selectedPriority = "";
+  $scope.selectedStatus = "";
 
   $scope.getTickets = function () {
-    TicketService.getTickets($scope.currentPage, $scope.pageSize, $scope.sortColumn, $scope.reverseSort, $scope.searchText)
+    TicketService.getTickets($scope.currentPage, $scope.pageSize, $scope.sortColumn, $scope.reverseSort, $scope.searchText, $scope.selectedPriority, $scope.selectedStatus)
       .then(function (response) {
         $scope.tickets = response.data.tickets;
-        console.log($scope.tickets);
         $scope.totalItems = response.data.totalItems;
       })
       .catch(function (err) {
         console.log(err);
       });
+  };
+
+  $scope.changeFilter = function () {
+    $scope.currentPage = 1; // Reset page number when changing filter
+    $scope.getTickets();
   };
 
   $scope.sortBy = function (column) {

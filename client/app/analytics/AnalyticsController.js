@@ -31,20 +31,63 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     return $scope.role === "superAdmin";
   };
 
+  $scope.openStartDatePopup = function ($event) {
+    $scope.startDatePopupOpen = true;
+  };
+
+  $scope.openEndDatePopup = function ($event) {
+    $scope.endDatePopupOpen = true;
+  };
+
+  $scope.verifyDates = function () {
+    $scope.showDateWarning = false;
+    $scope.dateWarningMessage = "";
+
+    if ($scope.startDate && $scope.endDate) {
+      var currentDate = new Date();
+      var startDate = new Date($scope.startDate);
+      var endDate = new Date($scope.endDate);
+
+      if (endDate > currentDate) {
+        $scope.showDateWarning = true;
+        $scope.dateWarningMessage = "End date cannot be after the current date.";
+      } else if (startDate > endDate) {
+        $scope.showDateWarning = true;
+        $scope.dateWarningMessage = "Start date cannot be after the end date.";
+      }
+    }
+
+    if (!$scope.showDateWarning) {
+      $scope.getAnalytics(1, 1, $scope.startDate, $scope.endDate);
+    }
+  };
+
   function renderPieChart(canvasId, data) {
+
+    var top5Labels = data.map(function (item) {
+      return item._id;
+    })
+    .slice(0, 4);
+
+    var top5Data = data.map(function (item) {
+      return item.count;
+    })
+    .slice(0, 4);
+
+    var restLabels = ["Others"];
+    var restData = [data.slice(4).reduce(function (acc, item) {
+      return acc + item.count;
+    }, 0)];
+
     var ctx = document.getElementById(canvasId).getContext("2d");
     var chart = new Chart(ctx, {
       type: "pie",
       data: {
-        labels: data.map(function (item) {
-          return item._id;
-        }),
+        labels: top5Labels.concat(restLabels),
         datasets: [
           {
-            data: data.map(function (item) {
-              return item.count;
-            }),
-            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#8BC34A"],
+            data: top5Data.concat(restData),
+            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#8BC34A", "#FF5722", "#9C27B0", "#795548"],
           },
         ],
       },
@@ -268,6 +311,8 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
 
     var start = startDate ? startDate : $scope.startDate;
     var end = endDate ? endDate : $scope.endDate;
+    var currentPage1 = currentPage1 ? currentPage1 : $scope.currentPage1;
+    var currentPage2 = currentPage2 ? currentPage2 : $scope.currentPage2;
 
     AnalyticsService.getAnalytics(start, end, currentPage1, currentPage2).then(function (response) {
       $scope.analyticsData = response.data;

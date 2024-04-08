@@ -186,7 +186,7 @@ function getTotalResolvedTickets(startDate, endDate, agentId) {
   });
 }
 
-function getUsersResolutionTime (startDate, endDate, user, page, pageSize=10) {
+function getUsersResolutionTime (startDate, endDate, user, page, pageSize=11) {
   return Ticket.aggregate([
     {
       $match: {
@@ -204,12 +204,12 @@ function getUsersResolutionTime (startDate, endDate, user, page, pageSize=10) {
       }
     },
     {
-      $sort: { avgTime: 1 }
+      $sort: { value: 1 }
     },
     {
       $facet: {
+        data: [ { $skip: (page-1) * pageSize }, { $limit: pageSize } ],
         number: [ { $count: "total" } ],
-        data: [ { $skip: (page-1) * pageSize }, { $limit: pageSize } ]
       }
     }
   ]).then((result) => {

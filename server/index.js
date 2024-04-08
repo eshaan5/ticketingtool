@@ -31,3 +31,64 @@ mongoose
   .catch(function (error) {
     console.log(error.message);
   }); // if connection is not successful, then log the error
+
+  /* function getRandomDate() {
+  const startDate = new Date("2024-01-08").getTime();
+  const endDate = new Date("2024-04-08").getTime();
+  const randomTime = startDate + Math.random() * (endDate - startDate);
+  return new Date(randomTime);
+}
+
+function generateRandomData() {
+  // add 100 ticket to every user - 50 closed and rest either in progress or open
+  User.find({ role: "agent" })
+    .then(function (users) {
+      users.forEach(function (user, index) {
+        for (let i = 0; i < 100; i++) {
+          console.log("Creating ticket for user", user.name);
+          const ticket = new Ticket({
+            title: `Ticket ${i + 1}${index + 1}`,
+            source: ["Email", "Manual"][Math.floor(Math.random() * 2)],
+            description: `Description for ticket ${i + 1}`,
+            type: ["Feature Request", "Bug", "Question"][Math.floor(Math.random() * 3)],
+            priority: ["Low", "Medium", "High"][Math.floor(Math.random() * 3)],
+            status: i % 2 === 0 ? "Closed" : i % 3 === 0 ? "In Progress" : "Open",
+            relatedTo: ["Hardware", "Software", "Network"][Math.floor(Math.random() * 3)],
+            assignedTo: {
+              agentId: user._id,
+              agentName: user.name,
+            },
+            clientDetails: {
+              name: `Client ${i + 1}`,
+              email: `client${i + 1}@gmail.com`,
+            },
+            ticketId: `TC${i + 1}${index + 1}`,
+            createdAt: getRandomDate(),
+            updatedAt: getRandomDate(),
+            brandId: user.brandId,
+            resolution:
+              i % 2 === 0
+                ? {
+                    date: getRandomDate(),
+                    time: Math.random() * 7,
+                    by: user,
+                  }
+                : {},
+          });
+          ticket.save()
+          .then(function (ticket) {
+            Log.create({
+              ticketId: ticket.ticketId,
+              user: user,
+              ticketDocId: ticket._id,
+              action: "create",
+              updatedTicketState: ticket,
+            });
+        })
+      }
+      });
+    })
+    .catch(function (error) {
+      console.log(error.message);
+    });
+} */

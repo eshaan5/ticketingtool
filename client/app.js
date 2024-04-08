@@ -33,3 +33,10 @@ app.config([
       });
   },
 ]);
+
+app.controller("BodyController", [
+  "$scope",
+  "$location",
+  function ($scope, $location) {
+  },
+]);

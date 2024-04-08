@@ -1,5 +1,4 @@
 var Ticket = require("../../ticket/ticket.modal");
-var Log = require("../../log/log.modal");
 
 function getTicketsBySource(startDate, endDate, brandId) {
   return Ticket.aggregate([
@@ -192,17 +191,10 @@ function avgResolutionTime(startDate, endDate, brandId) {
       $group: {
         _id: null,
         avgTime: {
-          $avg: {
-            $divide: [
-              {
-                $subtract: ["$resolution.date", "$createdAt"],
-              },
-              1000 * 60 * 60 * 24,
-            ],
-          },
-        },
+          $avg: "$resolution.time",
       },
     },
+  }
   ]).then((result) => {
     return result[0].avgTime.toFixed(2);
   });

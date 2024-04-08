@@ -17,11 +17,11 @@
       <canvas id="chart4"></canvas>
       <div class="chart-label">{{role == 'agent' ? "Client" : "Type"}}</div>
     </div>
-    <div class="pie-chart-wrapper">
+    <div class="pie-chart-wrapper" ng-if="role == 'admin'">
       <canvas id="chart5"></canvas>
       <div class="chart-label">Related To</div>
     </div>
-    <div class="pie-chart-wrapper">
+    <div class="pie-chart-wrapper" ng-if="role == 'admin'">
       <canvas id="chart6"></canvas>
       <div class="chart-label">Status</div>
     </div>
