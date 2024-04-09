@@ -41,18 +41,14 @@ function getTickets(req, res) {
   var selectedStatus = req.query.selectedStatus || "";
 
   var sortCriteria = {},
-  projectCriteria = {
-    $addFields: {
-      sortField: {
-        $cond: [
-          { $eq: ["$priority", "Low"] },
-          1,
-          { $cond: [{ $eq: ["$priority", "Medium"] }, 2, 3] },
-        ],
+    projectCriteria = {
+      $addFields: {
+        sortField: {
+          $cond: [{ $eq: ["$priority", "Low"] }, 1, { $cond: [{ $eq: ["$priority", "Medium"] }, 2, 3] }],
+        },
       },
-    },
-  };
-  
+    };
+
   if (sortBy === "priority") {
     // Sort by priority based on mapping
     sortCriteria = { $sort: { sortField: reverseSort ? 1 : -1 } };
@@ -73,9 +69,11 @@ function getTickets(req, res) {
     req.user.role == "admin"
       ? {
           $match: {
-            $or: [
-              { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
-              { description: { $regex: searchText, $options: "i" } }, // Case-insensitive search in description
+            $and: [
+              // { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
+              // { description: { $regex: searchText, $options: "i" } }, // Case-insensitive search in
+              { priority: { $regex: selectedPriority } }, // Case-insensitive search in priority
+              { status: { $regex: selectedStatus } },
             ],
             brandId: req.user.brandId, // Filter tickets assigned to the logged-in agent
           },
@@ -83,8 +81,8 @@ function getTickets(req, res) {
       : {
           $match: {
             $and: [
-              { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
-              { description: { $regex: searchText, $options: "i" } }, // Case-insensitive search in description
+              // { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
+              // { description: { $regex: searchText, $options: "i" } }, // Case-insensitive search in description
               { priority: { $regex: selectedPriority } }, // Case-insensitive search in priority
               { status: { $regex: selectedStatus } }, // Case-insensitive search in status
             ],
@@ -94,6 +92,14 @@ function getTickets(req, res) {
 
   Ticket.aggregate([
     matchQuery,
+    {
+      $match: {
+        $or: [
+          { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search in title
+          { description: { $regex: searchText, $options: "i" } },
+        ],
+      },
+    },
     projectCriteria,
     sortCriteria,
     {
@@ -117,6 +123,9 @@ function getTickets(req, res) {
     },
   ])
     .then(function (result) {
+      if (result[0].totalCount.length == 0) {
+        return res.status(200).json({ tickets: [], totalItems: 0 });
+      }
       var response = {
         tickets: result[0].tickets,
         totalItems: result[0].totalCount[0].totalItems,

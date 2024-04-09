@@ -7,13 +7,13 @@
     <!-- Your form for creating a ticket goes here -->
     <form name="createTicketForm" ng-submit="createTicket()" enctype="multipart/form-data">
       <div class="form-group">
-        <label for="title">Title:</label>
+        <label for="title">Title:<span class="required-star">*</span></label>
         <input id="title" type="text" class="form-control" ng-model="newTicket.title" required />
       </div>
 
       <div class="form-code">
         <div class="form-group">
-          <label for="source">Source:</label>
+          <label for="source">Source:<span class="required-star">*</span></label>
           <select id="source" class="form-control" ng-model="newTicket.source" required>
             <option value="Email">Email</option>
             <option value="Manual">Manual</option>
@@ -21,21 +21,21 @@
         </div>
 
         <div class="form-group">
-          <label for="type">Type:</label>
+          <label for="type">Type:<span class="required-star">*</span></label>
           <select id="type" class="form-control" ng-model="newTicket.type" required>
             <option ng-repeat="type in ticketTypes" value="{{type.name}}">{{type.name}}</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="relatedTo">Related To:</label>
+          <label for="relatedTo">Related To:<span class="required-star">*</span></label>
           <select id="relatedTo" class="form-control" ng-model="newTicket.relatedTo" required>
             <option ng-repeat="relation in ticketRelations" value="{{relation.name}}">{{relation.name}}</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="priority">Priority:</label>
+          <label for="priority">Priority:<span class="required-star">*</span></label>
           <select id="priority" class="form-control" ng-model="newTicket.priority" required>
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -44,17 +44,17 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="attachments">Attachments:</label>
+        <label for="attachments">Attachments: (max. 4)</label>
         <input id="attachments" type="file" class="form-control" ng-model="newTicket.attachments" multiple />
       </div>
       <div class="form-group">
-        <label for="description"> Description: </label>
+        <label for="description"> Description:<span class="required-star">*</span> </label>
         <textarea id="description" class="form-control" ng-model="newTicket.description" required></textarea>
       </div>
 
       <div class="form-code2">
       <div class="form-group">
-        <label for="clientName">Client Name:</label>
+        <label for="clientName">Client Name:<span class="required-star">*</span></label>
         <input id="clientName" type="text" class="form-control" ng-model="newTicket.clientDetails.name" required />
       </div>
 
@@ -65,7 +65,7 @@
       </div>
 
       <div class="form-group">
-        <label for="clientEmail">Client Email:</label>
+        <label for="clientEmail">Client Email:<span class="required-star">*</span></label>
         <input id="clientEmail" name="clientEmail" type="email" class="form-control" ng-model="newTicket.clientDetails.email" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" />
         <p class="error-message" ng-show="createTicketForm.clientEmail.$error.pattern && createTicketForm.clientEmail.$dirty">Enter a valid email address.</p>
       </div>

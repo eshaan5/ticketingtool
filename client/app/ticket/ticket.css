@@ -14,6 +14,8 @@ input, select {
 
 .modal-header {
   margin-top: 14vh;
+  display: flex;
+  gap: 50px;
 }
 
 .ticket-modal .modal-body {

@@ -10,6 +10,10 @@ angular.module("myApp").controller("TicketController", [
       $location.path("/");
     }
 
+    $scope.back = function () {
+      $location.path("/agent");
+    };
+
     $scope.ticket = JSON.parse($location.search().ticket); // Make a copy of the ticket object passed from the parent scope
     $scope.newAttachment = null; // New attachment to be added
 
@@ -30,6 +34,7 @@ angular.module("myApp").controller("TicketController", [
           console.log(err);
         });
     };
+    $scope.viewLogs($scope.currentPage);
     // Fetch logs for the ticket
 
     TicketFieldService.getTicketTypes().then(function (response) {

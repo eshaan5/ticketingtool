@@ -105,11 +105,11 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
       renderPieChart("chart1", data.typewisePie);
       renderPieChart("chart2", data.relatedPie);
       renderPieChart("chart3", data.prioritywisePie);
-      renderPieChart("chart4", data.clientwisePie);
+      // renderPieChart("chart4", data.clientwisePie);
     } else if ($scope.role == "admin") {
       renderPieChart("chart1", data.ticketsBySource);
       renderPieChart("chart2", data.ticketsByPriority);
-      renderPieChart("chart3", data.ticketsByClient);
+      // renderPieChart("chart3", data.ticketsByClient);
       renderPieChart("chart4", data.ticketsByType);
       renderPieChart("chart5", data.ticketsByRelation);
       renderPieChart("chart6", data.ticketsByStatus);
@@ -316,7 +316,6 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
 
     AnalyticsService.getAnalytics(start, end, currentPage1, currentPage2).then(function (response) {
       $scope.analyticsData = response.data;
-      console.log($scope.analyticsData);
 
       if (!$scope.isSuperAdmin()) $scope.generatePieCharts($scope.analyticsData);
       if ($scope.isSuperAdmin()) {

@@ -9,11 +9,11 @@
       <canvas id="chart2"></canvas>
       <div class="chart-label">{{role == 'agent' ? "Related To" : "Priority"}}</div>
     </div>
-    <div class="pie-chart-wrapper">
+    <div class="pie-chart-wrapper" ng-if="role != 'admin'">
       <canvas id="chart3"></canvas>
       <div class="chart-label">{{role == 'agent' ? "Priority" : "Client"}}</div>
     </div>
-    <div class="pie-chart-wrapper">
+    <div class="pie-chart-wrapper" ng-if="role != 'agent'">
       <canvas id="chart4"></canvas>
       <div class="chart-label">{{role == 'agent' ? "Client" : "Type"}}</div>
     </div>
@@ -27,11 +27,11 @@
     </div>
     <div class="total-stats">
       <div class="stat-box">
-        <div class="stat-value">{{ role == 'admin' ? analyticsData.totalTickets : analyticsData.totalAssignedTickets || 0 }}</div>
+        <div class="stat-value">{{ (role == 'admin' ? analyticsData.totalTickets : analyticsData.totalAssignedTickets) || 0 }}</div>
         <div class="stat-label">{{role == 'admin' ? "Total Tickets" : "Total Assigned Tickets"}}</div>
       </div>
       <div class="stat-box">
-        <div class="stat-value">{{ role == 'agent' ? analyticsData.totalResolvedTickets : analyticsData.avgResolutionTime || 0 }}</div>
+        <div class="stat-value">{{ (role == 'agent' ? analyticsData.totalResolvedTickets : analyticsData.avgResolutionTime) || 0 }}</div>
         <div class="stat-label">{{role == 'agent' ? "Total Resolved Tickets" : "Average Resolution Time"}}</div>
       </div>
     </div>

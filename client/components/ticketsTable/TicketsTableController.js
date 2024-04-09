@@ -38,5 +38,16 @@ app.controller("TicketsTableController", function ($scope, TicketService) {
     $scope.getTickets();
   };
 
+  $scope.reset = function () {
+    $scope.currentPage = 1;
+    $scope.pageSize = 10;
+    $scope.sortColumn = "createdAt";
+    $scope.reverseSort = false;
+    $scope.searchText = "";
+    $scope.selectedPriority = "";
+    $scope.selectedStatus = "";
+    $scope.getTickets();
+  };
+
   $scope.getTickets(); // Initial load of tickets
 });

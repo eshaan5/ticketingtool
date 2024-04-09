@@ -2,7 +2,7 @@
 <div class="container" ng-controller="TicketsTableController">
   <div class="search">
     <div class="select-wrapper">
-      <select ng-change="getTickets()" id="priorityFilter" ng-model="selectedPriority" aria-placeholder="Select Priority">
+      <select ng-change="changeFilter()" id="priorityFilter" ng-model="selectedPriority" aria-placeholder="Select Priority">
         <option value="" selected>Priority</option>
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
@@ -11,7 +11,7 @@
     </div>
     
     <div class="select-wrapper">
-      <select ng-change="getTickets()" id="statusFilter" ng-model="selectedStatus">
+      <select ng-change="changeFilter()" id="statusFilter" ng-model="selectedStatus">
         <option value="" selected>Status</option>
         <option value="Open">Open</option>
         <option value="In Progress">In Progress</option>
@@ -20,6 +20,7 @@
     </div>
     <input type="text" ng-model="searchText" placeholder="Search by Title or Description" />
     <button ng-click="search()">Search</button>
+    <button ng-click="reset()"><i class="fa-solid fa-arrows-rotate"></i></button>
   </div>
   <table ng-show="tickets.length" class="ticket-table">
     <thead>
@@ -37,7 +38,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="ticket in tickets" ng-click="openTicketModal(ticket)">
+      <tr style="cursor: pointer;" ng-repeat="ticket in tickets" ng-click="openTicketModal(ticket)">
         <td>#{{ticket.ticketId}}</td>
         <td>{{ ticket.title }}</td>
         <td><span ng-class="{'high-priority': ticket.priority === 'High', 'medium-priority': ticket.priority === 'Medium', 'low-priority': ticket.priority === 'Low'}">{{ ticket.priority }}</span></td>
