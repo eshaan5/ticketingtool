@@ -7,6 +7,7 @@ angular.module("myApp").controller("CreateTicketModalController", [
   "$timeout",
   function ($scope, $uibModalInstance, TicketFieldService, TicketFactory, $timeout) {
     $scope.newTicket = {};
+    $scope.error = "";
 
     TicketFieldService.getTicketTypes().then(function (response) {
       $scope.ticketTypes = response.data;
@@ -17,14 +18,20 @@ angular.module("myApp").controller("CreateTicketModalController", [
     });
 
     $scope.createTicket = function () {
-      TicketFactory.create($scope.newTicket, function (response) {
-        $uibModalInstance.close(response);
-        $scope.$parent.successMessage = "Ticket created successfully!";
-        $scope.$parent.showSuccess = true;
-        $timeout(function () {
-          $scope.$parent.showSuccess = false;
-        }, 3000);
-      });
+
+      var ticket = new TicketFactory($scope.newTicket);
+      $scope.error = ticket.checkError($scope.ticketTypes, $scope.ticketRelations);
+
+      if (!$scope.error) {
+        ticket.submitTicket(function (response) {
+          $uibModalInstance.close(response);
+          $scope.$parent.successMessage = "Ticket created successfully!";
+          $scope.$parent.showSuccess = true;
+          $timeout(function () {
+            $scope.$parent.showSuccess = false;
+          }, 3000);
+        });
+      }
     };
 
     $scope.cancel = function () {

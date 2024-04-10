@@ -1,18 +1,55 @@
 app.factory("TicketFactory", [
   "$http",
   "TicketService",
-  function ($http, TicketService) {
-    var factory = {};
+  function ($http) {
+    function Ticket(ticket) {
+      this.title = ticket.title;
+      this.description = ticket.description;
+      this.clientDetails = ticket.clientDetails;
+      this.priority = ticket.priority;
+      this.source = ticket.source;
+      this.type = ticket.type;
+      this.relatedTo = ticket.relatedTo;
+    }
 
-    factory.create = function (newTicket, callback) {
+    Ticket.prototype.checkError = function (ticketTypes, ticketRelations) {
+      if (!this.title) return "No title provided";
+      if (!this.description) return "No description provided";
+      if (!this.clientDetails.name) return "Enter client name";
+      if (!this.clientDetails.email) return "Enter client email";
+      if (!this.clientDetails.email.match(/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/)) return "Invalid client email";
+
+      if (
+        !ticketTypes
+          .map(function (type) {
+            return type.name;
+          })
+          .includes(this.type)
+      )
+        return "Invalid ticket type";
+      if (
+        !ticketRelations
+          .map(function (relation) {
+            return relation.name;
+          })
+          .includes(this.relatedTo)
+      )
+        return "Invalid ticket relation";
+      if (!["Low", "Medium", "High"].includes(this.priority)) return "Invalid priority";
+      if (!["Email", "Manual"].includes(this.source)) return "Invalid source";
+
+      return "";
+    };
+
+    Ticket.prototype.submitTicket = function (callback) {
       var formData = new FormData();
 
-      for (var key in newTicket) {
-        if (newTicket.hasOwnProperty(key)) {
+      for (var key in this) {
+        if (this.hasOwnProperty(key)) {
           if (key == "clientDetails") {
-            formData.append("clientDetails", JSON.stringify(newTicket.clientDetails));
+            formData.append("clientDetails", JSON.stringify(this.clientDetails));
           } else {
-            formData.append(key, newTicket[key]);
+            formData.append(key, this[key]);
           }
         }
       }
@@ -23,17 +60,16 @@ app.factory("TicketFactory", [
         formData.append("attachments", files[i]);
       }
 
-      TicketService.createTicket(formData).then(function (response) {
-        callback(response.data);
-      });
+      $http
+        .post("ticket/create", formData, {
+          transformRequest: angular.identity,
+          headers: { "Content-Type": undefined, Authorization: "Bearer " + localStorage.getItem("token") },
+        })
+        .then(function (response) {
+          callback(response.data);
+        });
     };
 
-    factory.update = function (ticket, callback) {
-      $http.put("/tickets/" + ticket._id, ticket).then(function (returned_data) {
-        callback(returned_data.data);
-      });
-    };
-
-    return factory;
+    return Ticket;
   },
 ]);

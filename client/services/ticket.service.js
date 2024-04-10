@@ -1,10 +1,4 @@
 app.service("TicketService", function ($http) {
-  this.createTicket = function (formData) {
-    return $http.post("ticket/create", formData, {
-      transformRequest: angular.identity,
-      headers: { "Content-Type": undefined, Authorization: "Bearer " + localStorage.getItem("token") },
-    });
-  };
 
   this.getTickets = function (page, pageSize, sortColumn, reverseSort, searchText, selectedPriority, selectedStatus) {
     return $http({

@@ -1,9 +1,5 @@
 app.controller("LoginController", function ($scope, $location, LoginService) {
-  // if (localStorage.getItem("token") && localStorage.getItem("time") && new Date().getTime() - localStorage.getItem("time") < 3600000) {
-  //   $location.path("/superAdmin");
-  // }
-
-  // Controller logic for login page
+  
   $scope.formData = {}; // Initialize form data object
   $scope.login = function () {
     LoginService.login($scope.formData).then(function (response) {
@@ -31,7 +27,5 @@ app.controller("LoginController", function ($scope, $location, LoginService) {
     .catch(function (err) {
       $scope.error = err.data.message;
     });
-
-    // Retrieve user from IndexedDB
   };
 });
