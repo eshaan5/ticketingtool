@@ -1,5 +1,4 @@
 app.controller("AnalyticsController", function ($scope, AnalyticsService, $location) {
-
   if (!localStorage.getItem("token")) {
     $location.path("/");
   }
@@ -63,21 +62,24 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
   };
 
   function renderPieChart(canvasId, data) {
+    var top5Labels = data
+      .map(function (item) {
+        return item._id;
+      })
+      .slice(0, 4);
 
-    var top5Labels = data.map(function (item) {
-      return item._id;
-    })
-    .slice(0, 4);
-
-    var top5Data = data.map(function (item) {
-      return item.count;
-    })
-    .slice(0, 4);
+    var top5Data = data
+      .map(function (item) {
+        return item.count;
+      })
+      .slice(0, 4);
 
     var restLabels = ["Others"];
-    var restData = [data.slice(4).reduce(function (acc, item) {
-      return acc + item.count;
-    }, 0)];
+    var restData = [
+      data.slice(4).reduce(function (acc, item) {
+        return acc + item.count;
+      }, 0),
+    ];
 
     var ctx = document.getElementById(canvasId).getContext("2d");
     var chart = new Chart(ctx, {
@@ -222,19 +224,18 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     $scope.charts.push(chart);
   }
 
-  function renderBarGraph3 (data) {
-
+  function renderBarGraph3(data) {
     var createLabel = function (data) {
       var maxWeeks = 0;
       data.forEach(function (item) {
         maxWeeks = Math.max(maxWeeks, item.length);
       });
-  
+
       var labels = [];
       for (var i = 0; i < maxWeeks; i++) {
         labels.push("Week " + (i + 1));
       }
-  
+
       return labels;
     };
 
@@ -304,6 +305,35 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
     $scope.charts.push(chart);
   }
 
+  function renderBarGraph4(data) {
+    var ctx = document.getElementById("barChart3").getContext("2d");
+    var chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: data.labels,
+        datasets: [
+          {
+            label: "Hour-Wise Tickets",
+            data: data.data,
+            backgroundColor: "#FF6384",
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+    $scope.charts.push(chart);
+  }
+
   $scope.getAnalytics = function (currentPage1, currentPage2, startDate, endDate) {
     $scope.charts.forEach(function (chart) {
       chart.destroy();
@@ -316,6 +346,7 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
 
     AnalyticsService.getAnalytics(start, end, currentPage1, currentPage2).then(function (response) {
       $scope.analyticsData = response.data;
+      console.log($scope.analyticsData);
 
       if (!$scope.isSuperAdmin()) $scope.generatePieCharts($scope.analyticsData);
       if ($scope.isSuperAdmin()) {
@@ -329,6 +360,7 @@ app.controller("AnalyticsController", function ($scope, AnalyticsService, $locat
         $scope.totalG1 = $scope.analyticsData.usersResolutionTime.number[0].total;
         renderBarGraph1($scope.analyticsData.usersResolutionTime.data, "Average Resolution Time (days)");
         renderBarGraph3($scope.analyticsData.weeksDayWiseTicketCount);
+        renderBarGraph4($scope.analyticsData.hourWiseTickets);
       }
     });
   };

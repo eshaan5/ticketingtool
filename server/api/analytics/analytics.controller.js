@@ -32,7 +32,7 @@ function generateAnalytics(req, res) {
       });
     });
   } else if (req.user.role == "admin") {
-    Promise.all([adminAnalytics.getTicketsBySource(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByPriority(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByClient(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByType(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByRelation(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByStatus(startDate, endDate, req.user.brandId), adminAnalytics.getTotalTickets(startDate, endDate, req.user.brandId), adminAnalytics.avgResolutionTime(startDate, endDate, req.user.brandId), adminAnalytics.getWeeksDayWiseTicketCount(startDate, endDate, req.user.brandId), agentAnalytics.getUsersResolutionTime(startDate, endDate, req.user, page1)]).then((result) => {
+    Promise.all([adminAnalytics.getTicketsBySource(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByPriority(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByClient(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByType(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByRelation(startDate, endDate, req.user.brandId), adminAnalytics.getTicketsByStatus(startDate, endDate, req.user.brandId), adminAnalytics.getTotalTickets(startDate, endDate, req.user.brandId), adminAnalytics.avgResolutionTime(startDate, endDate, req.user.brandId), adminAnalytics.getWeeksDayWiseTicketCount(startDate, endDate, req.user.brandId), agentAnalytics.getUsersResolutionTime(startDate, endDate, req.user, page1), adminAnalytics.getHourWiseTickets(startDate, endDate, req.user.brandId)]).then((result) => {
       res.json({
         ticketsBySource: result[0],
         ticketsByPriority: result[1],
@@ -44,6 +44,7 @@ function generateAnalytics(req, res) {
         avgResolutionTime: result[7],
         weeksDayWiseTicketCount: result[8],
         usersResolutionTime: result[9],
+        hourWiseTickets: result[10],
       });
     });
   } else {
