@@ -10,6 +10,9 @@ app.factory("TicketFactory", [
       this.source = ticket.source;
       this.type = ticket.type;
       this.relatedTo = ticket.relatedTo;
+      this.attachments = ticket.attachments;
+      this.assignedTo = ticket.assignedTo || {};
+      this.newAttachments = ticket.newAttachments || [];
     }
 
     Ticket.prototype.checkError = function (ticketTypes, ticketRelations) {
@@ -48,20 +51,51 @@ app.factory("TicketFactory", [
         if (this.hasOwnProperty(key)) {
           if (key == "clientDetails") {
             formData.append("clientDetails", JSON.stringify(this.clientDetails));
+          } else if (key == "attachments") {
+            var length = this.attachments.length > 4 ? 4 : this.attachments.length;
+            for (var i = 0; i < length; i++) {
+              formData.append("attachments", this.attachments[i]);
+            }
           } else {
             formData.append(key, this[key]);
           }
         }
       }
 
-      // Append files
-      var files = document.getElementById("attachments").files;
-      for (var i = 0; i < 4; i++) {
-        formData.append("attachments", files[i]);
+      $http
+        .post("ticket/create", formData, {
+          transformRequest: angular.identity,
+          headers: { "Content-Type": undefined, Authorization: "Bearer " + localStorage.getItem("token") },
+        })
+        .then(function (response) {
+          callback(response.data);
+        });
+    };
+
+    Ticket.prototype.updateTicket = function (callback) {
+      var formData = new FormData();
+
+      for (var key in this) {
+        if (this.hasOwnProperty(key)) {
+          if (key == "clientDetails") {
+            formData.append("clientDetails", JSON.stringify(this.clientDetails));
+          } else if (key == "attachments") {
+            formData.append("attachments", JSON.stringify(this.attachments));
+          } else if (key == "assignedTo") {
+            formData.append("assignedTo", JSON.stringify(this.assignedTo));
+          } else if (key == "newAttachments") {
+            var length = this.newAttachments.length > 4 ? 4 : this.newAttachments.length;
+            for (var i = 0; i < length; i++) {
+              formData.append("attachments", this.newAttachments[i]);
+            }
+          } else {
+            formData.append(key, this[key]);
+          }
+        }
       }
 
       $http
-        .post("ticket/create", formData, {
+        .put("ticket/update", formData, {
           transformRequest: angular.identity,
           headers: { "Content-Type": undefined, Authorization: "Bearer " + localStorage.getItem("token") },
         })

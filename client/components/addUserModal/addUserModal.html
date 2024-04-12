@@ -3,7 +3,7 @@
   <h4 class="modal-title">Add User</h4>
 </div>
 <div class="modal-body">
-  <form name="addUserForm" ng-submit="submitForm()">
+  <form name="addUserForm" ng-submit="submitForm(addUserForm)">
     <div class="form-group">
       <label for="email">User Email</label>
       <input type="email" id="email" class="form-control" placeholder="Email" ng-model="formData.email" name="email" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" required />

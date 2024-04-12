@@ -6,15 +6,6 @@
 <div class="modal-body">
   <!-- Admin Form -->
   <div class="admin-form">
-    <!-- <h5>Add Admin</h5>
-    <form name="addAdminForm" ng-submit="addAdmin()">
-      <div class="form-group">
-        <label for="adminEmail">Email Address</label>
-        <input type="email" name="email" class="form-control" id="adminEmail" ng-model="newAdminEmail" ng-pattern="/^[a-zA-Z\d][^\s@]+@[^\s@]+\.[a-zA-Z]+$/" required />
-        <p class="error-message" ng-show="addAdminForm.email.$error.pattern && addAdminForm.email.$dirty">Invalid email address.</p>
-      </div>
-      <button type="submit" class="btn btn-primary">Add Admin</button>
-    </form> -->
     <div ng-include="'/client/components/addUserModal/addUserModal.html'"></div>
   </div>
   <!-- Admin List -->

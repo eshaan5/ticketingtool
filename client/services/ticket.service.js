@@ -9,13 +9,6 @@ app.service("TicketService", function ($http) {
     });
   };
 
-  this.updateTicket = function (formData) {
-    return $http.put("ticket/update", formData, {
-      transformRequest: angular.identity,
-      headers: { "Content-Type": undefined, Authorization: "Bearer " + localStorage.getItem("token") },
-    });
-  };
-
   this.getLogs = function (ticketId, page, pageSize) {
     var url = `log/getLogs/${ticketId}?page=${page}&pageSize=${pageSize}`;
     return $http({

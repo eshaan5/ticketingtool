@@ -1,4 +1,4 @@
-app.controller("AddUserModalController", function ($scope, $uibModalInstance, PermissionsService, UserService, $route) {
+app.controller("AddUserModalController", function ($scope, $uibModalInstance, PermissionsService, $route, UserFactory) {
   $scope.roles = ["admin", "agent"];
   $scope.formData = {};
 
@@ -9,10 +9,19 @@ app.controller("AddUserModalController", function ($scope, $uibModalInstance, Pe
     });
   };
 
-  $scope.submitForm = function () {
-    UserService.addUser($scope.formData).then(function (response) {
-      $uibModalInstance.close(response.data.result);
-    });
+  $scope.submitForm = function (form) {
+    if (form.$invalid) {
+      return;
+    }
+
+    var user = new UserFactory($scope.formData);
+    $scope.error = user.checkError();
+    if (!$scope.error) {
+      user.submit(function (response) {
+        $uibModalInstance.close(response);
+        $route.reload();
+      });
+    }
   };
 
   $scope.cancel = function () {

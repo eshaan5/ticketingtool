@@ -13,7 +13,7 @@ function createBrand(req, res) {
     var password = generatePassword();
     sendConfirmationEmail(email, password);
     bcrypt.hash(password, 12).then(function (hashedPassword) {
-      User.create({ email: email, password: hashedPassword, brandId: brand._id, role: "admin", permissions: permissions.admin }).then(function (user) {
+      User.create({ email: email, password: hashedPassword, brandId: brand._id, role: "admin", permissions: permissions.admin, username: email }).then(function (user) {
         res.status(201).json(brand);
       });
     });

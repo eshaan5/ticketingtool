@@ -5,7 +5,8 @@ angular.module("myApp").controller("TicketController", [
   "TicketService",
   "$location",
   "$uibModal", // Inject the $uibModal service
-  function ($scope, TicketFieldService, UserService, TicketService, $location, $uibModal) {
+  "TicketFactory", // Inject the "TicketFactory" service
+  function ($scope, TicketFieldService, UserService, TicketService, $location, $uibModal, TicketFactory) {
     if (!localStorage.getItem("token")) {
       $location.path("/");
     }
@@ -63,6 +64,10 @@ angular.module("myApp").controller("TicketController", [
       $scope.editMode = !$scope.editMode;
     };
 
+    $scope.onFileChange = function (files) {
+      $scope.ticket.newAttachments = files;
+    };
+
     // Function to update the ticket details
     $scope.updateTicket = function (selectedAgentId) {
       // Add logic to update ticket details
@@ -73,30 +78,13 @@ angular.module("myApp").controller("TicketController", [
         return agent.agentId == selectedAgentId;
       }).agentName;
 
-      for (var key in $scope.ticket) {
-        if (key == "attachments") continue;
-        if (key == "assignedTo") continue;
-        if (key == "clientDetails") continue;
-        formData.append(key, $scope.ticket[key]);
-      }
-      formData.append("attachments", JSON.stringify($scope.ticket.attachments));
-      formData.append("assignedTo", JSON.stringify({ agentId: selectedAgentId, agentName: newAgentName }));
-      formData.append("clientDetails", JSON.stringify($scope.ticket.clientDetails));
+      $scope.ticket.assignedTo = { agentId: selectedAgentId, agentName: newAgentName };
 
-      // Append files
-      var files = document.getElementById("attachments").files;
-      for (var i = 0; i < files.length; i++) {
-        formData.append("attachments", files[i]);
-      }
-
-      TicketService.updateTicket(formData)
-        .then(function (response) {
-          console.log("Updated ticket:", response.data);
-          $location.path("/agent");
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
+      var ticket = new TicketFactory($scope.ticket);
+      ticket.updateTicket(function (response) {
+        console.log("Updated ticket:", response);
+        $location.path("/agent");
+      });
     };
 
     $scope.openModal = function (log) {

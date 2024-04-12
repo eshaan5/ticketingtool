@@ -17,6 +17,10 @@ angular.module("myApp").controller("CreateTicketModalController", [
       $scope.ticketRelations = response.data;
     });
 
+    $scope.onFileChange = function (files) {
+      $scope.newTicket.attachments = files;
+    }
+
     $scope.createTicket = function () {
 
       var ticket = new TicketFactory($scope.newTicket);

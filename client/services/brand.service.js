@@ -1,16 +1,5 @@
 app.service("BrandService", function ($http) {
   // Service logic for signup page
-  this.addBrand = function (formData) {
-    return $http({
-      method: "POST",
-      url: "brand/createBrand",
-      data: formData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-  };
 
   this.getBrands = function (currentPage, pageSize) {
     return $http({

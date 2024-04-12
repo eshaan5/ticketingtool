@@ -81,7 +81,7 @@ function createUserByEmail(req, res) {
   sendConfirmationEmail(email, password);
 
   bcrypt.hash(password, 12).then(function (hashedPassword) {
-    User.create({ email: email, password: hashedPassword, brandId: brandId, role: role, permissions: customPermissions })
+    User.create({ email: email, password: hashedPassword, brandId: brandId, role: role, permissions: customPermissions, username: email })
       .then(function (user) {
         res.status(201).json(user);
       })

@@ -46,7 +46,8 @@
       </li>
     </ul>
     <div ng-if="ticket.attachments.length < 4 && editMode">
-      <input id="attachments" multiple type="file" ng-model="newAttachment" />
+      <input id="attachments" onchange="angular.element(this).scope().onFileChange(this.files)" multiple type="file" ng-model="newAttachment" />
+    </div>
     </div>
 
     <label>Client Name:</label>
