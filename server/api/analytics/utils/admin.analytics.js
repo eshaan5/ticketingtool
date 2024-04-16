@@ -196,7 +196,7 @@ function avgResolutionTime(startDate, endDate, brandId) {
       },
     },
   ]).then((result) => {
-    return result[0].avgTime.toFixed(2);
+    return result[0]?.avgTime.toFixed(2);
   });
 }
 

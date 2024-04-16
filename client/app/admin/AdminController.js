@@ -1,5 +1,4 @@
 app.controller("AdminController", function ($scope, $location, BrandService, $uibModal, UserService) {
-
   if (!localStorage.getItem("token")) {
     $location.path("/login");
   }
@@ -34,29 +33,51 @@ app.controller("AdminController", function ($scope, $location, BrandService, $ui
     }
   });
 
+  $scope.currentPage = 1;
+  $scope.pageSize = 10;
+
   $scope.brand = JSON.parse(localStorage.getItem("brand"));
 
-  UserService.getUsers().then(function (response) {
-    $scope.users = response.data;
+  function loadUsers() {
+  UserService.getUsers($scope.currentPage, $scope.pageSize).then(function (response) {
+    $scope.users = response.data.users;
+    $scope.totalUsers = response.data.total;
   });
+}
+
+  loadUsers();
+
+  $scope.pageChanged = function () {
+    loadUsers();
+  };
 
   $scope.openFieldModal = function (modalType) {
     var modalInstance = $uibModal.open({
-        templateUrl: 'fieldModal.html', // Template URL of the modal
-        controller: 'TicketFieldsModalController', // Controller for the modal
-        resolve: {
-            modalType: function () {
-                return modalType; // Pass the modal type to the modal controller
-            }
-        }
+      templateUrl: "fieldModal.html", // Template URL of the modal
+      controller: "TicketFieldsModalController", // Controller for the modal
+      resolve: {
+        modalType: function () {
+          return modalType; // Pass the modal type to the modal controller
+        },
+      },
     });
 
-    modalInstance.result.then(function (result) {
+    modalInstance.result.then(
+      function (result) {
         // Handle modal close or dismiss if needed
-        console.log('Modal closed with:', result);
-    }, function () {
+        console.log("Modal closed with:", result);
+      },
+      function () {
         // Handle modal dismiss if needed
-        console.log('Modal dismissed');
+        console.log("Modal dismissed");
+      }
+    );
+  };
+
+  $scope.disableUser = function (id, user) {
+    $scope.users[$scope.users.indexOf(user)].isDisabled = !user.isDisabled;
+    UserService.disableUser(id, user).then(function (response) {
+      console.log(response);
     });
-};
+  };
 });

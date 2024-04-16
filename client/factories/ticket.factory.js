@@ -13,6 +13,9 @@ app.factory("TicketFactory", [
       this.attachments = ticket.attachments;
       this.assignedTo = ticket.assignedTo || {};
       this.newAttachments = ticket.newAttachments || [];
+      this.ticketId = ticket.ticketId || "";
+      this._id = ticket._id || "";
+      this.status = ticket.status || "Open";
     }
 
     Ticket.prototype.checkError = function (ticketTypes, ticketRelations) {

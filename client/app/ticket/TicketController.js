@@ -50,14 +50,10 @@ angular.module("myApp").controller("TicketController", [
       });
     });
 
-    UserService.getUsers().then(function (response) {
-      $scope.agents = response.data
-        .filter(function (user) {
-          return user.role == "agent";
-        })
-        .map(function (agent) {
-          return { agentId: agent._id, agentName: agent.name };
-        });
+    UserService.getAgents().then(function (response) {
+      $scope.agents = response.data.map(function (agent) {
+        return { agentId: agent._id, agentName: agent.name };
+      });
     });
 
     $scope.toggleEditMode = function () {
@@ -71,7 +67,6 @@ angular.module("myApp").controller("TicketController", [
     // Function to update the ticket details
     $scope.updateTicket = function (selectedAgentId) {
       // Add logic to update ticket details
-      var formData = new FormData();
       console.log($scope.ticket);
 
       var newAgentName = $scope.agents.find(function (agent) {
@@ -81,6 +76,7 @@ angular.module("myApp").controller("TicketController", [
       $scope.ticket.assignedTo = { agentId: selectedAgentId, agentName: newAgentName };
 
       var ticket = new TicketFactory($scope.ticket);
+      console.log(ticket);
       ticket.updateTicket(function (response) {
         console.log("Updated ticket:", response);
         $location.path("/agent");

@@ -35,6 +35,10 @@ var userSchema = new mongoose.Schema(
     permissions: {
       type: Object,
     },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    }, 
   },
   {
     timestamps: true,

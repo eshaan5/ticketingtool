@@ -31,6 +31,10 @@ function signin(req, res) {
             return res.status(404).json({ message: "Your Brand is not active!" });
           }
 
+          if (existingUser.isDisabled) {
+            return res.status(404).json({ message: "Your account is not active!" });
+          }
+
           bcrypt.compare(password, existingUser.password).then(function (isMatch) {
             if (!isMatch) {
               return res.status(400).json({ message: "Password is incorrect!" });
@@ -61,7 +65,7 @@ function signin(req, res) {
 }
 
 function updateUser(req, res) {
-  var id = req.user._id;
+  var id = req.params.id || req.user._id;
   User.findByIdAndUpdate(id, req.body, { new: true })
     .then(function (user) {
       res.status(201).json({ result: user });
@@ -92,17 +96,21 @@ function createUserByEmail(req, res) {
 }
 
 function getAllUsers(req, res) {
+  var page = parseInt(req.query.page) || 1;
+  var limit = parseInt(req.query.limit) || 10;
+
   var searchCriteria = {
     $and: [{ brandId: req.user.brandId }],
   };
 
-  User.find(searchCriteria)
-    .then(function (users) {
-      res.status(200).json(users);
-    })
-    .catch(function (err) {
-      res.status(500).json(err);
-    });
+  User.countDocuments(searchCriteria).then(function (total) {
+    User.find(searchCriteria)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .then(function (users) {
+        res.status(200).json({ total: total, users: users });
+      });
+  });
 }
 
 function updateOnlineStatus(req, res) {
@@ -151,7 +159,7 @@ function changePassword(req, res) {
         user
           .save()
           .then(function (user) {
-            res.status(201).json({ message: "Password changed successfully!"});
+            res.status(201).json({ message: "Password changed successfully!" });
           })
           .catch(function (err) {
             res.status(400).json(err);
@@ -159,6 +167,20 @@ function changePassword(req, res) {
       });
     });
   });
+}
+
+function getAllAgents(req, res) {
+  var searchCriteria = {
+    $and: [{ brandId: req.user.brandId }, { role: "agent" }],
+  };
+
+  User.find(searchCriteria)
+    .then(function (users) {
+      res.status(200).json(users);
+    })
+    .catch(function (err) {
+      res.status(500).json(err);
+    });
 }
 
 module.exports = {
@@ -169,4 +191,5 @@ module.exports = {
   updateOnlineStatus: updateOnlineStatus,
   getAllAdmins: getAllAdmins,
   changePassword: changePassword,
+  getAllAgents: getAllAgents,
 };

@@ -7,6 +7,7 @@ var getAllUsers = require("./user.controller.js").getAllUsers;
 var updateOnlineStatus = require("./user.controller.js").updateOnlineStatus;
 var getAllAdmins = require("./user.controller.js").getAllAdmins;
 var changePassword = require("./user.controller.js").changePassword;
+var getAllAgents = require("./user.controller.js").getAllAgents;
 
 var passport = require("../../passport.js");
 var middlewares = require("../../middlewares.js");
@@ -18,5 +19,7 @@ router.get("/allUsers", passport.authenticate("jwt", { session: false }), middle
 router.get("/updateOnlineStatus", passport.authenticate("jwt", { session: false }), updateOnlineStatus);
 router.get("/getAdmins", passport.authenticate("jwt", { session: false }), getAllAdmins);
 router.post("/changePassword", passport.authenticate("jwt", { session: false }), changePassword);
+router.put("/disableUser/:id", passport.authenticate("jwt", { session: false }), middlewares.checkPermission("disable-user"), updateUser);
+router.get("/getAgents", passport.authenticate("jwt", { session: false }), getAllAgents);
 
 module.exports = router;

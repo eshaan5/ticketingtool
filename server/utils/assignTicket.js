@@ -40,6 +40,7 @@ function assignTicketsToAgents() {
                     ticketId: ticket.ticketId,
                     action: "assigned ticket to " + agents[i].name,
                     updatedTicketState: ticket.toObject(),
+                    ticketDocId: ticket._id,
                   });
 
                   log.save();

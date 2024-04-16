@@ -13,7 +13,7 @@ function getAssignedTickets(agentId) {
       $count: "ticketCount",
     },
   ]).then((result) => {
-    return result[0].ticketCount;
+    return result[0]?.ticketCount;
   });
 }
 

@@ -1,5 +1,5 @@
-angular.module('myApp').controller('PendingRequestsController', ['$scope', '$uibModalInstance', 'requests', "RequestService",
-  function($scope, $uibModalInstance, requests, RequestService) {
+angular.module('myApp').controller('PendingRequestsController', ['$scope', '$uibModalInstance', 'requests', "RequestService", "$route", // Inject the "RequestService" service
+  function($scope, $uibModalInstance, requests, RequestService, $route) {
     $scope.requests = requests;
     console.log(requests);
 
@@ -31,6 +31,7 @@ angular.module('myApp').controller('PendingRequestsController', ['$scope', '$uib
 
     $scope.closeModal = function() {
       $uibModalInstance.dismiss('cancel');
+      $route.reload();
     };
   }
 ]);

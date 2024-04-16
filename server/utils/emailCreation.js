@@ -3,6 +3,7 @@ var simpleParser = require("mailparser").simpleParser;
 var Brand = require("../api/brand/brand.modal");
 var s3Upload = require("./s3Service").s3Upload;
 var enqueueTicket = require("./SQSProducer");
+var generateTicketId = require("./util").generateTicketId;
 
 function createTicketFromEmail() {
   Brand.find({}).then(function (brands) {
@@ -46,6 +47,7 @@ function createTicketFromEmail() {
                       email: mail.from.value[0].address,
                     },
                     brandId: brand._id,
+                    ticketId: generateTicketId(brand._id),
                   };
 
                   s3Upload(mail.attachments)

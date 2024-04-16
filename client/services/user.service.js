@@ -12,10 +12,10 @@ app.service("UserService", function ($http) {
     });
   };
 
-  this.getUsers = function () {
+  this.getUsers = function (currentPage, pageSize) {
     return $http({
       method: "GET",
-      url: "user/allUsers",
+      url: "user/allUsers" + "?page=" + currentPage + "&limit=" + pageSize,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -54,6 +54,29 @@ app.service("UserService", function ($http) {
       method: "POST",
       url: "user/changePassword",
       data: formData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  };
+
+  this.disableUser = function (id, user) {
+    return $http({
+      method: "PUT",
+      url: "user/disableUser/" + id,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      data: { isDisabled: user.isDisabled },
+    });
+  };
+
+  this.getAgents = function () {
+    return $http({
+      method: "GET",
+      url: "user/getAgents",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),

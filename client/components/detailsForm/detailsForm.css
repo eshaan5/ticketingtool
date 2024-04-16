@@ -5,7 +5,9 @@
   align-items: center;
   justify-content: center;
   margin: auto;
-  padding: 20px;
+  /* padding: 20px; */
+  width: 50vw !important;
+  margin-left: 0;
 }
 
 .content {
@@ -13,7 +15,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 0;
+  /* padding: 20px 0; */
 }
 
 .heading-section {

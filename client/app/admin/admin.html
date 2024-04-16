@@ -28,6 +28,7 @@
           <th>Username</th>
           <th>Email</th>
           <th>Joined On</th>
+          <th>Enable/Disable</th>
         </tr>
       </thead>
       <tbody>
@@ -37,8 +38,17 @@
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <div ng-class="{toggleOff:user.isDisabled}">
+              <div ng-click="disableUser(user._id, user)" ng-class="{toggleButtonOff:user.isDisabled}"></div>
+            </div>
+            <div ng-class="{toggleOn:!user.isDisabled}">
+              <div ng-click="disableUser(user._id, user)" ng-class="{toggleButtonOn:!user.isDisabled}"></div>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
+    <ul uib-pagination ng-model="currentPage" total-items="totalUsers" items-per-page="pageSize" ng-change="pageChanged()" max-size="3" class="pagination-sm" boundary-links="true"></ul>
   </div>
 </div>
